@@ -1,5 +1,5 @@
 import { useState, useStyles } from 'react';
-import usePost from '../custom_hooks/usePost';
+
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -42,14 +42,7 @@ function a11yProps(index) {
   };
 }
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     backgroundColor: theme.palette.background.paper,
-//     width: 500,
-//   },
-// }));
-
-const CreateCharacter = () => {
+const CharacterCreator = () => {
   const [name, setName] = useState('');
   const [characterClass, setCharacterClass] = useState('Fighter');
   const [level, setLevel] = useState('');
@@ -57,7 +50,7 @@ const CreateCharacter = () => {
   const url = "http://localhost:8080/api/character/";
   const character = {name, characterClass, level};
   const headers = {'Content-Type': 'application/json'};
-  const [response, handlePost] = usePost({url, payload: character, headers, entity: "character"});
+  // const [response, handlePost] = usePost({url, payload: character, headers, entity: "character"});
 
   const classes = makeStyles((theme) => ({
       root: {
@@ -148,4 +141,4 @@ const CreateCharacter = () => {
   );
 };
 
-export default CreateCharacter;
+export default CharacterCreator;

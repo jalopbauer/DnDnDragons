@@ -28,6 +28,10 @@ public class CharacterService {
     return characterRepository.findById(id);
   }
 
+  public List<Character> findAllByUserId(String userId) {
+    return characterRepository.findByUserId(userId);
+  }
+
   public List<Character> findAll() {
     return characterRepository.findAll();
   }

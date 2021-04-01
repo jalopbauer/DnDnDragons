@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 
-const useGet = (url) => {
+const useGet = (url, headers) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -9,7 +9,7 @@ const useGet = (url) => {
   useEffect(() => {
     const cancelTokenSource = axios.CancelToken.source();
 
-    axios.get(url, { cancelToken: cancelTokenSource.token })
+    axios.get(url, { headers: headers, cancelToken: cancelTokenSource.token })
       .then((res) => {
         setData(res.data);
         setIsLoading(false);

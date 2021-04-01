@@ -5,8 +5,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
 
-const ITEM_HEIGHT = 24;
-
 const optionsLogged = [
   {path: "/", text: "Home"},
   {path: "/profile", text: "Profile"}
@@ -37,7 +35,6 @@ const Navbar = ({currentUser, handleLogout}) => {
           aria-label="more"
           aria-controls="long-menu"
           aria-haspopup="true"
-          // style={{ backgroundColor: 'transparent' }}
           onClick={handleClick}
         >
           <MenuIcon />
@@ -51,7 +48,6 @@ const Navbar = ({currentUser, handleLogout}) => {
           disableRestoreFocus={true}
           PaperProps={{
             style: {
-              // maxHeight: ITEM_HEIGHT * 4.5,
               width: '20ch',
             },
           }}

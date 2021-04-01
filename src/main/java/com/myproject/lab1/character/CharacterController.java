@@ -37,8 +37,12 @@ public class CharacterController {
 
   @GetMapping("/{id}")
   public Optional<Character> getCharacterById(@PathVariable String id) {
-    System.out.println(id);
     return characterService.findById(id);
+  }
+
+  @GetMapping("/user/{id}/character")
+  public Optional<Character> getUserCharactersByUserId(@PathVariable String userId) {
+    return characterService.findById(userId);
   }
 
 }

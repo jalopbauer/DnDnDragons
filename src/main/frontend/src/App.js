@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import CharacterDetails from './components/CharacterDetails';
-import CreateCharacter from './components/CreateCharacter';
+import CharacterDetails from './components/character/CharacterDetails';
+import CharacterCreator from './components/character/CharacterCreator';
 import Home from './components/Home';
-import LogIn from './components/LogIn';
+import LogIn from './components/auth/LogIn';
 import Navbar from './components/Navbar';
 import Profile from './components/Profile';
-import SignUp from './components/SignUp';
+import SignUp from './components/auth/SignUp';
 import AuthService from './services/authService';
 
 const App = () => {
@@ -20,9 +20,7 @@ const App = () => {
   }, []);
 
   const handleLogout = () => {
-    // history.push('/');
     AuthService.logout();
-    // window.location.reload();
   };
 
   return (
@@ -31,24 +29,12 @@ const App = () => {
         <Navbar currentUser={currentUser} handleLogout={handleLogout}/>
         <div className="content">
           <Switch>
-            <Route exact path={["/", "/home"]}>
-              <Home />
-            </Route>
-            <Route path="/profile">
-              <Profile />
-            </Route>
-            <Route path={"/character/create"}>
-              <CreateCharacter />
-            </Route>
-            <Route path={"/character/:id"}>
-              <CharacterDetails />
-            </Route>
-            <Route path={"/login"}>
-              <LogIn />
-            </Route>
+            <Route exact path={["/", "/home"]} component={Home} />
+            <Route path="/profile" component={Profile} />
+            <Route path={"/character/create"} component={CharacterCreator} />
+            <Route path={"/character/:id"} component={CharacterDetails} />
+            <Route path={"/login"} component={LogIn} />
             <Route path={"/signup"} component={SignUp} />
-              {/* <SignUp />
-            </Route> */}
           </Switch>
         </div>
       </div>

@@ -13,20 +13,23 @@ public class Character {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private String id;
 
+  private String userId;
   private String name;
   private String characterClass;
   private Integer level;
   
   public Character() {}
 
-  public Character(String name, String characterClass, Integer level) {
+  public Character(String userId, String name, String characterClass, Integer level) {
+    this.userId = userId;
     this.name = name;
     this.characterClass = characterClass;
     this.level = level;
   }
 
-  public Character(String id, String name, String characterClass, Integer level) {
+  public Character(String id, String userId, String name, String characterClass, Integer level) {
     this.id = id;
+    this.userId = userId;
     this.name = name;
     this.characterClass = characterClass;
     this.level = level;

@@ -1,14 +1,17 @@
 import { Link } from "react-router-dom";
-// import useGet from "../custom_hooks/useGet";
-// import CharacterList from "./CharacterList";
+import CharacterFeed from "./character/CharacterFeed";
 import AuthService from "../services/authService";
 import { Box, Grid, IconButton, Paper, Typography } from "@material-ui/core";
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import Container from '@material-ui/core/Container';
+import useGet from '../services/useGet';
+import authHeader from '../services/authHeader';
+
+const API_URL = "http://localhost:8080/api";
 
 const Profile = () => {
-  // const {data: chars, isLoading, error} = useGet("http://localhost:8080/api/character/");
   const currentUser = AuthService.getCurrentUser();
+  const {data: chars, isLoading, error} = useGet(`${API_URL}/user/${currentUser.id}/character/`, { headers: authHeader() });
 
   return (
     <div className="Profile">
@@ -33,9 +36,9 @@ const Profile = () => {
                 Characters
               </Typography>
             </Box>
-            {/* {error && <div>{ error }</div>}
+            {error && <div>{ error }</div>}
             {isLoading && <div>Loading...</div>}
-            {chars && <CharacterList chars={chars}/>} */}
+            {chars && <CharacterFeed chars={chars}/>}
             <Container>
               <Box my={2}><Paper>Character 1</Paper></Box>
               <Box my={2}><Paper>Character 2</Paper></Box>
