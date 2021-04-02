@@ -10,7 +10,6 @@ const Home = () => {
     <div className="home">
       {error && <div>{ error }</div>}
       {isLoading && <div>Loading...</div>}
-      <h1>&lt;Character feed&gt;</h1>
       {feed && <CharacterFeed chars={feed} title="Character feed"/>}
     </div>
   );

@@ -28,7 +28,7 @@
   color: #f1356d;
 }
 .content {
-  max-width: 600px;
+  max-width: 80%;
   margin: 40px auto;
   padding: 20px;
 }
@@ -66,15 +66,36 @@
 
 /* create new character form */
 .create-character {
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
+  /* width: 100%; */
+  margin: auto;
+  /* text-align: center; */
 }
 .create-character label {
   text-align: left;
   display: block;
 }
-.create-character h2 {
+.create-character-appbar {
+  /* min-width: 1000px; */
+  /* margin: auto; */
+  /* align-content: center; */
+  /* display: block; */
+  margin-top: 8px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  margin-left: 8px;
+}
+.create-character-tabs {
+  /* width: 100%; */
+  /* min-width: 100%; */
+}
+.create-character-tab {
+  /* width: 30%; */
+  /* min-width: 30%; */
+}
+
+
+
+/* .create-character h2 {
   font-size: 20px;
   color: #f1356d;
   margin-bottom: 30px;
@@ -94,7 +115,7 @@
   padding: 8px;
   border-radius: 8px;
   cursor: pointer;
-}
+} */
 
 /* profile */
 .profile-add-button {

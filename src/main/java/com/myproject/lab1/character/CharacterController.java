@@ -1,8 +1,16 @@
 package com.myproject.lab1.character;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +51,21 @@ public class CharacterController {
   @GetMapping("/user/{id}/character")
   public Optional<Character> getUserCharactersByUserId(@PathVariable String userId) {
     return characterService.findById(userId);
+  }
+
+  @GetMapping("/creator/races")
+  public String getRaces() {
+    JSONParser parser = new JSONParser();
+    try {
+      InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("races.json");
+      String text = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
+      JSONObject jsonObject = (JSONObject) parser.parse(text);
+      return jsonObject.get("race").toString();
+    } catch (ParseException e) {
+      e.printStackTrace();
+      return "ParseException";
+    }
+
   }
 
 }

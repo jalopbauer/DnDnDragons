@@ -8,6 +8,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import RaceBackgroundPanel from './RaceBackgroundPanel';
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -17,93 +18,67 @@ const TabPanel = (props) => {
       role="tabpanel"
       hidden={value !== index}
       id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
       {...other}
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
   );
 }
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `full-width-tab-${index}`,
-    'aria-controls': `full-width-tabpanel-${index}`,
-  };
-}
 
 const CharacterCreator = () => {
-  const [name, setName] = useState('');
-  const [characterClass, setCharacterClass] = useState('Fighter');
-  const [level, setLevel] = useState('');
+  // const [name, setName] = useState('');
+  // const [characterClass, setCharacterClass] = useState('Fighter');
+  // const [level, setLevel] = useState('');
   
-  const url = "http://localhost:8080/api/character/";
-  const character = {name, characterClass, level};
-  const headers = {'Content-Type': 'application/json'};
+  // const url = "http://localhost:8080/api/character/";
+  // const character = {name, characterClass, level};
+  // const headers = {'Content-Type': 'application/json'};
   // const [response, handlePost] = usePost({url, payload: character, headers, entity: "character"});
 
-  const classes = makeStyles((theme) => ({
-      root: {
-        backgroundColor: theme.palette.background.paper,
-        width: 500,
-      },
-    }));
-  const theme = useTheme();
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const handleChangeIndex = (index) => {
-    setValue(index);
-  };
-
   return (
-    // <div className="create-character">
-    <div className={classes.root}>
+    <div className="create-character">
       <h2>Character creator</h2>
 
-
-      <AppBar position="static" color="default">
+      <AppBar className="create-character-appbar" position="static" color="default">
         <Tabs
+          // style={{minWidth: '5000px'}}
+          className="character-creator-tabs"
           value={value}
+          // indicatorColor="primary"
+          // textColor="primary"
           onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="fullWidth"
-          aria-label="full width tabs example"
+          centered
         >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab className="character-creator-tab" label="Race & Background" />
+          <Tab className="character-creator-tab" label="Ability Scores" />
+          <Tab className="character-creator-tab" label="Class" />
         </Tabs>
       </AppBar>
-      <SwipeableViews
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-        index={value}
-        onChangeIndex={handleChangeIndex}
-      >
-        <TabPanel value={value} index={0} dir={theme.direction}>
-          Item One
-        </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
-        </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
-          Item Three
-        </TabPanel>
-      </SwipeableViews>
+
+      <TabPanel value={value} index={0} >
+        <RaceBackgroundPanel />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        Item Two
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        Item Three
+      </TabPanel>
+
+
+     
+
 
 
       {/* <form onSubmit={(e) => {e.preventDefault(); handlePost();}}>
