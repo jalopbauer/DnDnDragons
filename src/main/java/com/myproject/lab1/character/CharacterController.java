@@ -53,7 +53,7 @@ public class CharacterController {
     return characterService.findById(userId);
   }
 
-  @GetMapping("/creator/races")
+  @GetMapping("/creator/race")
   public String getRaces() {
     JSONParser parser = new JSONParser();
     try {
@@ -61,6 +61,21 @@ public class CharacterController {
       String text = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
       JSONObject jsonObject = (JSONObject) parser.parse(text);
       return jsonObject.get("race").toString();
+    } catch (ParseException e) {
+      e.printStackTrace();
+      return "ParseException";
+    }
+
+  }
+
+  @GetMapping("/creator/background")
+  public String getBackground() {
+    JSONParser parser = new JSONParser();
+    try {
+      InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("backgrounds.json");
+      String text = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
+      JSONObject jsonObject = (JSONObject) parser.parse(text);
+      return jsonObject.get("background").toString();
     } catch (ParseException e) {
       e.printStackTrace();
       return "ParseException";

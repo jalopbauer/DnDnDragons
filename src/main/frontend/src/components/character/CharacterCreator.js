@@ -1,14 +1,12 @@
 import { useState, useStyles } from 'react';
 
-import PropTypes from 'prop-types';
-import SwipeableViews from 'react-swipeable-views';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import RacePanel from './RacePanel';
+import BackgroundPanel from './BackgroundPanel';
+import AbilityScoresPanel from './AbilityScoresPanel';
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -40,6 +38,7 @@ const CharacterCreator = () => {
   // const headers = {'Content-Type': 'application/json'};
   // const [response, handlePost] = usePost({url, payload: character, headers, entity: "character"});
 
+  const character = {};
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -71,10 +70,10 @@ const CharacterCreator = () => {
         <RacePanel />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Background
+        <BackgroundPanel />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Ability Scores
+        <AbilityScoresPanel />
       </TabPanel>
       <TabPanel value={value} index={3}>
         Class

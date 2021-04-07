@@ -37,9 +37,9 @@ const Profile = () => {
                 Characters
               </Typography>
             </Box>
-            {error && <div>{ error }</div>}
+            {/* {error && <div>{ error }</div>}
             {isLoading && <div>Loading...</div>}
-            {chars && <CharacterFeed chars={chars}/>}
+            {chars && <CharacterFeed chars={chars}/>} */}
             <Container>
               <Box my={2}><Paper>Character 1</Paper></Box>
               <Box my={2}><Paper>Character 2</Paper></Box>
