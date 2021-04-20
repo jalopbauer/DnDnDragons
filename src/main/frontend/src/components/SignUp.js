@@ -1,11 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 import { useHistory } from 'react-router-dom';
 
-import AuthService from "../../services/authService";
+import AuthService from "./services/authService";
 
 const required = (value) => {
   if (!value) {
@@ -47,7 +47,7 @@ const vpassword = (value) => {
   }
 };
 
-const SignIn = () => {
+const SignIn = ({setCurrentPage}) => {
   const form = useRef();
   const checkBtn = useRef();
 
@@ -58,6 +58,8 @@ const SignIn = () => {
   const [message, setMessage] = useState("");
 
   const history = useHistory();
+
+  useEffect(() => setCurrentPage(": Sign Up"));
 
   const onChangeUsername = (e) => {
     const username = e.target.value;

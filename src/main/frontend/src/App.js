@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import CharacterDetails from './components/character/CharacterDetails';
-import CharacterCreator from './components/character/CharacterCreator';
+import CharacterDetails from './components/characterCreator/CharacterDetails';
+import CharacterCreator from './components/characterCreator/CharacterCreator';
 import Home from './components/Home';
-import LogIn from './components/auth/LogIn';
+import LogIn from './components/LogIn';
 import Navbar from './components/Navbar';
 import Profile from './components/Profile';
-import SignUp from './components/auth/SignUp';
-import AuthService from './services/authService';
+import SignUp from './components/SignUp';
+import AuthService from './components/services/authService';
+import Session from './components/Session';
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(undefined);
+  const [currentPage, setCurrentPage] = useState("");
 
   useEffect(() => {
     const user = AuthService.getCurrentUser();
@@ -23,22 +25,24 @@ const App = () => {
     AuthService.logout();
   };
 
-  return (
-    <Router>
-      <div className="App">
-        <Navbar currentUser={currentUser} handleLogout={handleLogout}/>
-        <div className="content">
-          <Switch>
-            <Route exact path={["/", "/home"]} component={Home} />
-            <Route path="/profile" component={Profile} />
-            <Route path={"/character/create"} component={CharacterCreator} />
-            <Route path={"/character/:id"} component={CharacterDetails} />
-            <Route path={"/login"} component={LogIn} />
-            <Route path={"/signup"} component={SignUp} />
-          </Switch>
-        </div>
+  return (    
+    <div className="App">
+      <Router>
+      <Navbar currentPage={currentPage} currentUser={currentUser} handleLogout={handleLogout}/>
+      <div className="content">
+        <Switch>
+          <Route exact path={["/", "/home"]} render={() => <Home setCurrentPage={setCurrentPage}/>} />
+          <Route path="/profile" render={() => <Profile setCurrentPage={setCurrentPage}/>}/>
+          <Route path={"/character/create"} render={() => <CharacterCreator setCurrentPage={setCurrentPage}/>} />
+          <Route path={"/character/:id"} render={() => <CharacterDetails setCurrentPage={setCurrentPage}/>} />
+          <Route path={"/login"} render={() => <LogIn setCurrentPage={setCurrentPage}/>} />
+          <Route path={"/session/:id"} render={() => <Session setCurrentPage={setCurrentPage}/>} />
+          <Route path={"/signup"} render={() => <SignUp setCurrentPage={setCurrentPage}/>} />
+          {/* <Route component={NoPageFound}> */}
+        </Switch>
       </div>
-    </Router>
+      </Router>
+    </div>
   );
 }
 

@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState} from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import {Box, Icon, IconButton, Menu, MenuItem, Typography} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
 const optionsLogged = [
@@ -15,7 +13,7 @@ const optionsNotLogged = [
   {path: "/signup", text: "Sign Up"}
 ];
 
-const Navbar = ({currentUser, handleLogout}) => {
+const Navbar = ({currentPage, currentUser, handleLogout}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -29,15 +27,16 @@ const Navbar = ({currentUser, handleLogout}) => {
 
   return (
     <nav className="navbar">
-      <Link to="/"><h1 style={{fontSize: '200%'}}>DnD&amp;Dragons</h1></Link>
+      <Link to="/">
+        <Typography variant="h2">
+          DnD&amp;Dragons{currentPage} 
+        </Typography>
+      </Link>
       <div className="menu">
         <IconButton
-          aria-label="more"
-          aria-controls="long-menu"
-          aria-haspopup="true"
           onClick={handleClick}
         >
-          <MenuIcon />
+          <MenuIcon fontSize="large"/>
         </IconButton>
         <Menu
           id="long-menu"

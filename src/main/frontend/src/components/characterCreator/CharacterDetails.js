@@ -1,12 +1,15 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import useGet from '../../services/useGet';
-import authHeader from '../../services/authHeader';
+import useGet from '../services/useGet';
+import authHeader from '../services/authHeader';
 
 const API_URL = "http://localhost:8080/api";
 
-const CharacterDetails = () => {
+const CharacterDetails = ({setCurrentPage}) => {
   const { id: characterId } = useParams(); 
   const { data: character, isLoading, error } = useGet(`${API_URL}/character/${characterId}`, { headers: authHeader() });
+
+  useEffect(() => setCurrentPage(""));
 
   return (
     <div className="character-details">

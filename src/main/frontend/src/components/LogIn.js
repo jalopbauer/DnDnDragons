@@ -1,10 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useHistory } from 'react-router-dom';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
-import AuthService from "../../services/authService";
+import AuthService from "./services/authService";
 
 const required = (value) => {
   if (!value) {
@@ -16,7 +16,7 @@ const required = (value) => {
   }
 };
 
-const LogIn = () => {
+const LogIn = ({setCurrentPage}) => {
   const form = useRef();
   const checkBtn = useRef();
 
@@ -26,6 +26,8 @@ const LogIn = () => {
   const [message, setMessage] = useState("");
 
   const history = useHistory();
+
+  useEffect(() => setCurrentPage(": Log In"));
 
   const onChangeUsername = (e) => {
     const username = e.target.value;

@@ -1,11 +1,14 @@
-import CharacterFeed from './character/CharacterFeed';
-import useGet from '../services/useGet';
-import { Grid, Paper } from "@material-ui/core";
+import CharacterFeed from './CharacterFeed';
+import useGet from './services/useGet';
+import { Button, Grid, Paper } from "@material-ui/core";
+import { useEffect } from "react";
 
 const API_URL = "http://localhost:8080/api";
 
-const Home = () => {
+const Home = ({setCurrentPage}) => {
   const {data: feed, isLoading, error} = useGet(`${API_URL}/character/`);
+
+  useEffect(() => setCurrentPage(""));
 
   return (
     <div className="home">
@@ -14,7 +17,7 @@ const Home = () => {
           <Paper>
             {error && <div>{ error }</div>}
             {isLoading && <div>Loading...</div>}
-            {feed && <CharacterFeed chars={feed} title="Character feed"/>}
+            {/* {feed && <CharacterFeed chars={feed} title="Character feed"/>} */}
           </Paper>
         </Grid>
         <Grid item md={3} className='home-grid-item'>

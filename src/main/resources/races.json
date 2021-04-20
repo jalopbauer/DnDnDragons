@@ -357,7 +357,7 @@
 						{
 							"name": "Necrotic Shroud",
 							"entries": [
-								"Starting at 3rd level, you can use your action to unleash the divine energy within yourself, causing your eyes to turn into pools of darkness and two skeletal, ghostly, flightless wings to sprout from your back. The instant you transform, other creatures within 10 feet of you that can see you must succeed on a Charisma saving throw (DC 8 + your proficiency bonus + your Charisma modifier) or become {@condition frightened} of you until the end of your next turn.",
+								"Starting at 3rd level, you can use your action to unleash the divine energy within yourself, causing your eyes to turn into pools of darkness and two skeletal, ghostly, flightless wings to sprout from your back. The instant you transform, other creatures within 10 feet of you that can see you must succeed on a Charisma saving throw (DC 8 + your proficiency bonus + your Charisma modifier) or become frightened of you until the end of your next turn.",
 								"Your transformation lasts for 1 minute or until you end it as a bonus action. During it, once on each of your turns, you can deal extra necrotic damage to one target when you deal damage to it with an attack or a spell. The extra necrotic damage equals your level.",
 								"Once you use this trait, you can't use it again until you finish a long rest."
 							],
@@ -490,7 +490,7 @@
 				{
 					"name": "Menacing",
 					"entries": [
-						"You have proficiency in the {@skill Intimidation} skill."
+						"You have proficiency in the Intimidation skill."
 					],
 					"type": "entries"
 				},
@@ -589,7 +589,7 @@
 						{
 							"name": "Hawkeyed",
 							"entries": [
-								"You have proficiency in the {@skill Perception} skill. In addition, attacking at long range doesn't impose disadvantage on your ranged weapon attack rolls."
+								"You have proficiency in the Perception skill. In addition, attacking at long range doesn't impose disadvantage on your ranged weapon attack rolls."
 							],
 							"type": "entries"
 						}
@@ -680,7 +680,7 @@
 				{
 					"name": "Hawkeyed",
 					"entries": [
-						"You have proficiency in the {@skill Perception} skill. In addition, attacking at long range doesn't impose disadvantage on your ranged weapon attack rolls."
+						"You have proficiency in the Perception skill. In addition, attacking at long range doesn't impose disadvantage on your ranged weapon attack rolls."
 					],
 					"type": "entries"
 				}
@@ -773,7 +773,7 @@
 				{
 					"name": "Surprise Attack",
 					"entries": [
-						"If you surprise a creature and hit it with an attack on your first turn in combat, the attack deals an extra {@dice 2d6} damage to it. You can use this trait only once per combat."
+						"If you surprise a creature and hit it with an attack on your first turn in combat, the attack deals an extra 2d6 damage to it. You can use this trait only once per combat."
 					],
 					"type": "entries"
 				},
@@ -879,7 +879,7 @@
 				{
 					"name": "Surprise Attack",
 					"entries": [
-						"If you surprise a creature and hit it with an attack on your first turn in combat, the attack deals an extra {@dice 2d6} damage to it. You can use this trait only once per combat."
+						"If you surprise a creature and hit it with an attack on your first turn in combat, the attack deals an extra 2d6 damage to it. You can use this trait only once per combat."
 					],
 					"type": "entries"
 				},
@@ -1253,7 +1253,7 @@
 					"type": "entries",
 					"name": "Changeling Instincts",
 					"entries": [
-						"You gain proficiency with two of the following skills of your choice: {@skill Deception}, {@skill Insight}, {@skill Intimidation}, and {@skill Persuasion}."
+						"You gain proficiency with two of the following skills of your choice: {@skill Deception}, {@skill Insight}, Intimidation, and {@skill Persuasion}."
 					]
 				},
 				{
@@ -1396,7 +1396,7 @@
 					"type": "entries",
 					"name": "Changeling Instincts",
 					"entries": [
-						"You gain proficiency with two of the following skills of your choice: {@skill Deception}, {@skill Insight}, {@skill Intimidation}, or {@skill Persuasion}"
+						"You gain proficiency with two of the following skills of your choice: {@skill Deception}, {@skill Insight}, Intimidation, or {@skill Persuasion}"
 					]
 				},
 				{
@@ -1728,7 +1728,7 @@
 					"name": "Breath Weapon",
 					"entries": [
 						"You can use your action to exhale destructive energy. Your draconic ancestry determines the size, shape, and damage type of the exhalation.",
-						"When you use your breath weapon, each creature in the area of the exhalation must make a saving throw, the type of which is determined by your draconic ancestry. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature takes {@dice 2d6} damage on a failed save, and half as much damage on a successful one. The damage increases to {@dice 3d6} at 6th level, {@dice 4d6} at 11th level, and {@dice 5d6} at 16th level.",
+						"When you use your breath weapon, each creature in the area of the exhalation must make a saving throw, the type of which is determined by your draconic ancestry. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level.",
 						"After you use your breath weapon, you can't use it again until you complete a short or long rest."
 					],
 					"type": "entries"
@@ -1776,7 +1776,7 @@
 							"type": "entries",
 							"name": "Forceful Presence",
 							"entries": [
-								"You can use your understanding of creative diplomacy or intimidation to guide a conversation in your favor. When you make a Charisma ({@skill Intimidation} or {@skill Persuasion}) check, you can do so with advantage. Once you use this trait, you can't do so again until you finish a short or long rest."
+								"You can use your understanding of creative diplomacy or intimidation to guide a conversation in your favor. When you make a Charisma (Intimidation or {@skill Persuasion}) check, you can do so with advantage. Once you use this trait, you can't do so again until you finish a short or long rest."
 							],
 							"data": {
 								"overwrite": "Damage Resistance"
@@ -2145,7 +2145,7 @@
 						{
 							"name": "Duergar Resilience",
 							"entries": [
-								"You have advantage on saving throws against poison, and you have resistance against poison damage. You also have advantage on saving throws against illusions and against being {@condition charmed} or {@condition paralyzed}."
+								"You have advantage on saving throws against poison, and you have resistance against poison damage. You also have advantage on saving throws against illusions and against being charmed or {@condition paralyzed}."
 							],
 							"data": {
 								"overwrite": "Dwarven Resilience"
@@ -2172,7 +2172,7 @@
 						{
 							"name": "Sunlight Sensitivity",
 							"entries": [
-								"You have disadvantage on attack rolls and Wisdom ({@skill Perception}) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight."
+								"You have disadvantage on attack rolls and Wisdom (Perception) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight."
 							],
 							"type": "entries"
 						}
@@ -2504,14 +2504,14 @@
 				{
 					"name": "Keen Senses",
 					"entries": [
-						"You have proficiency in the {@skill Perception} skill."
+						"You have proficiency in the Perception skill."
 					],
 					"type": "entries"
 				},
 				{
 					"name": "Fey Ancestry",
 					"entries": [
-						"You have advantage on saving throws against being {@condition charmed}, and magic can't put you to sleep."
+						"You have advantage on saving throws against being charmed, and magic can't put you to sleep."
 					],
 					"type": "entries"
 				},
@@ -2519,7 +2519,7 @@
 					"name": "Trance",
 					"entries": [
 						"Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is \"trance.\") While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep.",
-						"{@note If you meditate during a long rest, you finish the rest after only 4 hours. You otherwise obey all the rules for a long rest; only the duration is changed.}"
+						"If you meditate during a long rest, you finish the rest after only 4 hours. You otherwise obey all the rules for a long rest; only the duration is changed."
 					],
 					"type": "entries"
 				},
@@ -2621,14 +2621,14 @@
 						{
 							"name": "Sunlight Sensitivity",
 							"entries": [
-								"You have disadvantage on attack rolls and on Wisdom ({@skill Perception}) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight."
+								"You have disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight."
 							],
 							"type": "entries"
 						},
 						{
 							"name": "Drow Magic",
 							"entries": [
-								"You know the {@spell dancing lights} cantrip. When you reach 3rd level, you can cast the {@spell faerie fire} spell once per day; you must finish a long rest in order to cast the spell again using this trait. When you reach 5th level, you can also cast the {@spell darkness} spell once per day; you must finish a long rest in order to cast the spell again using this trait. Charisma is your spellcasting ability for these spells."
+								"You know the {@spell dancing lights} cantrip. When you reach 3rd level, you can cast the {@spell faerie fire} spell once per day; you must finish a long rest in order to cast the spell again using this trait. When you reach 5th level, you can also cast the darkness spell once per day; you must finish a long rest in order to cast the spell again using this trait. Charisma is your spellcasting ability for these spells."
 							],
 							"type": "entries"
 						},
@@ -2714,12 +2714,12 @@
 										{
 											"type": "item",
 											"name": "Autumn",
-											"entry": "Immediately after you use your Fey Step, up to two creatures of your choice that you can see within 10 feet of you must succeed on a Wisdom saving throw or be {@condition charmed} by you for 1 minute, or until you or your companions deal any damage to it."
+											"entry": "Immediately after you use your Fey Step, up to two creatures of your choice that you can see within 10 feet of you must succeed on a Wisdom saving throw or be charmed by you for 1 minute, or until you or your companions deal any damage to it."
 										},
 										{
 											"type": "item",
 											"name": "Winter",
-											"entry": "When you use your Fey Step, one creature of your choice that you can see within 5 feet of you before you teleport must succeed on a Wisdom saving throw or be {@condition frightened} of you until the end of your next turn."
+											"entry": "When you use your Fey Step, one creature of your choice that you can see within 5 feet of you before you teleport must succeed on a Wisdom saving throw or be frightened of you until the end of your next turn."
 										},
 										{
 											"type": "item",
@@ -3162,7 +3162,7 @@
 										],
 										[
 											"2nd",
-											"{@spell darkness}, {@spell pass without trace}"
+											"darkness, {@spell pass without trace}"
 										],
 										[
 											"3rd",
@@ -3442,7 +3442,7 @@
 						{
 							"name": "Cantrip",
 							"entries": [
-								"You know one of the following cantrips of your choice: {@spell chill touch}, {@spell spare the dying}, or {@spell thaumaturgy}. Charisma is your spellcasting ability for it."
+								"You know one of the following cantrips of your choice: {@spell chill touch}, {@spell spare the dying}, or thaumaturgy. Charisma is your spellcasting ability for it."
 							],
 							"type": "entries"
 						},
@@ -3640,7 +3640,7 @@
 				{
 					"name": "Keen Senses",
 					"entries": [
-						"You have proficiency in the {@skill Perception} skill."
+						"You have proficiency in the Perception skill."
 					],
 					"type": "entries"
 				},
@@ -3654,7 +3654,7 @@
 				{
 					"name": "Fey Ancestry",
 					"entries": [
-						"You have advantage on saving throws against being {@condition charmed}, and magic can't put you to sleep."
+						"You have advantage on saving throws against being charmed, and magic can't put you to sleep."
 					],
 					"type": "entries"
 				},
@@ -3787,14 +3787,14 @@
 				{
 					"name": "Keen Senses",
 					"entries": [
-						"You have proficiency in the {@skill Perception} skill."
+						"You have proficiency in the Perception skill."
 					],
 					"type": "entries"
 				},
 				{
 					"name": "Fey Ancestry",
 					"entries": [
-						"You have advantage on saving throws against being {@condition charmed}, and magic can't put you to sleep."
+						"You have advantage on saving throws against being charmed, and magic can't put you to sleep."
 					],
 					"type": "entries"
 				},
@@ -3883,7 +3883,7 @@
 						{
 							"name": "Mul Daya Magic",
 							"entries": [
-								"You know the {@spell chill touch} cantrip. When you reach 3rd level, you can cast the {@spell hex} spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the {@spell darkness} spell once with this trait and regain the ability to do so when you finish a long rest. Wisdom is your spellcasting ability for these spells."
+								"You know the {@spell chill touch} cantrip. When you reach 3rd level, you can cast the {@spell hex} spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the darkness spell once with this trait and regain the ability to do so when you finish a long rest. Wisdom is your spellcasting ability for these spells."
 							],
 							"type": "entries"
 						},
@@ -3900,7 +3900,7 @@
 						{
 							"name": "Sunlight Sensitivity",
 							"entries": [
-								"You have disadvantage on attack rolls and on Wisdom ({@skill Perception}) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight."
+								"You have disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight."
 							],
 							"type": "entries"
 						},
@@ -4548,7 +4548,7 @@
 						{
 							"name": "Mental Discipline",
 							"entries": [
-								"You have advantage on saving throws against the {@condition charmed} and {@condition frightened} conditions. Under the tutelage of monastic masters, githzerai learn to govern their own minds."
+								"You have advantage on saving throws against the charmed and frightened conditions. Under the tutelage of monastic masters, githzerai learn to govern their own minds."
 							],
 							"type": "entries"
 						},
@@ -5817,7 +5817,7 @@
 					"type": "entries",
 					"name": "Keen Hearing and Smell",
 					"entries": [
-						"You have advantage on Wisdom ({@skill Perception}) checks that rely on hearing or smell."
+						"You have advantage on Wisdom (Perception) checks that rely on hearing or smell."
 					]
 				},
 				{
@@ -5896,7 +5896,7 @@
 					"type": "entries",
 					"name": "Arboreal Alertness",
 					"entries": [
-						"You have proficiency in the {@skill Perception} skill."
+						"You have proficiency in the Perception skill."
 					]
 				},
 				{
@@ -6046,7 +6046,7 @@
 				{
 					"name": "Fey Ancestry",
 					"entries": [
-						"You have advantage on saving throws against being {@condition charmed}, and magic can't put you to sleep."
+						"You have advantage on saving throws against being charmed, and magic can't put you to sleep."
 					],
 					"type": "entries"
 				},
@@ -6138,7 +6138,7 @@
 				{
 					"name": "Menacing",
 					"entries": [
-						"You gain proficiency in the {@skill Intimidation} skill."
+						"You gain proficiency in the Intimidation skill."
 					],
 					"type": "entries"
 				},
@@ -6276,7 +6276,7 @@
 					"type": "entries",
 					"name": "Hunter's Intuition",
 					"entries": [
-						"When you make a Wisdom ({@skill Perception}) or Wisdom ({@skill Survival}) check, you can roll a {@dice d4} and add the number rolled to the ability check."
+						"When you make a Wisdom (Perception) or Wisdom ({@skill Survival}) check, you can roll a {@dice d4} and add the number rolled to the ability check."
 					]
 				},
 				{
@@ -6395,7 +6395,7 @@
 				{
 					"name": "Brave",
 					"entries": [
-						"You have advantage on saving throws against being {@condition frightened}."
+						"You have advantage on saving throws against being frightened."
 					],
 					"type": "entries"
 				},
@@ -6816,7 +6816,7 @@
 					"type": "entries",
 					"name": "Fey Resilience",
 					"entries": [
-						"You have advantage on saving throws you make to avoid or end the {@condition charmed} condition on yourself."
+						"You have advantage on saving throws you make to avoid or end the charmed condition on yourself."
 					]
 				},
 				{
@@ -6859,7 +6859,7 @@
 					"type": "entries",
 					"name": "Martial Advantage",
 					"entries": [
-						"Once per turn, you can deal an extra {@dice 2d6} damage to a creature you hit with a weapon attack if that creature is within 5 ft. of an ally of yours that isn't {@condition incapacitated}."
+						"Once per turn, you can deal an extra 2d6 damage to a creature you hit with a weapon attack if that creature is within 5 ft. of an ally of yours that isn't {@condition incapacitated}."
 					]
 				},
 				{
@@ -7203,7 +7203,7 @@
 							"type": "entries",
 							"name": "Hunter's Intuition",
 							"entries": [
-								"When you make a Wisdom ({@skill Perception}) or Wisdom ({@skill Survival}) check, you can roll a {@dice d4} and add the number rolled to the ability check."
+								"When you make a Wisdom (Perception) or Wisdom ({@skill Survival}) check, you can roll a {@dice d4} and add the number rolled to the ability check."
 							]
 						},
 						{
@@ -7709,7 +7709,7 @@
 							"type": "entries",
 							"name": "Sentinel's Intuition",
 							"entries": [
-								"When you make a Wisdom ({@skill Insight}) or Wisdom ({@skill Perception}) check, you can roll a {@dice d4} and add the number rolled to the ability check."
+								"When you make a Wisdom ({@skill Insight}) or Wisdom (Perception) check, you can roll a {@dice d4} and add the number rolled to the ability check."
 							]
 						},
 						{
@@ -8124,7 +8124,7 @@
 						{
 							"name": "Daunting",
 							"entries": [
-								"You have proficiency in the {@skill Intimidation} skill."
+								"You have proficiency in the Intimidation skill."
 							],
 							"type": "entries"
 						},
@@ -8374,7 +8374,7 @@
 					"type": "entries",
 					"name": "Psychic Glamour",
 					"entries": [
-						"Choose one of the following skills: {@skill Insight}, {@skill Intimidation}, {@skill Performance}, or {@skill Persuasion}. You have advantage on all ability checks you make with that skill."
+						"Choose one of the following skills: {@skill Insight}, Intimidation, {@skill Performance}, or {@skill Persuasion}. You have advantage on all ability checks you make with that skill."
 					]
 				},
 				{
@@ -8592,7 +8592,7 @@
 				{
 					"name": "Khenra Twins",
 					"entries": [
-						"If your twin is alive and you can see your twin, whenever you roll a 1 on an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll. If your twin is dead (or if you were born without a twin), you can't be {@condition frightened}."
+						"If your twin is alive and you can see your twin, whenever you roll a 1 on an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll. If your twin is dead (or if you were born without a twin), you can't be frightened."
 					],
 					"type": "entries"
 				},
@@ -8638,7 +8638,7 @@
 				{
 					"name": "Sunlight Sensitivity",
 					"entries": [
-						"You have disadvantage on attack rolls and on Wisdom ({@skill Perception}) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight."
+						"You have disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight."
 					],
 					"type": "entries"
 				},
@@ -8730,7 +8730,7 @@
 				{
 					"name": "Sunlight Sensitivity",
 					"entries": [
-						"You have disadvantage on attack rolls and on Wisdom ({@skill Perception}) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight."
+						"You have disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight."
 					],
 					"type": "entries"
 				},
@@ -8797,7 +8797,7 @@
 				{
 					"name": "Brave",
 					"entries": [
-						"You have advantage on saving throws against being {@condition frightened}."
+						"You have advantage on saving throws against being frightened."
 					],
 					"type": "entries"
 				},
@@ -8877,7 +8877,7 @@
 					"name": "Sunlight Sensitivity",
 					"type": "entries",
 					"entries": [
-						"While in sunlight, you have disadvantage on attack rolls, as well as on Wisdom ({@skill Perception}) checks that rely on sight."
+						"While in sunlight, you have disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight."
 					]
 				},
 				{
@@ -8975,14 +8975,14 @@
 				{
 					"name": "Hunter's Instincts",
 					"entries": [
-						"You have proficiency in one of the following skills of your choice: {@skill Athletics}, {@skill Intimidation}, {@skill Perception}, or {@skill Survival}."
+						"You have proficiency in one of the following skills of your choice: {@skill Athletics}, Intimidation, Perception, or {@skill Survival}."
 					],
 					"type": "entries"
 				},
 				{
 					"name": "Daunting Roar",
 					"entries": [
-						"As a bonus action, you can let out an especially menacing roar. Creatures of your choice within 10 feet of you that can hear you must succeed on a Wisdom saving throw or become {@condition frightened} of you until the end of your next turn. The DC of the save equals 8 + your proficiency bonus + your Constitution modifier. Once you use this trait, you can't use it again until you finish a short or long rest."
+						"As a bonus action, you can let out an especially menacing roar. Creatures of your choice within 10 feet of you that can hear you must succeed on a Wisdom saving throw or become frightened of you until the end of your next turn. The DC of the save equals 8 + your proficiency bonus + your Constitution modifier. Once you use this trait, you can't use it again until you finish a short or long rest."
 					],
 					"type": "entries"
 				},
@@ -9143,7 +9143,7 @@
 				{
 					"name": "Hunter's Lore",
 					"entries": [
-						"You gain proficiency with two of the following skills of your choice: {@skill Animal Handling}, {@skill Nature}, {@skill Perception}, {@skill Stealth}, and {@skill Survival}."
+						"You gain proficiency with two of the following skills of your choice: {@skill Animal Handling}, {@skill Nature}, Perception, {@skill Stealth}, and {@skill Survival}."
 					],
 					"type": "entries"
 				},
@@ -9228,14 +9228,14 @@
 				{
 					"name": "Observant & Athletic",
 					"entries": [
-						"You have proficiency in the {@skill Athletics} and {@skill Perception} skills."
+						"You have proficiency in the {@skill Athletics} and Perception skills."
 					],
 					"type": "entries"
 				},
 				{
 					"name": "Leviathan Will",
 					"entries": [
-						"You have advantage on saving throws against being {@condition charmed}, {@condition frightened}, {@condition paralyzed}, {@condition poisoned}, {@condition stunned}, or put to sleep."
+						"You have advantage on saving throws against being charmed, frightened, {@condition paralyzed}, {@condition poisoned}, {@condition stunned}, or put to sleep."
 					],
 					"type": "entries"
 				},
@@ -9325,7 +9325,7 @@
 					"type": "entries",
 					"name": "Loxodon Serenity",
 					"entries": [
-						"You have advantage on saving throws against being {@condition charmed} or {@condition frightened}."
+						"You have advantage on saving throws against being charmed or frightened."
 					]
 				},
 				{
@@ -9354,7 +9354,7 @@
 					"type": "entries",
 					"name": "Keen Smell",
 					"entries": [
-						"Thanks to your sensitive trunk, you have advantage on Wisdom ({@skill Perception}), Wisdom ({@skill Survival}), and Intelligence ({@skill Investigation}) checks that involve smell."
+						"Thanks to your sensitive trunk, you have advantage on Wisdom (Perception), Wisdom ({@skill Survival}), and Intelligence ({@skill Investigation}) checks that involve smell."
 					]
 				},
 				{
@@ -9421,7 +9421,7 @@
 					"type": "entries",
 					"name": "Loxodon Bravery",
 					"entries": [
-						"You have advantage on saving throws against being {@condition frightened}."
+						"You have advantage on saving throws against being frightened."
 					]
 				},
 				{
@@ -9456,7 +9456,7 @@
 					"type": "entries",
 					"name": "Keen Smell",
 					"entries": [
-						"Thanks to your sensitive trunk, you have advantage on Wisdom ({@skill Perception}) and Intelligence ({@skill Investigation}) checks that rely on smell."
+						"Thanks to your sensitive trunk, you have advantage on Wisdom (Perception) and Intelligence ({@skill Investigation}) checks that rely on smell."
 					]
 				},
 				{
@@ -9946,7 +9946,7 @@
 				{
 					"name": "Imposing Presence",
 					"entries": [
-						"You have proficiency in one of the following skills of your choice: {@skill Intimidation} or {@skill Persuasion}."
+						"You have proficiency in one of the following skills of your choice: Intimidation or {@skill Persuasion}."
 					],
 					"type": "entries"
 				},
@@ -10043,7 +10043,7 @@
 				{
 					"name": "Menacing",
 					"entries": [
-						"You have proficiency in the {@skill Intimidation} skill."
+						"You have proficiency in the Intimidation skill."
 					],
 					"type": "entries"
 				},
@@ -10122,7 +10122,7 @@
 				{
 					"name": "Menacing",
 					"entries": [
-						"You gain proficiency in the {@skill Intimidation} skill."
+						"You gain proficiency in the Intimidation skill."
 					],
 					"type": "entries"
 				},
@@ -10469,7 +10469,7 @@
 					"type": "entries",
 					"name": "Primal Intuition",
 					"entries": [
-						"You have proficiency in two of the following skills of your choice: {@skill Animal Handling}, {@skill Insight}, {@skill Intimidation}, {@skill Medicine}, {@skill Nature}, {@skill Perception}, and {@skill Survival}."
+						"You have proficiency in two of the following skills of your choice: {@skill Animal Handling}, {@skill Insight}, Intimidation, {@skill Medicine}, {@skill Nature}, Perception, and {@skill Survival}."
 					]
 				},
 				{
@@ -10572,7 +10572,7 @@
 				{
 					"name": "Primal Intuition",
 					"entries": [
-						"You have proficiency in two of the following skills of your choice: {@skill Animal Handling}, {@skill Insight}, {@skill Intimidation}, {@skill Medicine}, {@skill Nature}, {@skill Perception}, and {@skill Survival}."
+						"You have proficiency in two of the following skills of your choice: {@skill Animal Handling}, {@skill Insight}, Intimidation, {@skill Medicine}, {@skill Nature}, Perception, and {@skill Survival}."
 					],
 					"type": "entries"
 				},
@@ -10644,7 +10644,7 @@
 					"type": "entries",
 					"name": "Menacing",
 					"entries": [
-						"You gain proficiency in the {@skill Intimidation} skill."
+						"You gain proficiency in the Intimidation skill."
 					]
 				},
 				{
@@ -11078,7 +11078,7 @@
 							"type": "entries",
 							"name": "Fierce",
 							"entries": [
-								"You have proficiency in the {@skill Intimidation} skill."
+								"You have proficiency in the Intimidation skill."
 							]
 						},
 						{
@@ -11384,7 +11384,7 @@
 					"type": "entries",
 					"name": "Keen Senses",
 					"entries": [
-						"You have proficiency with the {@skill Perception} skill."
+						"You have proficiency with the Perception skill."
 					]
 				},
 				{
@@ -11458,7 +11458,7 @@
 							"type": "entries",
 							"name": "Fierce",
 							"entries": [
-								"You have proficiency with the {@skill Intimidation} skill."
+								"You have proficiency with the Intimidation skill."
 							]
 						},
 						{
@@ -12021,7 +12021,7 @@
 				{
 					"name": "Cat's Talents",
 					"entries": [
-						"You have proficiency in the {@skill Perception} and {@skill Stealth} skills."
+						"You have proficiency in the Perception and {@skill Stealth} skills."
 					],
 					"type": "entries"
 				},
@@ -12135,7 +12135,7 @@
 				{
 					"name": "Infernal Legacy",
 					"entries": [
-						"You know the {@spell thaumaturgy} cantrip. Once you reach 3rd level, you can cast the {@spell hellish rebuke} spell as a 2nd-level spell; you must finish a long rest in order to cast the spell again using this trait. Once you reach 5th level, you can also cast the {@spell darkness} spell; you must finish a long rest in order to cast the spell again using this trait. Charisma is your spellcasting ability for these spells."
+						"You know the thaumaturgy cantrip. Once you reach 3rd level, you can cast the hellish rebuke spell as a 2nd-level spell; you must finish a long rest in order to cast the spell again using this trait. Once you reach 5th level, you can also cast the darkness spell; you must finish a long rest in order to cast the spell again using this trait. Charisma is your spellcasting ability for these spells."
 					],
 					"type": "entries"
 				},
@@ -12242,7 +12242,7 @@
 											"2",
 											"{@spell True strike}",
 											"{@spell Charm person}",
-											"{@spell Darkness}"
+											"Darkness"
 										],
 										[
 											"3",
@@ -12347,7 +12347,7 @@
 						{
 							"name": "Legacy of Maladomini",
 							"entries": [
-								"You know the {@spell thaumaturgy} cantrip. When you reach 3rd level, you can cast the {@spell ray of sickness} spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the {@spell crown of madness} spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
+								"You know the thaumaturgy cantrip. When you reach 3rd level, you can cast the {@spell ray of sickness} spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the {@spell crown of madness} spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
 							],
 							"type": "entries",
 							"data": {
@@ -12390,7 +12390,7 @@
 						{
 							"name": "Legacy of Maladomini",
 							"entries": [
-								"You know the {@spell thaumaturgy} cantrip. When you reach 3rd level, you can cast the {@spell ray of sickness} spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the {@spell crown of madness} spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
+								"You know the thaumaturgy cantrip. When you reach 3rd level, you can cast the {@spell ray of sickness} spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the {@spell crown of madness} spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
 							],
 							"type": "entries",
 							"data": {
@@ -12437,7 +12437,7 @@
 						{
 							"name": "Legacy of Dis",
 							"entries": [
-								"You know the {@spell thaumaturgy} cantrip. When you reach 3rd level, you can cast the {@spell disguise self} spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the {@spell detect thoughts} spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
+								"You know the thaumaturgy cantrip. When you reach 3rd level, you can cast the {@spell disguise self} spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the {@spell detect thoughts} spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
 							],
 							"type": "entries",
 							"data": {
@@ -12489,7 +12489,7 @@
 						{
 							"name": "Legacy of Dis",
 							"entries": [
-								"You know the {@spell thaumaturgy} cantrip. When you reach 3rd level, you can cast the {@spell disguise self} spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the {@spell invisibility} spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
+								"You know the thaumaturgy cantrip. When you reach 3rd level, you can cast the {@spell disguise self} spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the {@spell invisibility} spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
 							],
 							"type": "entries",
 							"data": {
@@ -12743,7 +12743,7 @@
 						{
 							"name": "Legacy of Stygia",
 							"entries": [
-								"You know the {@spell ray of frost} cantrip. When you reach 3rd level, you can cast the {@spell armor of Agathys} spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the {@spell darkness} spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
+								"You know the {@spell ray of frost} cantrip. When you reach 3rd level, you can cast the {@spell armor of Agathys} spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the darkness spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
 							],
 							"type": "entries",
 							"data": {
@@ -12795,7 +12795,7 @@
 						{
 							"name": "Legacy of Stygia",
 							"entries": [
-								"You know the {@spell ray of frost} cantrip. When you reach 3rd level, you can cast the {@spell armor of Agathys} spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the {@spell darkness} spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
+								"You know the {@spell ray of frost} cantrip. When you reach 3rd level, you can cast the {@spell armor of Agathys} spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the darkness spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
 							],
 							"type": "entries",
 							"data": {
@@ -13092,7 +13092,7 @@
 							"type": "entries",
 							"name": "Hellfire",
 							"entries": [
-								"You know the {@spell thaumaturgy} cantrip. Once you reach 3rd level, you can cast the {@spell burning hands} spell once per day as a 2nd-level spell; you must finish a long rest in order to cast the spell again using this trait. Once you reach 5th level, you can also cast the {@spell darkness} spell; you must finish a long rest in order to cast the spell again using this trait. Charisma is your spellcasting ability for these spells."
+								"You know the thaumaturgy cantrip. Once you reach 3rd level, you can cast the {@spell burning hands} spell once per day as a 2nd-level spell; you must finish a long rest in order to cast the spell again using this trait. Once you reach 5th level, you can also cast the darkness spell; you must finish a long rest in order to cast the spell again using this trait. Charisma is your spellcasting ability for these spells."
 							],
 							"data": {
 								"overwrite": "Infernal Legacy"
@@ -13244,7 +13244,7 @@
 						{
 							"name": "Legacy of Avernus",
 							"entries": [
-								"You know the {@spell thaumaturgy} cantrip. When you reach 3rd level, you can cast the {@spell searing smite} spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the {@spell branding smite} spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
+								"You know the thaumaturgy cantrip. When you reach 3rd level, you can cast the {@spell searing smite} spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the {@spell branding smite} spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
 							],
 							"type": "entries",
 							"data": {
@@ -13296,7 +13296,7 @@
 						{
 							"name": "Legacy of Avernus",
 							"entries": [
-								"You know the {@spell thaumaturgy} cantrip. When you reach 3rd level, you can cast the {@spell searing smite} spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the {@spell branding smite} spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
+								"You know the thaumaturgy cantrip. When you reach 3rd level, you can cast the {@spell searing smite} spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the {@spell branding smite} spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
 							],
 							"type": "entries",
 							"data": {
@@ -13600,7 +13600,7 @@
 					"name": "Sunlight Sensitivity",
 					"type": "entries",
 					"entries": [
-						"While in sunlight, you have disadvantage on attack rolls, as well as on Wisdom ({@skill Perception}) checks that rely on sight."
+						"While in sunlight, you have disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight."
 					]
 				},
 				{
