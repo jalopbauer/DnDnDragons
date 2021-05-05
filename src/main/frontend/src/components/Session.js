@@ -60,7 +60,7 @@ const Session = ({setCurrentPage}) => {
             <Tabs
               className="character-sheets-tabs"
               value={characterSheetsTabValue}
-              onChange={(event, newTabValue) => setTabValue(newTabValue)}
+              onChange={(event, newTabValue) => setCharacterSheetsTabValue(newTabValue)}
               centered
             >
               {sessionData.playersData.map((playerData) => (

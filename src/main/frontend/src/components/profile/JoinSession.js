@@ -17,7 +17,7 @@ const JoinSession = ({userCharactersData}) => {
   const [firstTimeJoining, setFirstTimeJoining] = useState(false);
   let history = useHistory();
 
-  const joinSession = (characterId = false) => {
+  const joinSession = (characterId=false) => {
     // si characterId == false, quiere decir que ya el usuario ha ingresado 
     // a la partida y por lo tanto, ya tiene sus datos registrados en ella
     if(!characterId) {
@@ -48,18 +48,22 @@ const JoinSession = ({userCharactersData}) => {
       .then((res) => {
         // la sesion existe?
         if(res.data == null) {
+          setFirstTimeJoining(false);
           setSessionDoesNotExist(true); // no -> aviso al usuario
-        } else if(res.data.players) {
+        } else if(res.data.playersData) {
           // si -> es la primera vez que ingreso a esta sesion ?
           setSessionDoesNotExist(false);
-          res.data.players.map((playerData) => {
-            if(playerData.username == JSON.parse(localStorage.getItem('user')).username)
+          res.data.playersData.map((playerData) => {
+            if(playerData.username == JSON.parse(localStorage.getItem('user')).username) {
               // no -> joinear 
+              setFirstTimeJoining(false);
               joinSession();
+            }
           });
           // si -> elegir con que personaje acceder y luego joinear
           setFirstTimeJoining(true);
         } else {
+          setSessionDoesNotExist(false);
           setFirstTimeJoining(true);
         }
       }).catch((err) => {
