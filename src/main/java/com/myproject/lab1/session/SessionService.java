@@ -28,8 +28,12 @@ public class SessionService {
     return sessionRepository.findById(id);
   }
 
+  public Optional<Session> findByInviteId(String inviteId) {
+    return sessionRepository.findByInviteId(inviteId);
+  }
+
   public List<Session> findAllByUserId(String userId) {
-    return sessionRepository.findByUserId(userId);
+    return sessionRepository.findByCreatorId(userId);
   }
 
 }

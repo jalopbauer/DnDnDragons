@@ -5,12 +5,13 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
 import AuthService from "./services/authService";
+import { Typography } from "@material-ui/core";
 
 const required = (value) => {
   if (!value) {
     return (
-      <div className="alert alert-danger" role="alert">
-        This field is required!
+      <div className="alert-danger" role="alert">
+        <p>This field is required!</p>
       </div>
     );
   }
@@ -71,13 +72,13 @@ const LogIn = ({setCurrentPage}) => {
   };
 
   return (
-    <div className="col-md-12">
-      <div className="card card-container">
-        <h1>Log In</h1>
+    <div className="login">
+      <div className="auth-container">
+        <Typography className="welcome" variant="h3">Welcome</Typography>
 
         <Form onSubmit={handleLogin} ref={form}>
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username"><Typography variant="h6">Username</Typography></label>
             <Input
               type="text"
               className="form-control"
@@ -89,7 +90,7 @@ const LogIn = ({setCurrentPage}) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password"><Typography variant="h6">Password</Typography></label>
             <Input
               type="password"
               className="form-control"
@@ -101,11 +102,11 @@ const LogIn = ({setCurrentPage}) => {
           </div>
 
           <div className="form-group">
-            <button className="btn btn-primary btn-block" disabled={loading}>
+            <button className="btn" disabled={loading}>
               {loading && (
                 <span className="spinner-border spinner-border-sm"></span>
               )}
-              <span>Login</span>
+              <span>Log in</span>
             </button>
           </div>
 

@@ -66,21 +66,112 @@ html, body, .full-height {
 }
 
 /* character details page */
-.character-details h2 {
-  font-size: 20px;
-  color: #f1356d;
-  margin-bottom: 10px;
+.Profile .MuiPaper-root {
+  background-color: #333;
+  color: #333;
 }
-.character-details div {
-  margin: 20px 0;
+.CharacterDetails {
+  width: 75%;
+  height: 75%;
+  margin: auto;
 }
-.character-details button {
-  background: #f1356d;
-  color: #fff;
-  border: 0;
-  padding: 8px;
-  border-radius: 8px;
-  cursor: pointer;
+.CharacterDetails {
+  /* width: 1000px; */
+  margin: auto;
+}
+.CharacterDetails .names {
+  background-color: #333;
+  padding: 20px;
+}
+.CharacterDetails .general-info {
+  /* width: 100%; */
+  background-color: #333;
+  padding: 20px;
+  display: flex; 
+  /* justify-content: space-around; */
+}
+.CharacterDetails .general-info .col1 { 
+  width: 35%; 
+}
+.CharacterDetails .general-info .col2 { 
+  width: 55%; 
+}
+.CharacterDetails .ability-scores  {
+  background-color: #d0d0d0;
+  padding: 5px;
+}
+.CharacterDetails .ability-scores .MuiCard-root {
+  background-color: #333;
+  padding: 10px;
+  margin: 5px 0;
+}
+.CharacterDetails .ability-scores .MuiCard-root .MuiTypography-root {
+  background-color: #333;
+  width: 100%;
+  display: flex; 
+  justify-content: space-around;
+  /* margin: auto;
+  align-content: center; */
+}
+.CharacterDetails .modifier  {
+  /* border: 1px solid #d0d0d0; */
+  /* text-align: center; */
+  /* justify-content: space-around; */
+  display: inline-block;
+  border-radius: 10px;
+  background-color: #d0d0d0;
+}
+.CharacterDetails .ability-scores .MuiCard-root .modifier .MuiTypography-root {
+  /* border: 1px solid #1c1c1c; */
+  width: 100%;
+
+  background-color: #d0d0d0;
+  color: #333;
+  border-radius: 10px;
+}
+.CharacterDetails .proficiency-bonus {
+  background-color: #333;
+  width: 100%;
+  padding: 20px;
+  /* display: flex;  */
+}
+.CharacterDetails .skills {
+  background-color: #333;
+  width: 100%;
+  padding: 20px;
+  margin-top: 20px;
+}
+.CharacterDetails .skills .row{
+  display: flex; 
+  margin-right: 20px;
+  margin-left: 20px;
+  justify-content: space-between;
+}
+.CharacterDetails .speed {
+  background-color: #333;
+  width: 100%;
+  padding: 20px;
+  margin-left: 40px;
+}
+.CharacterDetails .saving-throws {
+  background-color: #333;
+  width: 100%;
+  padding: 20px;
+  margin-top: 20px;
+  margin-left: 40px;
+}
+.CharacterDetails .equipment {
+  background-color: #333;
+  width: 93%;
+  padding: 20px;
+  margin-top: 20px;
+  margin-left: 80px;
+}
+.CharacterDetails .max-hp {
+  background-color: #333;
+  width: 93%;
+  padding: 20px;
+  margin-left: 80px;
 }
 
 
@@ -105,25 +196,42 @@ html, body, .full-height {
 .Profile .button-container {
   border-top: 2px solid #d0d0d0;
 }
-.Profile .MuiPaper-root .session-container  {
+.Profile .button-container .MuiSvgIcon-root {
+  color: #f1356d;
+}
+.Profile .MuiPaper-root .profile-container  {
   border: 2px solid #d0d0d0;
   padding: 1%;
   margin-top: 3%;
   margin-bottom: 3%;
 }
-.Profile .MuiPaper-root .session-container .session {
+.Profile .MuiPaper-root .profile-container .session {
   display: flex; 
   justify-content: space-between;
 }
-.Profile .MuiPaper-root .session-container .session .session-icons {
+.Profile .MuiPaper-root .profile-container .session .session-icons {
   display: flex; 
   justify-content: space-between;
-  width: 100px;
+  width: 135px;
 }
-.Profile .MuiPaper-root .session-container .session .session-icons .MuiIconButton-root {
+.Profile .MuiPaper-root .profile-container .session .session-icons .MuiIconButton-root {
   color: #d0d0d0;
   padding: 0;
 }
+.Profile .MuiPaper-root .profile-container .character {
+  display: flex; 
+  justify-content: space-between;
+}
+.Profile .MuiPaper-root .profile-container .character .character-icons {
+  display: flex; 
+  justify-content: space-between;
+  width: 175px;
+}
+.Profile .MuiPaper-root .profile-container .character .character-icons .MuiIconButton-root {
+  color: #d0d0d0;
+  padding: 0;
+}
+
 
 
 /*CHARACTER CREATOR*/
@@ -210,12 +318,32 @@ html, body, .full-height {
 .ability-scores-panel .MuiTableContainer-root  {
   background-color: #333;
 }
+
 .class-panel .stats {
   background-color: #333;
 }
 .class-panel .details {
   background-color: #333;
 }
+.class-panel .create-button {
+  /* margin-top: 7.5%; */
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  background-color: #333;
+  color: #f1356d;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.class-panel .details .subclass-title {
+  display: flex; 
+  justify-content: space-between;
+}
+/* .class-panel .MuiPaper-root .MuiTypography-root .MuiTypography-h5 {
+  color: #d29a38;
+} */
 
 /* SESSION */
 .Session {
@@ -242,17 +370,70 @@ html, body, .full-height {
 .CharacterIcon {
   color: #d29a38;
 }
+.Session .users-list {
+  height: 200px;
+  background-color: #333;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.Session .MuiPaper-root  {
+  background-color: #333;
+  color: #333;
+}
 
 
 /* login/signup forms */
+.login {
+  width: 100%;
+  align-content: center;
+}
 label {
   display: block;
   margin-top: 10px;
 }
 
-.card-container.card {
+/* .card-container.card {
   max-width: 350px !important;
   padding: 40px 40px;
+} */
+
+.auth-container {
+  background-color: #333;
+  padding: 5%;
+  width: 18%;
+  margin: auto;
+  align-content: center;
 }
 
+.auth-container .welcome {
+  width: 100%;
+  margin: auto;
+}
 
+.auth-container .form-group  {
+  width: 100%;
+  /* text-align: center; */
+  /* margin-bottom: 7%;  */
+  width: 95%;
+  margin: auto;
+}
+
+.auth-container .alert-danger {
+  /* padding-top: 2%; */
+  color: red;
+  font-weight: bold;
+}
+
+.auth-container .form-group button {
+  margin-top: 7.5%;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  background-color: #d0d0d0;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+ 

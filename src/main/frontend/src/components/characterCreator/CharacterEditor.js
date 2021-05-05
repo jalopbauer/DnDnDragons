@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-
+import { useParams } from 'react-router-dom';
+import useGet from '../services/useGet';
+import authHeader from '../services/authHeader';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -33,16 +35,22 @@ const TabPanel = (props) => {
   );
 }
 
-const CharacterCreator = ({setCurrentPage, editingCharacter}) => {
+const CharacterEditor = ({setCurrentPage}) => {
+  const { id: characterId } = useParams(); 
+
   const [showNameisEmpty, setShowNameIsEmpty] = useState(false);
-  const [character, setCharacter] = useState(editingCharacter ? editingCharacter : {"alignment": "True Neutral", "abilityScores": [0, 0, 0, 0, 0, 0]});
+  let { data: character, isLoading, error } = useGet(`${API_URL}/character/${characterId}`, { headers: authHeader() });
+  const [raceBackgroundModifiers, setRaceBackgroundModifiers] = useState([0, 0, 0, 0, 0, 0]);
   const [tabValue, setTabValue] = useState(0);
   const [openPopup, setOpenPopup] = useState(true);
-  const [raceBackgroundModifiers, setRaceBackgroundModifiers] = useState([0, 0, 0, 0, 0, 0]);
 
   let history = useHistory()
 
-  useEffect(() => setCurrentPage(": Character Creator"));
+  useEffect(() => setCurrentPage(": Character Editor"));
+
+  const handleTabChange = (event, newTabValue) => {
+    setTabValue(newTabValue);
+  };
 
   const handleCancel = () => {
     setOpenPopup(false); 
@@ -59,65 +67,63 @@ const CharacterCreator = ({setCurrentPage, editingCharacter}) => {
   }
 
   const setCharacterName = (name) => {
-    let characterCopy = Object.assign({}, character);
-    characterCopy.name = name;
-    setCharacter(characterCopy);
+    character.name = name;
   }
 
   const setCharacterAlignment = (alignment) => {
-    let characterCopy = Object.assign({}, character);
-    characterCopy.alignment = alignment;
-    setCharacter(characterCopy);
+    character.alignment = alignment;
   }
 
   const setCharacterRacePanel = (race, speed) => {
-    let characterCopy = Object.assign({}, character);
-    characterCopy.race = race;
-    characterCopy.speed = speed;
-    setCharacter(characterCopy);
+    character.race = race;
+    character.speed = speed;
   }
 
   const setCharacterBackground = (background, skillProficiencies, equipment) => {
-    let characterCopy = Object.assign({}, character);
-    characterCopy.background = background;
-    characterCopy.skillProficiencies = skillProficiencies;
-    characterCopy.equipment = equipment;
-    setCharacter(characterCopy);
+    character.background = background;
+    character.skillProficiencies = skillProficiencies;
+    character.equipment = equipment;
   }
 
   const setCharacterAbilityScores = (abilityScores) => {
-    let characterCopy = Object.assign({}, character);
-    characterCopy.abilityScores = abilityScores;
-    setCharacter(characterCopy);
+    character.abilityScores = abilityScores;
   }
 
   const setCharacterClass = (hitDice, className, savingThrows) => {
-    let characterCopy = Object.assign({}, character);
     const constModifier = Math.floor((Number(character.abilityScores[2]) - 10)/2);
-    characterCopy.hp = hitDice + constModifier;
-    characterCopy.characterClass = className;
-    characterCopy.savingThrows = savingThrows;
-    setCharacter(characterCopy);
+    character.hp = hitDice + constModifier;
+    character.characterClass = className;
+    character.savingThrows = savingThrows;
   }
 
-  const createCharacter = () => {
+  const getScoresWithoutRaceBackgroundModifiers = () => {
+    const array = [];
+    character.abilityScores.map((score, index) => {
+      array.push(score - raceBackgroundModifiers[index]);
+    });
+    return array;
+  }
+
+  const updateCharacter = () => {
     character.userId = JSON.parse(localStorage.getItem('user')).id;
     character.username = JSON.parse(localStorage.getItem('user')).username;
-    axios.post(`${API_URL}/character/`, character, {'Content-Type': 'application/json'})
+    axios.put(`${API_URL}/character/edit/${characterId}`, character)
     .then((response) => {
       console.log(response);
-      console.log('Character created successfully!');
+      console.log('Character updated successfully!');
       history.push('/profile');
     }).catch((err) => console.log(err.message));
   } 
 
   return (
     <div className="character-creator">
+      {!isLoading &&
+      <div>
       <AppBar className="character-creator-appbar" position="static" color="default">
         <Tabs
           className="character-creator-tabs"
           value={tabValue}
-          onChange={(event, newTabValue) => setTabValue(newTabValue)}
+          onChange={handleTabChange}
           centered
         >
           <Tab className="character-creator-tab" label="Race" />
@@ -139,6 +145,7 @@ const CharacterCreator = ({setCurrentPage, editingCharacter}) => {
               <input  
                 required
                 maxLength="25"
+                defaultValue={character.name}
                 onChange={(e) => setCharacterName(e.target.value)}
               />
               {showNameisEmpty && <p className="required-message">This field is required</p>}
@@ -146,7 +153,7 @@ const CharacterCreator = ({setCurrentPage, editingCharacter}) => {
             <div className="field">
               <Typography>Alignment: </Typography>
               <select
-                value={character.alignment}
+                defaultValue={character.alignment}
                 onChange={(e) => setCharacterAlignment(e.target.value)}
               >
                 <option>Lawful Good</option>
@@ -177,28 +184,32 @@ const CharacterCreator = ({setCurrentPage, editingCharacter}) => {
         <RacePanel
           setCharacterRacePanel={setCharacterRacePanel}
           setRaceBackgroundModifiers={setRaceBackgroundModifiers}
+          editingCharacterRace={character.race}
         />
       </TabPanel>
       <TabPanel value={tabValue} index={1}>
         <BackgroundPanel
           setCharacterBackground={setCharacterBackground}
+          editingCharacterBackground={character.background}
         />
       </TabPanel>
       <TabPanel value={tabValue} index={2}>
         <AbilityScoresPanel
           raceBackgroundScores={raceBackgroundModifiers}
           setCharacterAbilityScores={setCharacterAbilityScores}
+          editingCharacterScores={getScoresWithoutRaceBackgroundModifiers(character.abilityScores)}
         />
       </TabPanel>
       <TabPanel value={tabValue} index={3}>
         <ClassPanel 
           setCharacterClass={setCharacterClass}
-          handleCharacter={createCharacter}
-          editingCharacterClass={0}
+          handleCharacter={updateCharacter}
+          editingCharacterClass={character.characterClass}
         />
       </TabPanel>
+      </div>}
     </div>    
   );
 };
 
-export default CharacterCreator;
+export default CharacterEditor;

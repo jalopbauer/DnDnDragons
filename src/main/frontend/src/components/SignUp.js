@@ -6,11 +6,12 @@ import { isEmail } from "validator";
 import { useHistory } from 'react-router-dom';
 
 import AuthService from "./services/authService";
+import { Typography } from "@material-ui/core";
 
 const required = (value) => {
   if (!value) {
     return (
-      <div className="alert alert-danger" role="alert">
+      <div className="alert-danger" role="alert">
         This field is required!
       </div>
     );
@@ -20,7 +21,7 @@ const required = (value) => {
 const validEmail = (value) => {
   if (!isEmail(value)) {
     return (
-      <div className="alert alert-danger" role="alert">
+      <div className="alert-danger" role="alert">
         This is not a valid email.
       </div>
     );
@@ -30,7 +31,7 @@ const validEmail = (value) => {
 const vusername = (value) => {
   if (value.length < 3 || value.length > 20) {
     return (
-      <div className="alert alert-danger" role="alert">
+      <div className="alert-danger" role="alert">
         The username must be between 3 and 20 characters.
       </div>
     );
@@ -40,7 +41,7 @@ const vusername = (value) => {
 const vpassword = (value) => {
   if (value.length < 6 || value.length > 40) {
     return (
-      <div className="alert alert-danger" role="alert">
+      <div className="alert-danger" role="alert">
         The password must be between 6 and 40 characters.
       </div>
     );
@@ -116,14 +117,14 @@ const SignIn = ({setCurrentPage}) => {
 
   return (
     <div className="col-md-12">
-      <div className="card card-container">
-        <h1>Sign Up</h1>
+      <div className="auth-container">
+      <Typography className="welcome" variant="h3">Welcome</Typography>
 
         <Form onSubmit={handleRegister} ref={form}>
           {!successful && (
             <div>
               <div className="form-group">
-                <label htmlFor="username">Username</label>
+                <label htmlFor="username"><Typography variant="h6">Username</Typography></label>
                 <Input
                   type="text"
                   className="form-control"
@@ -135,7 +136,7 @@ const SignIn = ({setCurrentPage}) => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email"><Typography variant="h6">Email</Typography></label>
                 <Input
                   type="text"
                   className="form-control"
@@ -147,7 +148,7 @@ const SignIn = ({setCurrentPage}) => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password"><Typography variant="h6">Password</Typography></label>
                 <Input
                   type="password"
                   className="form-control"
@@ -159,7 +160,7 @@ const SignIn = ({setCurrentPage}) => {
               </div>
 
               <div className="form-group">
-                <button className="btn btn-primary btn-block">Sign Up</button>
+                <button className="btn">Sign Up</button>
               </div>
             </div>
           )}
@@ -170,7 +171,7 @@ const SignIn = ({setCurrentPage}) => {
                 className={ successful ? "alert alert-success" : "alert alert-danger" }
                 role="alert"
               >
-                {message}
+                <Typography>{message}</Typography>
               </div>
             </div>
           )}

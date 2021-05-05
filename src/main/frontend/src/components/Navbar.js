@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useState} from 'react';
-import {Box, Icon, IconButton, Menu, MenuItem, Typography} from '@material-ui/core';
+import {IconButton, Menu, MenuItem, Typography} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import { v4 as uuidv4 } from 'uuid';
 
 const optionsLogged = [
   {path: "/", text: "Home"},
@@ -52,7 +53,7 @@ const Navbar = ({currentPage, currentUser, handleLogout}) => {
           }}
         >
           { currentUser && optionsLogged.map((option) => (
-            <MenuItem key={option.text} onClick={handleClose}>
+            <MenuItem key={uuidv4()} onClick={handleClose}>
               <Link to={option.path} style={{ textDecoration: 'none' }}>
                 {option.text}
               </Link>
@@ -65,7 +66,7 @@ const Navbar = ({currentPage, currentUser, handleLogout}) => {
               Log Out
             </a></MenuItem>}
           { !currentUser && optionsNotLogged.map((option) => (
-            <MenuItem key={option.text} onClick={handleClose}>
+            <MenuItem key={uuidv4()} onClick={handleClose}>
               <Link to={option.path} style={{ textDecoration: 'none' }}>{option.text}</Link>
             </MenuItem>
           ))}

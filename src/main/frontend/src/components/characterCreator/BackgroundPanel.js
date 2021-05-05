@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useGet from '../services/useGet';
 import authHeader from '../services/authHeader';
-import { Box, List, Paper, Grid, Divider, Typography } from '@material-ui/core';
+import { Box, List, Paper, Grid, Typography } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import helperFunctions from './HelperFunctions';
@@ -9,11 +9,17 @@ import { v4 as uuidv4 } from 'uuid';
 
 const API_URL = "http://localhost:8080/api";
 
-const BackgroundPanel = ({setCharacterBackground}) => {
+const BackgroundPanel = ({setCharacterBackground, editingCharacterBackground}) => {
   const {data: backgrounds, isLoading, error} = useGet(`${API_URL}/character/creator/background`, { headers: authHeader() });
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(editingCharacterBackground ? helperFunctions.getBackgroundIndex(editingCharacterBackground) : 0);
 
-  const handleListItemClick = (event, index) => {
+  useEffect(() => {
+    if(backgrounds && selectedIndex) {
+      handleListItemClick(selectedIndex);
+    }
+  }, [backgrounds]);
+
+  const handleListItemClick = (index) => {
     const items = backgrounds[index].entries[0].items;
     const skillProficiencies = items[0].entry.split(", ");
     const equipment = items[items.length-1].entry.split(",")
@@ -37,7 +43,7 @@ const BackgroundPanel = ({setCharacterBackground}) => {
             <ListItem
               button
               selected={selectedIndex === index}
-              onClick={(event) => handleListItemClick(event, index)}
+              onClick={(event) => handleListItemClick(index)}
               key={uuidv4()}
             >
               <ListItemText 

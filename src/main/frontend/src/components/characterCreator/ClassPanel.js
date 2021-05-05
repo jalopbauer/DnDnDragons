@@ -11,33 +11,42 @@ const API_URL = "http://localhost:8080/api";
 
 const proficiencyBonus = [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6];
 
-const ClassPanel = ({setCharacterClass, createCharacter}) => {
+const ClassPanel = ({setCharacterClass, handleCharacter, editingCharacterClass}) => {
   const {data: classes, isLoading, error} = useGet(`${API_URL}/character/creator/class`, { headers: authHeader() });
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(editingCharacterClass ? helperFunctions.getClassIndex(editingCharacterClass) : 0);
+
+  useEffect(() => {
+    if(classes && selectedIndex) {
+      handleListItemClick(selectedIndex);
+    }
+  }, []);
 
   const handleListItemClick = (event, index) => {
+    console.log(selectedIndex);
     const hitDice = classes[selectedIndex].characterClass[0].hd.faces;
-    setCharacterClass(hitDice);
+    const className = classes[selectedIndex].characterClass[0].name;
+    const savingThrows = helperFunctions.transcribeProficiencies(classes[selectedIndex].characterClass[0].proficiency).split(", ");
+    setCharacterClass(hitDice, className, savingThrows);
     setSelectedIndex(index);
   };
 
   const classList = () => {
     return (
-      <Paper>
+      <Paper key={uuidv4()}>
         <List className="character-creator-list">
           {classes.map((characterClass, index) => (
             characterClass.characterClass[0].source === 'PHB' &&
             <ListItem
+              key={uuidv4()}
               button
               selected={selectedIndex === index}
               onClick={(event) => handleListItemClick(event, index)}
-              key={uuidv4()}
             >
               <ListItemText 
                 key={uuidv4()} 
                 className="character-creator-list-text"
                 disableTypography
-                primary={<Typography><b>{characterClass.characterClass[0].name}</b></Typography>} 
+                primary={<Typography key={uuidv4()}><b>{characterClass.characterClass[0].name}</b></Typography>} 
               />
             </ListItem>
           ))}
@@ -49,9 +58,10 @@ const ClassPanel = ({setCharacterClass, createCharacter}) => {
   const tableCell = (content) => {
     return (
       <TableCell 
+        key={uuidv4()}
         align='center' 
         size='small'
-        key={uuidv4()}
+        style={{padding: "2px 2px 2px 2px"}}
       >
         <Typography>{content}</Typography>
       </TableCell>
@@ -62,15 +72,15 @@ const ClassPanel = ({setCharacterClass, createCharacter}) => {
     <div className="class-panel">
       { error && <Typography>{ error }</Typography>}
       { isLoading && <Typography>Loading...</Typography>}
-      { !isLoading && 
+      { !isLoading && classes[selectedIndex] &&
       // {classes && 
       <div>
       <Grid container spacing={3}>
         <Grid item xs={2}>
           {classList()}
           <Box align='center' py={2}>
-            <Button onClick={createCharacter}>
-              <Typography variant="h6">Create character</Typography>
+            <Button onClick={() => {handleListItemClick(selectedIndex); handleCharacter()}}>
+              <Typography className="create-button" variant="h6">{editingCharacterClass ? 'Update' : 'Create'} character</Typography>
             </Button>
           </Box>
         </Grid>
@@ -80,6 +90,9 @@ const ClassPanel = ({setCharacterClass, createCharacter}) => {
               variant="h2" 
               className="character-creator-yellow-name"
             >
+              {console.log("index: " + selectedIndex)}
+              {console.log("classes: " + classes)}
+              {console.log("classes[index]: " + classes[selectedIndex])}
               {classes[selectedIndex].characterClass[0].name}
             </Typography>
             <Typography
@@ -90,20 +103,21 @@ const ClassPanel = ({setCharacterClass, createCharacter}) => {
             </Typography>
           </div>
           <Box className="character-creator-yellow-divider" my={1}/>
-          <Table>
+          <Box id="class-table-box" style={{overflow: "auto", width: "100%"}}>
+          <Table >
             <TableHead>
               {classes[selectedIndex].characterClass[0].classTableGroups && classes[selectedIndex].characterClass[0].classTableGroups.map((classTableGroup) => 
                 classTableGroup.title === 'Spell Slots per Spell Level' &&
                 <TableRow key={uuidv4()}>
-                  <TableCell align='center' size='small' colSpan='3'></TableCell>
+                  <TableCell align='center' size='small' colSpan='3' style={{padding: "2px 2px 2px 2px"}}/>
                   {classes[selectedIndex].characterClass[0].classTableGroups && classes[selectedIndex].characterClass[0].classTableGroups.map((classTableGroup) => 
                     classTableGroup.title === 'Spell Slots per Spell Level' ?
-                    <TableCell align='center' size='small' colSpan={classTableGroup.colLabels.length}>
+                    <TableCell key={uuidv4()} align='center' size='small' colSpan={classTableGroup.colLabels.length} style={{padding: "2px 2px 2px 2px"}}>
                       <Typography>
                       {classTableGroup.title}
                       </Typography>
                     </TableCell> :
-                    <TableCell align='center' size='small' colSpan={classTableGroup.colLabels.length}/>
+                    <TableCell key={uuidv4()} align='center' size='small' colSpan={classTableGroup.colLabels.length} style={{padding: "2px 2px 2px 2px"}}/>
                   )}
                 </TableRow>
               )}
@@ -124,10 +138,10 @@ const ClassPanel = ({setCharacterClass, createCharacter}) => {
                 <TableRow key={uuidv4()}>
                   {tableCell(index+1)}
                   {tableCell(`+${bonus}`)}
-                  <TableCell align='center' size='small'>
+                  <TableCell align='center' size='small' style={{padding: "2px 2px 2px 2px"}}>
                     {classes[selectedIndex].classFeature.map((feature) => (
                       (feature.level === index+1) && (feature.source === 'PHB') &&
-                      <Typography>{feature.name}</Typography>
+                      <Typography key={uuidv4()}>{feature.name}</Typography>
                     ))}
                   </TableCell>
                   {classes[selectedIndex].characterClass[0].classTableGroups &&
@@ -138,6 +152,7 @@ const ClassPanel = ({setCharacterClass, createCharacter}) => {
               ))}
             </TableBody>
           </Table>
+          </Box>
         </Grid>
         <Grid item xs={12}>
           <Divider/>
@@ -216,8 +231,8 @@ const ClassPanel = ({setCharacterClass, createCharacter}) => {
         </Grid>
       </Grid>
       <Box align='center' py={2}>
-        <Button onClick={createCharacter}>
-          <Typography variant="h4">Create character</Typography>
+        <Button className="create-button" onClick={() => {handleListItemClick(selectedIndex); handleCharacter()}}>
+          <Typography variant="h4">{editingCharacterClass ? 'Update' : 'Create'} character</Typography>
         </Button>
       </Box>
       </div>

@@ -1,17 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useGet from '../services/useGet';
 import authHeader from '../services/authHeader';
-import { Box, List, ListItem, ListItemText, Paper, Grid, Divider, Typography } from '@material-ui/core';
+import { Box, List, ListItem, ListItemText, Paper, Grid, Typography } from '@material-ui/core';
 import helperFunctions from './HelperFunctions';
 import { v4 as uuidv4 } from 'uuid';
 
 const API_URL = "http://localhost:8080/api";
 
-const RacePanel = ({setCharacterRacePanel, setRaceBackgroundModifiers}) => {
+const RacePanel = ({setCharacterRacePanel, setRaceBackgroundModifiers, editingCharacterRace}) => {
   const {data: races, isLoading, error} = useGet(`${API_URL}/character/creator/race`, { headers: authHeader() });
-  const [selectedIndex, setSelectedIndex] = useState(17);
+  const [selectedIndex, setSelectedIndex] = useState(editingCharacterRace ? helperFunctions.getRaceIndex(editingCharacterRace) : 17);
 
-  const handleListItemClick = (event, index) => {
+  useEffect(() => {
+    if(races && selectedIndex) {
+      handleListItemClick(selectedIndex);
+    }
+  }, [races]);
+
+  const handleListItemClick = (index) => {
     const abilityScores = [0, 0, 0, 0, 0, 0];
     Object.entries(races[index].ability[0]).map((entry) => {
       switch(entry[0]) {
@@ -47,16 +53,16 @@ const RacePanel = ({setCharacterRacePanel, setRaceBackgroundModifiers}) => {
           {races && races.map((race, index) => (
             race.source === 'PHB' &&
             <ListItem
+              key={uuidv4()}
               button
               selected={selectedIndex === index}
-              onClick={(event) => handleListItemClick(event, index)}
-              key={uuidv4()}
+              onClick={(event) => handleListItemClick(index)}
             >
               <ListItemText 
-                key={uuidv4()} 
+                key={uuidv4()}
                 className="character-creator-list-text"
                 disableTypography
-                primary={<Typography><b>{race.name}</b></Typography>} 
+                primary={<Typography key={uuidv4()}><b>{race.name}</b></Typography>} 
               />
             </ListItem>
           ))}
@@ -99,6 +105,7 @@ const RacePanel = ({setCharacterRacePanel, setRaceBackgroundModifiers}) => {
       { isLoading && <div>Loading...</div>}
       { !isLoading &&
       <Grid container spacing={3}>  
+        {}
         <Grid item xs={2}>
           {raceList()}
         </Grid>

@@ -23,8 +23,15 @@ const TabPanel = (props) => {
   );
 }
 
-const AbilityScoresPanel = ({setCharacterAbilityScores, raceBackgroundScores}) => {
-  const [scores, setScores] = useState({"str": 0, "dex": 0, "con": 0, "int": 0, "wis": 0, "cha": 0});
+const AbilityScoresPanel = ({setCharacterAbilityScores, raceBackgroundScores, editingCharacterScores}) => {
+  const [scores, setScores] = useState(editingCharacterScores ? 
+                                      {"str": editingCharacterScores[0], 
+                                       "dex": editingCharacterScores[1], 
+                                       "con": editingCharacterScores[2], 
+                                       "int": editingCharacterScores[3], 
+                                       "wis": editingCharacterScores[4], 
+                                       "cha": editingCharacterScores[5]} :
+                                      {"str": 0, "dex": 0, "con": 0, "int": 0, "wis": 0, "cha": 0});
   const [tabValue, setTabValue] = useState(0);
 
   const standardArray = [15, 14, 13, 12, 10, 8];

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,20 +47,24 @@ public class CharacterController {
   public void saveCharacter(@RequestBody Map<String, Object> payload) {
     characterService.save(new Character(
       payload.get("userId"), 
+      payload.get("username"), 
       payload.get("abilityScores"), 
       payload.get("alignment"), 
       payload.get("background"),
+      payload.get("characterClass"), 
       payload.get("equipment"),
       payload.get("hp"),
       payload.get("name"),
       payload.get("race"),
       payload.get("skillProficiencies"),
-      payload.get("speed")
+      payload.get("speed"),
+      payload.get("savingThrows")
     ));
   }
 
   @GetMapping("/{id}")
   public Optional<Character> getCharacterById(@PathVariable String id) {
+    // System.out.println(characterService.findById(id).get());
     return characterService.findById(id);
   }
 
@@ -69,9 +74,32 @@ public class CharacterController {
   }
 
   @DeleteMapping("/{id}")
-  public void deleteSession(@PathVariable String id) {
+  public void deleteCharacter(@PathVariable String id) {
     Optional<Character> optionalCharacter = characterService.findById(id);
     optionalCharacter.ifPresent(character -> characterService.delete(character));
+  }
+
+  @PutMapping("/edit/{id}")
+  public void updateCharacter(@PathVariable String id, @RequestBody Map<String, Object> payload) {
+    Optional<Character> optionalCharacter = characterService.findById(id);
+    optionalCharacter.ifPresent(character -> characterService.delete(character));
+    if(optionalCharacter.isPresent()) {
+      characterService.save(new Character(
+        payload.get("userId"), 
+        payload.get("username"), 
+        payload.get("abilityScores"), 
+        payload.get("alignment"), 
+        payload.get("background"),
+        payload.get("characterClass"), 
+        payload.get("equipment"),
+        payload.get("hp"),
+        payload.get("name"),
+        payload.get("race"),
+        payload.get("skillProficiencies"),
+        payload.get("speed"),
+        payload.get("savingThrows")
+      ));
+    }
   }
 
   @GetMapping("/creator/race")

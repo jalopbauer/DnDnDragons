@@ -1,5 +1,7 @@
 package com.myproject.lab1.session;
 
+import java.util.ArrayList;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
@@ -14,19 +16,26 @@ public class Session {
   private String id;
 
   private String name;
-  private String userId;
+  private String inviteId;
+  private String creatorId; // id del creador de la session
+  private ArrayList<Object> playersData;
 
   public Session() {}
 
-  public Session(String name, String userId) {
+  public Session(String name, String inviteId, String creatorId, ArrayList<Object> playersData) {
     this.name = name;
-    this.userId = userId;
+    this.inviteId = inviteId;
+    this.creatorId = creatorId;
+    this.playersData = playersData;  
   }
 
-  public Session(String id, String name, String userId) {
+
+  public Session(String id, String name, String inviteId, String creatorId, ArrayList<Object> playersData) {
     this.id = id;
     this.name = name;
-    this.userId = userId;
+    this.inviteId = inviteId;
+    this.creatorId = creatorId;
+    this.playersData = playersData;
   }
 
   public String getId() {
@@ -45,12 +54,28 @@ public class Session {
     this.name = name;
   }
 
-  public String getUserId() {
-    return this.userId;
+  public String getInviteId() {
+    return this.inviteId;
   }
 
-  public void setUserId(String userId) {
-    this.userId = userId;
+  public void setInviteId(String inviteId) {
+    this.inviteId = inviteId;
+  }
+
+  public String getCreatorId() {
+    return this.creatorId;
+  }
+
+  public void setCreatorId(String creatorId) {
+    this.creatorId = creatorId;
+  }
+
+  public ArrayList<Object> getPlayersData() {
+    return this.playersData;
+  }
+
+  public void setPlayersData(ArrayList<Object> playersData) {
+    this.playersData = playersData;
   }
 
 }

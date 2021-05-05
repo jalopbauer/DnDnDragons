@@ -1,5 +1,4 @@
-import { Box, Divider, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
-import { useRef } from "react";
+import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
 import { v4 as uuidv4 } from 'uuid';
 
 const showSelectedRaceSpeed = (selectedRace) => {
@@ -19,7 +18,7 @@ const showSelectedRaceAbilityModifiers = (selectedRace) => {
     }  
   }
   return (
-    <Typography align="justify"> 
+    <Typography key={uuidv4()} align="justify"> 
       <b>Ability Scores: </b>{str.slice(0, -2)}
     </Typography>
   );
@@ -54,8 +53,8 @@ const handleElements = (elements, classFeatures=null) => {
         break;
       case "refOptionalfeature":
         if(element.optionalfeature.indexOf('|') == -1) {
-          array.push(<Typography className="character-creator-yellow-name" variant="h5">{element.optionalfeature}</Typography>);
-          array.push(<Typography align="justify">{element.entry}</Typography>)
+          array.push(<Typography key={uuidv4()} className="character-creator-yellow-name" variant="h5">{element.optionalfeature}</Typography>);
+          array.push(<Typography key={uuidv4()} align="justify">{element.entry}</Typography>)
         }
         break;
       case "abilityDc":
@@ -79,8 +78,8 @@ const handleList = (items, array) => {
       <Typography key={uuidv4()} align="justify">
         <b>{item.name}.</b> {item.entry}
       </Typography> :
-      <ul>
-        <Typography align="justify">
+      <ul key={uuidv4()}>
+        <Typography key={uuidv4()} align="justify">
           {item}
         </Typography>
       </ul>
@@ -96,7 +95,7 @@ const handleEntries = (entries, array) => {
 
 const handleTable = (element, array) => {
   array.push(
-    <Box>
+    <Box key={uuidv4()}>
       {element.caption && <Typography><b>{element.caption}</b></Typography>}
       <Table>
         {element.colLabels.length == 2 &&
@@ -132,7 +131,7 @@ const handleRefClassFeature = (featureString, array, classFeatures) => {
   const featureLevel = featureString.substring(featureString.lastIndexOf('||')+2);
   classFeatures.map((classFeature) => {
     if(classFeature.name == featureName && classFeature.level == featureLevel) {
-      array.push(<Typography className="character-creator-yellow-name" variant="h5">{classFeature.name}</Typography>);
+      array.push(<Typography key={uuidv4()} className="character-creator-yellow-name" variant="h5">{classFeature.name}</Typography>);
       handleEntries(classFeature.entries, array);
     }
   });
@@ -179,8 +178,8 @@ const filterClassTableGroupsRows = (row) => {
       switch(element.type) {
         case 'dice':
           array.push(
-            <TableCell align='center' size='small'>
-              <Typography>
+            <TableCell key={uuidv4()} align='center' size='small' style={{padding: "1px 2px 1px 2px"}}>
+              <Typography style={{padding: "1px 2px 1px 2px"}}>
                 {element.toRoll[0].number + 'd' + element.toRoll[0].faces}
               </Typography>
             </TableCell>
@@ -188,8 +187,8 @@ const filterClassTableGroupsRows = (row) => {
           break;
         case 'bonus':
           array.push(
-            <TableCell align='center' size='small'>
-              <Typography>
+            <TableCell key={uuidv4()} align='center' size='small' style={{padding: "1px 2px 1px 2px"}}>
+              <Typography style={{padding: "1px 2px 1px 2px"}}>
                 {'+' + element.value}
               </Typography>
             </TableCell>
@@ -197,8 +196,8 @@ const filterClassTableGroupsRows = (row) => {
           break;
         case 'bonusSpeed':
           array.push(
-            <TableCell align='center' size='small'>
-              <Typography>
+            <TableCell key={uuidv4()} align='center' size='small' style={{padding: "1px 2px 1px 2px"}}>
+              <Typography style={{padding: "1px 2px 1px 2px"}}>
                 {element.value > 0 ? '+' + element.value + ' ft.' : element.value}
               </Typography>
             </TableCell>
@@ -207,8 +206,8 @@ const filterClassTableGroupsRows = (row) => {
       }
     } else {
       array.push(
-        <TableCell align='center' size='small'>
-          <Typography>
+        <TableCell key={uuidv4()} align='center' size='small' style={{padding: "1px 2px 1px 2px"}}>
+          <Typography style={{padding: "1px 2px 1px 2px"}}>
             {removeFilterString(element.toString())}
           </Typography>
         </TableCell>
@@ -291,28 +290,28 @@ const getSkills = (skills) => {
 const getStartingEquipment = (startingEquipment) => {
   const array = [];
   array.push(
-    <Typography>
+    <Typography key={uuidv4()}>
       You start with the following items, plus anything provided by your background.
     </Typography>)
   startingEquipment.default.map((equipment) => {
-    array.push(<ul><Typography>{equipment}</Typography></ul>);
+    array.push(<ul key={uuidv4()}><Typography>{equipment}</Typography></ul>);
   })
   array.push(
-    <Typography>
+    <Typography key={uuidv4()}>
       Alternatively, you may start with {startingEquipment.goldAlternative} gp to buy your own equipment.
     </Typography>
   )
   return array;
 }
 
-const getFeatureTitle = (classFeature, type, header=false) => {
+const getFeatureTitle = (classFeature, type, header=false, subclassShortName) => {
   return ( 
-    <div>
+    <div key={uuidv4()}>
       <Typography 
         className={type == "class" ? "character-creator-yellow-name" : "character-creator-blue-name"}
         variant="h5"
       >
-        {classFeature.name}
+        {type == "class" ? classFeature.name : <div className="subclass-title"><div>{classFeature.name}</div><div>{subclassShortName}</div></div>}
       </Typography>
       {/* {type == "class" && <Divider/>} */}
       {!header && <Box className={type == "class" ? "character-creator-yellow-divider" : "character-creator-blue-divider"} my={1}/>}
@@ -386,7 +385,7 @@ const getClassFeatures = (selectedClass) => {
               PHBSubclassFeaturesDetails.map((subclassFeatureDetails) => {
                 if((subclassFeatureDetails.subclassShortName == subclassFeature.subclassShortName) && 
                     (subclassFeatureDetails.level == subclassFeature.level)) {
-                    array.push(getFeatureTitle(subclassFeatureDetails, "subclass", subclassFeatureDetails.header));
+                    array.push(getFeatureTitle(subclassFeatureDetails, "subclass", subclassFeatureDetails.header, subclassFeature.subclassShortName));
                     array.push(handleElements(subclassFeatureDetails.entries, PHBSubclassFeaturesDetails));
                 }
               })
@@ -400,6 +399,58 @@ const getClassFeatures = (selectedClass) => {
   return array;
 }
 
+const getRaceIndex = (race) => {
+  const racesWithIndex = {
+    "Dragonborn": 17,
+    "Dwarf": 18,
+    "Elf": 20,
+    "Gnome": 28,
+    "Half-Elf": 37,
+    "Half-Orc": 38,
+    "Halfling": 40,
+    "Human": 44,
+    "Tiefling": 86,
+  }
+  return racesWithIndex[race];
+};
+
+const getBackgroundIndex = (background) => {
+  const backgroundsWithIndex = {
+    "Acolyte": 0,
+    "Charlatan": 23,
+    "Criminal": 30,
+    "Entertainer": 35,
+    "Folk Hero": 41,
+    "Guild Artisan": 47,
+    "Hermit": 50,
+    "Noble": 65,
+    "Outlander": 67,
+    "Sage": 74,
+    "Sailor": 75,
+    "Soldier": 82,
+    "Urchin": 87,
+  }
+  return backgroundsWithIndex[background];
+};
+
+const getClassIndex = (characterClass) => {
+  const classesWithIndex = {
+    "Barbarian": 0,
+    "Bard": 1,
+    "Cleric": 2,
+    "Druid": 3,
+    "Fighter": 4,
+    "Monk": 5,
+    "Paladin": 6,
+    "Ranger": 7,
+    "Rogue": 8,
+    "Sorcerer": 9,
+    "Warlock": 10,
+    "Wizard": 11,
+  }
+  return classesWithIndex[characterClass] ? classesWithIndex[characterClass] : 0;
+};
+
 const helperFunctions = {
   showSelectedRaceSpeed,
   showSelectedRaceAbilityModifiers,
@@ -412,7 +463,10 @@ const helperFunctions = {
   transcribeProficiencies,
   getSkills,
   getStartingEquipment,
-  getClassFeatures
+  getClassFeatures,
+  getRaceIndex,
+  getBackgroundIndex,
+  getClassIndex
 }
 
 export default helperFunctions;

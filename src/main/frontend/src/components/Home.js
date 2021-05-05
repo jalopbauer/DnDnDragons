@@ -1,6 +1,6 @@
-import CharacterFeed from './CharacterFeed';
+// import CharacterFeed from './CharacterFeed';
 import useGet from './services/useGet';
-import { Button, Grid, Paper } from "@material-ui/core";
+import { Grid, Paper, Typography } from "@material-ui/core";
 import { useEffect } from "react";
 
 const API_URL = "http://localhost:8080/api";
@@ -17,12 +17,13 @@ const Home = ({setCurrentPage}) => {
           <Paper>
             {error && <div>{ error }</div>}
             {isLoading && <div>Loading...</div>}
+            {!isLoading && <Typography variant="h1">{"<Character Feed>"}</Typography>}
             {/* {feed && <CharacterFeed chars={feed} title="Character feed"/>} */}
           </Paper>
         </Grid>
         <Grid item md={3} className='home-grid-item'>
           <Paper>
-            Search box
+            <Typography variant="h2">{"<Search box>"}</Typography>
           </Paper>
         </Grid>
       </Grid>
