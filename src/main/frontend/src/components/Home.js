@@ -1,4 +1,4 @@
-// import CharacterFeed from './CharacterFeed';
+import CharacterFeed from './CharacterFeed';
 import useGet from './services/useGet';
 import { Grid, Paper, Typography } from "@material-ui/core";
 import { useEffect } from "react";
@@ -13,19 +13,18 @@ const Home = ({setCurrentPage}) => {
   return (
     <div className="home">
       <Grid container spacing={3}>
-        <Grid item md={9} className='home-grid-item'>
-          <Paper>
-            {error && <div>{ error }</div>}
-            {isLoading && <div>Loading...</div>}
-            {!isLoading && <Typography variant="h1">{"<Character Feed>"}</Typography>}
-            {/* {feed && <CharacterFeed chars={feed} title="Character feed"/>} */}
-          </Paper>
+        <Grid item xs = {12} md= {9} className='home-grid-item'>
+          {error && <div>{ error }</div>}
+          {isLoading && <div>Loading...</div>}
+          {feed && <CharacterFeed chars={feed} title="Character feed"/>}
         </Grid>
-        <Grid item md={3} className='home-grid-item'>
-          <Paper>
-            <Typography variant="h2">{"<Search box>"}</Typography>
-          </Paper>
+        <Grid item xs = {0} md= {3} className='home-grid-item'>
+            <Paper>
+              Search Bar
+            </Paper>
         </Grid>
+
+        
       </Grid>
     </div>
   );
