@@ -81,7 +81,7 @@ const Profile = ({setCurrentPage}) => {
           style={{maxHeight: "100vh", overflowY: "auto"}}
         >
           <Paper style={{backgroundColor: "#1c1c1c", width: "80%", margin: "auto"}}>
-            <CharacterDetails characterId={character.id}/>
+            <CharacterDetails characterId={character.id} disableInteraction={true}/>
           </Paper>
         </Modal>
         <IconButton

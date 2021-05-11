@@ -83,7 +83,7 @@ const JoinSession = ({userCharactersData}) => {
           <IconButton
             onClick={() => joinSession(character.id)}
           >
-            <CheckIcon/>
+            <CheckIcon fontSize="small" style={{fill: "#f1356d"}}/>
           </IconButton>
         {/* </Link> */}
       </Typography>
@@ -143,7 +143,7 @@ const JoinSession = ({userCharactersData}) => {
         <IconButton
           onClick={() => setOpenModal(true)}
         >
-          <InputIcon />
+          <InputIcon fontSize="large" style={{fill: "#f1356d"}}/>
         </IconButton>
         {getJoinSessionModal()}
       </Box>

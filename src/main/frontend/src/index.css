@@ -65,10 +65,27 @@ html, body, .full-height {
   text-decoration: none;
 }
 
-/* character details page */
-.Profile .MuiPaper-root {
+/* user characters */
+.UserCharacters > .MuiPaper-root  {
   background-color: #333;
   color: #333;
+  margin: 10px 5px;
+  padding: 5px 5px;
+  border: 1px solid #d0d0d0;
+}
+
+.UserCharacters > .MuiPaper-root > .MuiBox-root {
+  display: flex; 
+  justify-content: space-between;
+}
+
+/* character details page */
+.CharacterDetails .MuiPaper-root {
+  background-color: #333;
+  color: #333;
+}
+.CharacterDetails .MuiButtonBase-root {
+  color: #d0d0d0;
 }
 .CharacterDetails {
   width: 75%;
@@ -379,6 +396,9 @@ html, body, .full-height {
 .Session .MuiPaper-root  {
   background-color: #333;
   color: #333;
+}
+.MuiInputBase-input .MuiOutlinedInput-input .MuiInputBase-inputMarginDense .MuiOutlinedInput-inputMarginDense {
+  color: #d0d0d0;
 }
 
 

@@ -1,5 +1,5 @@
 import BoardSquare from "./BoardSquare";
-import CharacterIcon from "./CharacterIcon";
+import CharacterIcon from "../CharacterIcon";
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 

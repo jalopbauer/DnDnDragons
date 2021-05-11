@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const UserCharacters = ({characters, isLoading, error, icons}) => {
   return (
-    <div>
+    <div className="UserCharacters">
       {isLoading &&
         <Paper>
           <Box align="center">
@@ -22,13 +22,13 @@ const UserCharacters = ({characters, isLoading, error, icons}) => {
         </Paper>
       ))}
       {!isLoading && characters.length == 0 &&
-        <Paper>
+        // <Paper>
           <Box my={2} align="center">
             <Typography variant="h5">
               You currently have no characters
             </Typography>
           </Box>
-        </Paper>
+        // </Paper>
       }
     </div>
   );

@@ -8,7 +8,7 @@ import Navbar from './components/Navbar';
 import Profile from './components/profile/Profile';
 import SignUp from './components/SignUp';
 import AuthService from './components/services/authService';
-import Session from './components/Session';
+import Session from './components/session/Session';
 import CharacterEditor from './components/characterCreator/CharacterEditor';
 
 const App = () => {
