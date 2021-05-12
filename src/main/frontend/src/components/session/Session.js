@@ -125,6 +125,11 @@ const Session = ({setCurrentPage}) => {
     if(userIsDM) {
       return(
         <div>
+          {/* <Button
+            onClick={() => console.log("refresh")}
+          >
+            <Typography>Refresh</Typography>
+          </Button> */}
           <AppBar className="character-sheets-appbar" position="static" color="default">
             <Tabs
               className="character-sheets-tabs"
@@ -144,6 +149,7 @@ const Session = ({setCurrentPage}) => {
                 disableInteraction={false}
                 roll={roll}
                 sendMessage={sendMessage}
+                playerName={playerData.username}
               />
             </TabPanel>
           ))}
@@ -158,6 +164,7 @@ const Session = ({setCurrentPage}) => {
               disableInteraction={false}
               roll={roll}
               sendMessage={sendMessage}
+              playerName={false}
             />
           );
       })
@@ -207,7 +214,7 @@ const Session = ({setCurrentPage}) => {
         </Grid>
       </TabPanel>
       <TabPanel value={tabValue} index={1}>
-        characterSheetTabContent()
+        {characterSheetTabContent()}
       </TabPanel>
     </div>
   );

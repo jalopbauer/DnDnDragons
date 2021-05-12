@@ -30,7 +30,7 @@ const savingThrows = [{"name": "Strength", "ability": 0},
                       {"name": "Wisdom", "ability": 4}, 
                       {"name": "Charisma", "ability": 5}];
 
-const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage}) => {
+const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, playerName}) => {
   const { data: character, isLoading, error } = useGet(`${API_URL}/${characterId}`, { headers: authHeader() });
 
   const getNames = () => {
@@ -67,7 +67,7 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage}) 
               <Button
                 disabled={disableInteraction}
                 style={{color: "#d0d0d0"}}
-                onClick={() => sendMessage(`rolls a ${roll(20)} in ${names[index]}`, "log")}
+                onClick={() => sendMessage(`${playerName ? `(as ${playerName})` : ""} rolls ${roll(20)} in ${names[index]}`, "log")}
               >
                 <Typography className="name" variant="h6"><b>{names[index]}</b></Typography>
                 <Typography variant="h6">+{score}</Typography>
@@ -109,7 +109,7 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage}) 
             <Button
               disabled={disableInteraction}
               style={{color: "#d0d0d0"}}
-              onClick={() => sendMessage(`rolls a ${roll(20)} in ${skill.name}`, "log")}
+              onClick={() => sendMessage(`${playerName ? `(as ${playerName})` : ""} rolls a ${roll(20)} in ${skill.name}`, "log")}
               // disableElevation
               // disableFocusRipple
               // disableRipple
@@ -153,7 +153,7 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage}) 
             <Button
               disabled={disableInteraction}
               style={{color: "#d0d0d0"}}
-              onClick={() => sendMessage(`rolls a ${roll(20)} in a${index == 3 ? "n" : ""} ${savingThrow.name} saving throw`, "log")}
+              onClick={() => sendMessage(`${playerName ? `(as ${playerName})` : ""} rolls a ${roll(20)} in a${index == 3 ? "n" : ""} ${savingThrow.name} saving throw`, "log")}
             >
               <Grid container spacing={3}>
                 <Grid item xs={3}>
