@@ -122,7 +122,7 @@ const CharacterCreator = ({setCurrentPage, editingCharacter}) => {
         <Typography>Alignment: {character.alignment}</Typography>
         <Typography>Race: {character.race}</Typography>
         <Typography>Background: {character.background}</Typography>
-        <Typography>Ability Scores: {character.abilityScores.join(', ')}</Typography>
+        <Typography>Ability Scores: { character.abilityScores ? character.abilityScores.join(', ') : ''}</Typography>
         <Typography>Class: {character.characterClass}</Typography>
       </Box>
       <TabPanel value={tabValue} index={0} >
