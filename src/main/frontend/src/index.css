@@ -358,6 +358,14 @@ html, body, .full-height {
   display: flex; 
   justify-content: space-between;
 }
+.character-creator .MuiTabs-flexContainer {
+  display: flex;
+  justify-content: space-between;
+}
+.character-creator .MuiPaper-root {
+  background-color: #1c1c1c;
+  box-shadow: #1c1c1c;
+}
 /* .class-panel .MuiPaper-root .MuiTypography-root .MuiTypography-h5 {
   color: #d29a38;
 } */

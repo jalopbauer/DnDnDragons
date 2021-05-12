@@ -1,5 +1,5 @@
 import CharacterFeed from './CharacterFeed';
-import useGet from './services/useGet';
+import useGet from '../services/useGet';
 import { Grid, Paper, Typography } from "@material-ui/core";
 import { useEffect } from "react";
 
@@ -23,8 +23,6 @@ const Home = ({setCurrentPage}) => {
               Search Bar
             </Paper>
         </Grid>
-
-        
       </Grid>
     </div>
   );

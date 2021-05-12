@@ -1,7 +1,5 @@
 package com.myproject.lab1.log;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Message {
 
   // @JsonProperty("from")

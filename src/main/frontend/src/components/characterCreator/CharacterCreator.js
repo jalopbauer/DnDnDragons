@@ -1,16 +1,12 @@
 import { useState, useEffect } from 'react';
 
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import RacePanel from './RacePanel';
 import BackgroundPanel from './BackgroundPanel';
 import AbilityScoresPanel from './AbilityScoresPanel';
 import ClassPanel from './ClassPanel';
 import axios from "axios";
-import { Box, Button, Typography, Modal } from "@material-ui/core";
+import { Box, Button, Typography, Modal, Paper } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-
 
 const API_URL = "http://localhost:8080/api";
 
@@ -35,7 +31,7 @@ const TabPanel = (props) => {
 
 const CharacterCreator = ({setCurrentPage, editingCharacter}) => {
   const [showNameisEmpty, setShowNameIsEmpty] = useState(false);
-  const [character, setCharacter] = useState(editingCharacter ? editingCharacter : {"alignment": "True Neutral", "abilityScores": [0, 0, 0, 0, 0, 0]});
+  const [character, setCharacter] = useState(editingCharacter ? editingCharacter : {"alignment": "True Neutral"});
   const [tabValue, setTabValue] = useState(0);
   const [openPopup, setOpenPopup] = useState(true);
   const [raceBackgroundModifiers, setRaceBackgroundModifiers] = useState([0, 0, 0, 0, 0, 0]);
@@ -92,12 +88,14 @@ const CharacterCreator = ({setCurrentPage, editingCharacter}) => {
   }
 
   const setCharacterClass = (hitDice, className, savingThrows) => {
-    let characterCopy = Object.assign({}, character);
-    const constModifier = Math.floor((Number(character.abilityScores[2]) - 10)/2);
-    characterCopy.hp = hitDice + constModifier;
-    characterCopy.characterClass = className;
-    characterCopy.savingThrows = savingThrows;
-    setCharacter(characterCopy);
+    if(character.abilityScores) {
+      let characterCopy = Object.assign({}, character);
+      const constModifier = Math.floor((Number(character.abilityScores[2]) - 10)/2);
+      characterCopy.hp = hitDice + constModifier;
+      characterCopy.characterClass = className;
+      characterCopy.savingThrows = savingThrows;
+      setCharacter(characterCopy);
+    }
   }
 
   const createCharacter = () => {
@@ -113,20 +111,20 @@ const CharacterCreator = ({setCurrentPage, editingCharacter}) => {
 
   return (
     <div className="character-creator">
-      <AppBar className="character-creator-appbar" position="static" color="default">
-        <Tabs
-          className="character-creator-tabs"
-          value={tabValue}
-          onChange={(event, newTabValue) => setTabValue(newTabValue)}
-          centered
-        >
-          <Tab className="character-creator-tab" label="Race" />
-          <Tab className="character-creator-tab" label="Background" />
-          <Tab className="character-creator-tab" label="Ability Scores" />
-          <Tab className="character-creator-tab" label="Class" />
-        </Tabs>
-      </AppBar>
-
+      <Box
+        style={{
+          backgroundColor: "#333",
+          padding: "5px"
+        }}
+      >
+        <Typography>Selected options</Typography>
+        <Typography>Name: {character.name}</Typography>
+        <Typography>Alignment: {character.alignment}</Typography>
+        <Typography>Race: {character.race}</Typography>
+        <Typography>Background: {character.background}</Typography>
+        <Typography>Ability Scores: {character.abilityScores.join(', ')}</Typography>
+        <Typography>Class: {character.characterClass}</Typography>
+      </Box>
       <TabPanel value={tabValue} index={0} >
         <Modal
           open={openPopup}
@@ -177,17 +175,20 @@ const CharacterCreator = ({setCurrentPage, editingCharacter}) => {
         <RacePanel
           setCharacterRacePanel={setCharacterRacePanel}
           setRaceBackgroundModifiers={setRaceBackgroundModifiers}
+          setTabValue={setTabValue}
         />
       </TabPanel>
       <TabPanel value={tabValue} index={1}>
         <BackgroundPanel
           setCharacterBackground={setCharacterBackground}
+          setTabValue={setTabValue}
         />
       </TabPanel>
       <TabPanel value={tabValue} index={2}>
         <AbilityScoresPanel
           raceBackgroundScores={raceBackgroundModifiers}
           setCharacterAbilityScores={setCharacterAbilityScores}
+          setTabValue={setTabValue}
         />
       </TabPanel>
       <TabPanel value={tabValue} index={3}>
@@ -195,6 +196,7 @@ const CharacterCreator = ({setCurrentPage, editingCharacter}) => {
           setCharacterClass={setCharacterClass}
           handleCharacter={createCharacter}
           editingCharacterClass={0}
+          setTabValue={setTabValue}
         />
       </TabPanel>
     </div>    

@@ -1,28 +1,29 @@
 import { useState, useEffect } from 'react';
 import useGet from '../services/useGet';
 import authHeader from '../services/authHeader';
-import { Box, Divider, Table, TableBody, TableCell, TableHead, TableRow, List, Paper, Grid, Typography, Button } from '@material-ui/core';
+import { Box, Divider, Table, TableBody, TableCell, TableHead, TableRow, List, Paper, Grid, Typography, Button, AppBar, Tabs, Tab } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { v4 as uuidv4 } from 'uuid';
 import helperFunctions from './HelperFunctions';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 const API_URL = "http://localhost:8080/api";
 
 const proficiencyBonus = [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6];
 
-const ClassPanel = ({setCharacterClass, handleCharacter, editingCharacterClass}) => {
+const ClassPanel = ({setCharacterClass, handleCharacter, editingCharacterClass, setTabValue}) => {
   const {data: classes, isLoading, error} = useGet(`${API_URL}/character/creator/class`, { headers: authHeader() });
   const [selectedIndex, setSelectedIndex] = useState(editingCharacterClass ? helperFunctions.getClassIndex(editingCharacterClass) : 0);
 
   useEffect(() => {
-    if(classes && selectedIndex) {
-      handleListItemClick(selectedIndex);
+    if(!editingCharacterClass) {
+      setCharacterClass(12, "Barbarian", [ "Strength", "Constitution" ]);
     }
   }, []);
 
   const handleListItemClick = (event, index) => {
-    console.log(selectedIndex);
     const hitDice = classes[selectedIndex].characterClass[0].hd.faces;
     const className = classes[selectedIndex].characterClass[0].name;
     const savingThrows = helperFunctions.transcribeProficiencies(classes[selectedIndex].characterClass[0].proficiency).split(", ");
@@ -75,14 +76,36 @@ const ClassPanel = ({setCharacterClass, handleCharacter, editingCharacterClass})
       { !isLoading && classes[selectedIndex] &&
       // {classes && 
       <div>
+        <AppBar className="character-creator-appbar" elevation={0} position="static" color="default">
+          <Tabs
+            style={{backgroundColor: "#333", marginBottom: "20px"}}
+            className="character-creator-tabs"
+            // value={tabValue}
+            onChange={(event, newTabValue) => {
+              if(newTabValue == 0) {
+                setTabValue(2);
+              } else {
+                handleListItemClick(selectedIndex); 
+                handleCharacter();
+              } 
+            }}
+            centered
+          >
+            <Tab 
+              className="character-creator-tab" 
+              icon={<NavigateBeforeIcon/>}   
+              label={`${editingCharacterClass ? 'Update' : 'Choose'} ability scores`} 
+            />
+            <Tab 
+              className="character-creator-tab" 
+              icon={<NavigateNextIcon/>}   
+              label={`${editingCharacterClass ? 'Update' : 'Create'} character`} 
+            />
+          </Tabs>
+        </AppBar>
       <Grid container spacing={3}>
         <Grid item xs={2}>
           {classList()}
-          <Box align='center' py={2}>
-            <Button onClick={() => {handleListItemClick(selectedIndex); handleCharacter()}}>
-              <Typography className="create-button" variant="h6">{editingCharacterClass ? 'Update' : 'Create'} character</Typography>
-            </Button>
-          </Box>
         </Grid>
         <Grid item xs={10}>
           <div className="character-creator-title">
@@ -230,11 +253,6 @@ const ClassPanel = ({setCharacterClass, handleCharacter, editingCharacterClass})
           </Paper>
         </Grid>
       </Grid>
-      <Box align='center' py={2}>
-        <Button className="create-button" onClick={() => {handleListItemClick(selectedIndex); handleCharacter()}}>
-          <Typography variant="h4">{editingCharacterClass ? 'Update' : 'Create'} character</Typography>
-        </Button>
-      </Box>
       </div>
       // }
       }

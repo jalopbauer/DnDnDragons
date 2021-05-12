@@ -5,7 +5,7 @@ import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 import { useHistory } from 'react-router-dom';
 
-import AuthService from "./services/authService";
+import AuthService from "../services/authService";
 import { Typography } from "@material-ui/core";
 
 const required = (value) => {

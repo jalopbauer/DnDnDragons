@@ -1,8 +1,10 @@
-import { Box, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@material-ui/core";
-import { useState } from "react";
+import { AppBar, Box, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@material-ui/core";
+import { useState, useEffect } from "react";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { v4 as uuidv4 } from 'uuid';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -23,7 +25,7 @@ const TabPanel = (props) => {
   );
 }
 
-const AbilityScoresPanel = ({setCharacterAbilityScores, raceBackgroundScores, editingCharacterScores}) => {
+const AbilityScoresPanel = ({setCharacterAbilityScores, raceBackgroundScores, editingCharacterScores, setTabValue}) => {
   const [scores, setScores] = useState(editingCharacterScores ? 
                                       {"str": editingCharacterScores[0], 
                                        "dex": editingCharacterScores[1], 
@@ -32,12 +34,18 @@ const AbilityScoresPanel = ({setCharacterAbilityScores, raceBackgroundScores, ed
                                        "wis": editingCharacterScores[4], 
                                        "cha": editingCharacterScores[5]} :
                                       {"str": 0, "dex": 0, "con": 0, "int": 0, "wis": 0, "cha": 0});
-  const [tabValue, setTabValue] = useState(0);
+  const [tabValue, setAbilityTabValue] = useState(0);
 
   const standardArray = [15, 14, 13, 12, 10, 8];
   const [standardArraySelectedValues, setStandardArraySelectedValues] = useState({"str": "-", "dex": "-", "con": "-", "int": "-", "wis": "-", "cha": "-"});
 
   const [pointBuy, setPointBuy] = useState(27);
+
+  useEffect(() => {
+    if(!editingCharacterScores) {
+      setCharacterAbilityScores([0, 0, 0, 0, 0, 0]);
+    }
+  }, []);
 
   const handleTabChange = (event, newValue) => {
     if(newValue === 2) {
@@ -46,7 +54,7 @@ const AbilityScoresPanel = ({setCharacterAbilityScores, raceBackgroundScores, ed
       setScores({"str": 0, "dex": 0, "con": 0, "int": 0, "wis": 0, "cha": 0});
       setPointBuy(27);
     }
-    setTabValue(newValue);
+    setAbilityTabValue(newValue);
   };
 
   const handleModifierChange = (modifier, newValue, mode) => {
@@ -233,6 +241,25 @@ const AbilityScoresPanel = ({setCharacterAbilityScores, raceBackgroundScores, ed
 
   return (
     <div className="ability-scores-panel">
+      <AppBar className="character-creator-appbar" elevation={0} position="static" color="default">
+        <Tabs
+          style={{backgroundColor: "#333", marginBottom: "20px"}}
+          className="character-creator-tabs"
+          onChange={(event, newTabValue) => setTabValue(newTabValue == 0 ? 1 : 3)}
+          centered
+        >
+          <Tab 
+            className="character-creator-tab" 
+            icon={<NavigateBeforeIcon/>}  
+            label={`${editingCharacterScores ? 'Update' : 'Choose'} background`} 
+          />
+          <Tab 
+            className="character-creator-tab" 
+            icon={<NavigateNextIcon/>}  
+            label={`${editingCharacterScores ? 'Update' : 'Choose'} class`} 
+          />
+        </Tabs>
+      </AppBar>
       <Grid container>
         <Grid item xs={2}>
           <Tabs

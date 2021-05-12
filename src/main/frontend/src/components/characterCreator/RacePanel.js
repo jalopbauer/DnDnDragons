@@ -1,21 +1,22 @@
 import { useState, useEffect } from 'react';
 import useGet from '../services/useGet';
 import authHeader from '../services/authHeader';
-import { Box, List, ListItem, ListItemText, Paper, Grid, Typography } from '@material-ui/core';
+import { Box, List, ListItem, ListItemText, Paper, Grid, Typography, AppBar, Tabs, Tab } from '@material-ui/core';
 import helperFunctions from './HelperFunctions';
 import { v4 as uuidv4 } from 'uuid';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 const API_URL = "http://localhost:8080/api";
 
-const RacePanel = ({setCharacterRacePanel, setRaceBackgroundModifiers, editingCharacterRace}) => {
+const RacePanel = ({setCharacterRacePanel, setRaceBackgroundModifiers, editingCharacterRace, setTabValue}) => {
   const {data: races, isLoading, error} = useGet(`${API_URL}/character/creator/race`, { headers: authHeader() });
   const [selectedIndex, setSelectedIndex] = useState(editingCharacterRace ? helperFunctions.getRaceIndex(editingCharacterRace) : 17);
 
   useEffect(() => {
-    if(races && selectedIndex) {
-      handleListItemClick(selectedIndex);
+    if(!editingCharacterRace) {
+      setCharacterRacePanel("Dragonborn", 30);
     }
-  }, [races]);
+  }, []);
 
   const handleListItemClick = (index) => {
     const abilityScores = [0, 0, 0, 0, 0, 0];
@@ -101,6 +102,22 @@ const RacePanel = ({setCharacterRacePanel, setRaceBackgroundModifiers, editingCh
 
   return (
     <div>
+      <AppBar className="character-creator-appbar" elevation={0} position="static" color="default">
+        <Tabs
+          style={{backgroundColor: "#333", marginBottom: "20px"}}
+          className="character-creator-tabs"
+          onChange={(event) => setTabValue(1)}
+          centered
+        >
+          <Tab disabled/>
+          <Tab 
+            className="character-creator-tab" 
+            style={{float: "right"}}
+            icon={<NavigateNextIcon/>} 
+            label={`${editingCharacterRace ? 'Update' : 'Choose'} background`} 
+          />
+        </Tabs>
+      </AppBar>
       { error && <div>{ error }</div>}
       { isLoading && <div>Loading...</div>}
       { !isLoading &&

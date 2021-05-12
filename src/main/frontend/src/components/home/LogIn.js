@@ -4,7 +4,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
-import AuthService from "./services/authService";
+import AuthService from "../services/authService";
 import { Typography } from "@material-ui/core";
 
 const required = (value) => {
@@ -75,7 +75,6 @@ const LogIn = ({setCurrentPage}) => {
     <div className="login">
       <div className="auth-container">
         <Typography className="welcome" variant="h3">Welcome</Typography>
-
         <Form onSubmit={handleLogin} ref={form}>
           <div className="form-group">
             <label htmlFor="username"><Typography variant="h6">Username</Typography></label>
@@ -88,7 +87,6 @@ const LogIn = ({setCurrentPage}) => {
               validations={[required]}
             />
           </div>
-
           <div className="form-group">
             <label htmlFor="password"><Typography variant="h6">Password</Typography></label>
             <Input
@@ -100,7 +98,6 @@ const LogIn = ({setCurrentPage}) => {
               validations={[required]}
             />
           </div>
-
           <div className="form-group">
             <button className="btn" disabled={loading}>
               {loading && (
@@ -109,7 +106,6 @@ const LogIn = ({setCurrentPage}) => {
               <span>Log in</span>
             </button>
           </div>
-
           {message && (
             <div className="form-group">
               <div className="alert alert-danger" role="alert">

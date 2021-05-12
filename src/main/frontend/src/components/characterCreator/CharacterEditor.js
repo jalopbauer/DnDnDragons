@@ -2,9 +2,6 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import useGet from '../services/useGet';
 import authHeader from '../services/authHeader';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import RacePanel from './RacePanel';
 import BackgroundPanel from './BackgroundPanel';
 import AbilityScoresPanel from './AbilityScoresPanel';
@@ -119,20 +116,20 @@ const CharacterEditor = ({setCurrentPage}) => {
     <div className="character-creator">
       {!isLoading &&
       <div>
-      <AppBar className="character-creator-appbar" position="static" color="default">
-        <Tabs
-          className="character-creator-tabs"
-          value={tabValue}
-          onChange={handleTabChange}
-          centered
+        <Box
+          style={{
+            backgroundColor: "#333",
+            padding: "5px"
+          }}
         >
-          <Tab className="character-creator-tab" label="Race" />
-          <Tab className="character-creator-tab" label="Background" />
-          <Tab className="character-creator-tab" label="Ability Scores" />
-          <Tab className="character-creator-tab" label="Class" />
-        </Tabs>
-      </AppBar>
-
+          <Typography>Selected options</Typography>
+          <Typography>Name: {character.name}</Typography>
+          <Typography>Alignment: {character.alignment}</Typography>
+          <Typography>Race: {character.race}</Typography>
+          <Typography>Background: {character.background}</Typography>
+          <Typography>Ability Scores: {character.abilityScores.join(', ')}</Typography>
+          <Typography>Class: {character.characterClass}</Typography>
+        </Box>
       <TabPanel value={tabValue} index={0} >
         <Modal
           open={openPopup}
@@ -185,12 +182,14 @@ const CharacterEditor = ({setCurrentPage}) => {
           setCharacterRacePanel={setCharacterRacePanel}
           setRaceBackgroundModifiers={setRaceBackgroundModifiers}
           editingCharacterRace={character.race}
+          setTabValue={setTabValue}
         />
       </TabPanel>
       <TabPanel value={tabValue} index={1}>
         <BackgroundPanel
           setCharacterBackground={setCharacterBackground}
           editingCharacterBackground={character.background}
+          setTabValue={setTabValue}
         />
       </TabPanel>
       <TabPanel value={tabValue} index={2}>
@@ -198,6 +197,7 @@ const CharacterEditor = ({setCurrentPage}) => {
           raceBackgroundScores={raceBackgroundModifiers}
           setCharacterAbilityScores={setCharacterAbilityScores}
           editingCharacterScores={getScoresWithoutRaceBackgroundModifiers(character.abilityScores)}
+          setTabValue={setTabValue}
         />
       </TabPanel>
       <TabPanel value={tabValue} index={3}>
@@ -205,6 +205,7 @@ const CharacterEditor = ({setCurrentPage}) => {
           setCharacterClass={setCharacterClass}
           handleCharacter={updateCharacter}
           editingCharacterClass={character.characterClass}
+          setTabValue={setTabValue}
         />
       </TabPanel>
       </div>}

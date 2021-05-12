@@ -1,23 +1,35 @@
 import { useState, useEffect } from 'react';
 import useGet from '../services/useGet';
 import authHeader from '../services/authHeader';
-import { Box, List, Paper, Grid, Typography } from '@material-ui/core';
+import { Box, List, Paper, Grid, Typography, AppBar, Tabs, Tab } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import helperFunctions from './HelperFunctions';
 import { v4 as uuidv4 } from 'uuid';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 const API_URL = "http://localhost:8080/api";
 
-const BackgroundPanel = ({setCharacterBackground, editingCharacterBackground}) => {
+const BackgroundPanel = ({setCharacterBackground, editingCharacterBackground, setTabValue}) => {
   const {data: backgrounds, isLoading, error} = useGet(`${API_URL}/character/creator/background`, { headers: authHeader() });
   const [selectedIndex, setSelectedIndex] = useState(editingCharacterBackground ? helperFunctions.getBackgroundIndex(editingCharacterBackground) : 0);
 
   useEffect(() => {
-    if(backgrounds && selectedIndex) {
-      handleListItemClick(selectedIndex);
+    if(!editingCharacterBackground) {
+      setCharacterBackground(
+        "Acolyte", 
+        ["Insight", "Religion"], 
+        ["A holy symbol (a gift to you when you entered the priesthood)",
+          "A prayer book or prayer wheel",
+          "5 sticks of incense",
+          "Vestments",
+          "A set of common clothes",
+          "A belt pouch containing 15 gp"
+        ]
+      );
     }
-  }, [backgrounds]);
+  }, []);
 
   const handleListItemClick = (index) => {
     const items = backgrounds[index].entries[0].items;
@@ -84,6 +96,26 @@ const BackgroundPanel = ({setCharacterBackground, editingCharacterBackground}) =
 
   return (
     <div>
+      <AppBar className="character-creator-appbar" elevation={0} position="static" color="default">
+        <Tabs
+          className="character-creator-tabs"
+          style={{backgroundColor: "#333", marginBottom: "20px"}}
+          // value={tabValue}
+          onChange={(event, newTabValue) => setTabValue(newTabValue == 0 ? 0 : 2)}
+          centered
+        >
+          <Tab 
+            className="character-creator-tab" 
+            icon={<NavigateBeforeIcon/>} 
+            label={`${editingCharacterBackground ? 'Update' : 'Choose'} race`} 
+          />
+          <Tab 
+            className="character-creator-tab" 
+            icon={<NavigateNextIcon/>} 
+            label={`${editingCharacterBackground ? 'Update' : 'Choose'} ability scores`} 
+          />
+        </Tabs>
+      </AppBar>
       { error && <div>{ error }</div>}
       { isLoading && <div>Loading...</div>}
       { !isLoading && 
