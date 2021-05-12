@@ -1,6 +1,7 @@
 package com.myproject.lab1.session;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -29,8 +30,30 @@ public class SessionController {
   }
 
   @PostMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
+  public void createSession(@PathVariable String id, @RequestBody Map<String, Object> payload) {
+    sessionService.save(new Session(
+      (String) payload.get("name"), 
+      id, 
+      (String) payload.get("creatorId"), 
+      (ArrayList<Object>) payload.get("players"), 
+      (ArrayList<String>) payload.get("chatMessages"),
+      (ArrayList<String>) payload.get("logMessages")
+    ));
+  }
+
+  @PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
   public void saveSession(@PathVariable String id, @RequestBody Map<String, Object> payload) {
-    sessionService.save(new Session((String) payload.get("name"), id, (String) payload.get("creatorId"), (ArrayList<Object>) payload.get("players")));
+    Optional<Session> sessionData = sessionService.findByInviteId(id);
+    if(sessionData.isPresent()) {
+      Session session = sessionData.get();
+      ArrayList<String> chatMessages = session.getChatMessages();
+      chatMessages.addAll((ArrayList<String>) payload.get("chatMessages"));
+      session.setChatMessages(chatMessages);
+      ArrayList<String> logMessages = session.getLogMessages();
+      logMessages.addAll((ArrayList<String>) payload.get("logMessages"));
+      session.setLogMessages(logMessages);
+      sessionService.save(session);
+    }
   }
 
   @GetMapping("/{id}")

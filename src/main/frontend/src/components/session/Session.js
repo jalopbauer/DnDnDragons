@@ -1,4 +1,4 @@
-import { AppBar, Box, Grid, Tab, Tabs, } from "@material-ui/core";
+import { AppBar, Box, Button, Grid, Tab, Tabs, Typography, } from "@material-ui/core";
 import { useState, useEffect, useRef } from "react";
 import { useParams, useHistory } from 'react-router-dom';
 import useGet from '../services/useGet';
@@ -48,6 +48,7 @@ const Session = ({setCurrentPage}) => {
   const { data: sessionData, isLoading: isLoadingSession, error: sessionError } = useGet(`${API_URL}/session/inviteId/${sessionId}`);
   const [logMessages, setLogMessages] = useState([]);
   const [chatMessages, setChatMessages] = useState([]);
+  const [userIsDM, setUserIsDM] = useState(false);
   const stompClient = useRef(null);
   const history = useHistory();
 
@@ -65,6 +66,14 @@ const Session = ({setCurrentPage}) => {
         });
     });
   }, []);
+
+  useEffect(() => {
+    if(!isLoadingSession) {
+      setChatMessages(sessionData.chatMessages);
+      setLogMessages(sessionData.logMessages);
+      setUserIsDM(sessionData.creatorId == JSON.parse(localStorage.getItem('user')).id);
+    }
+  }, [isLoadingSession]);
 
   const sendMessage = (message, type) => {
     let endpoint;
@@ -113,7 +122,7 @@ const Session = ({setCurrentPage}) => {
 
   const characterSheetTabContent = () => {
     const array = [];
-    if(sessionData.creatorId == JSON.parse(localStorage.getItem('user')).id) {
+    if(userIsDM) {
       return(
         <div>
           <AppBar className="character-sheets-appbar" position="static" color="default">
@@ -156,6 +165,17 @@ const Session = ({setCurrentPage}) => {
     return array; 
   }
 
+  const saveSession = () => {
+    const session = {};
+    session.chatMessages = chatMessages;
+    session.logMessages = logMessages;
+    axios.put(`${API_URL}/session/${sessionId}`, session)
+    .then((response) => {
+      console.log(response);
+      console.log('Session saved successfully!');
+    }).catch((err) => console.log(err.message));
+  }
+
   return (  
     !isLoadingSession && 
     <div className="Session">
@@ -171,6 +191,11 @@ const Session = ({setCurrentPage}) => {
         </Tabs>
       </AppBar>
       <TabPanel value={tabValue} index={0}>
+        { userIsDM && <Button
+          onClick={saveSession}
+        >
+          <Typography>Save Session</Typography>
+        </Button>}
         <Grid container spacing={1}>
           <Grid item xs={8}>
             <Board className="board" iconPosition={iconPosition} moveIcon={moveIcon} />
@@ -182,7 +207,7 @@ const Session = ({setCurrentPage}) => {
         </Grid>
       </TabPanel>
       <TabPanel value={tabValue} index={1}>
-        {sessionData && characterSheetTabContent()}
+        characterSheetTabContent()
       </TabPanel>
     </div>
   );

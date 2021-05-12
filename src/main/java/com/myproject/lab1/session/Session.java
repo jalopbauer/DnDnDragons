@@ -19,23 +19,40 @@ public class Session {
   private String inviteId;
   private String creatorId; // id del creador de la session
   private ArrayList<Object> playersData;
+  private ArrayList<String> chatMessages;
+  private ArrayList<String> logMessages;
 
   public Session() {}
 
-  public Session(String name, String inviteId, String creatorId, ArrayList<Object> playersData) {
+  public Session(String name, 
+                 String inviteId, 
+                 String creatorId, 
+                 ArrayList<Object> playersData, 
+                 ArrayList<String> chatMessages, 
+                 ArrayList<String> logMessages) {
     this.name = name;
     this.inviteId = inviteId;
     this.creatorId = creatorId;
-    this.playersData = playersData;  
+    this.playersData = playersData;
+    this.chatMessages = chatMessages;
+    this.logMessages = logMessages;
   }
 
 
-  public Session(String id, String name, String inviteId, String creatorId, ArrayList<Object> playersData) {
+  public Session(String id, 
+                 String name, 
+                 String inviteId, 
+                 String creatorId, 
+                 ArrayList<Object> playersData, 
+                 ArrayList<String> chatMessages, 
+                 ArrayList<String> logMessages) {
     this.id = id;
     this.name = name;
     this.inviteId = inviteId;
     this.creatorId = creatorId;
     this.playersData = playersData;
+    this.chatMessages = chatMessages;
+    this.logMessages = logMessages;
   }
 
   public String getId() {
@@ -76,6 +93,22 @@ public class Session {
 
   public void setPlayersData(ArrayList<Object> playersData) {
     this.playersData = playersData;
+  }
+
+  public ArrayList<String> getChatMessages() {
+    return this.chatMessages;
+  }
+
+  public void setChatMessages(ArrayList<String> chatMessages) {
+    this.chatMessages = chatMessages;
+  }
+
+  public ArrayList<String> getLogMessages() {
+    return this.logMessages;
+  }
+
+  public void setLogMessages(ArrayList<String> logMessages) {
+    this.logMessages = logMessages;
   }
 
 }

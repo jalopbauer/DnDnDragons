@@ -126,6 +126,8 @@ const Profile = ({setCurrentPage}) => {
     newSession.sessionId = newSessionId;
     newSession.players = [];
     newSession.creatorId = JSON.parse(localStorage.getItem('user')).id;
+    newSession.chatMessages = [];
+    newSession.logMessages = [];
     axios.post(`${API_URL}/session/${newSessionId}`, newSession, {'Content-Type': 'application/json'})
     .then((response) => {
       console.log(response);

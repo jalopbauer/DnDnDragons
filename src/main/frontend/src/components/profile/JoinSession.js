@@ -137,16 +137,36 @@ const JoinSession = ({userCharactersData}) => {
   }
 
   return (
-    <Paper>
-      <Box p={2}>
-      <Typography className="title" variant="h4">Join Session</Typography>
+    <Paper style={{height: "100%"}}>
+      {/* <Box p={2}> */}
+      <Typography 
+        className="title" 
+        align="center" 
+        variant="h4"
+        style={{paddingTop: "15px"}}
+      >
+        Join Session
+      </Typography>
         <IconButton
           onClick={() => setOpenModal(true)}
+          disableRipple
+          style={{
+            margin: "auto", 
+            width: "100%", 
+            marginTop: "15px",
+            backgroundColor: 'transparent' }}
+          // style={{
+          //   // paddingTop: "25px", 
+          //   width:"100%", 
+          //   margin: "auto", 
+          //   maxWidth: "100%",
+          //   maxHeight: "100%",
+          //   overflow: "auto"}}
         >
           <InputIcon fontSize="large" style={{fill: "#f1356d"}}/>
         </IconButton>
         {getJoinSessionModal()}
-      </Box>
+      {/* </Box> */}
     </Paper>
   );
 }

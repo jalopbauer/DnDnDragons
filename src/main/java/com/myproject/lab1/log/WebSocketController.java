@@ -15,7 +15,6 @@ public class WebSocketController {
   @MessageMapping("/log")
   @SendTo("/topic/logMessages") // a donde lo va a broadcastear
   public OutputMessage sendLog(final Message message) throws Exception {
-    System.out.println("\n\nEn sendLog\n\n");
     final String time = new SimpleDateFormat("HH:mm").format(new Date());
     return new OutputMessage(message.getFrom(), message.getText(), time);
   }
@@ -23,7 +22,6 @@ public class WebSocketController {
   @MessageMapping("/chat")
   @SendTo("/topic/chatMessages") // a donde lo va a broadcastear
   public OutputMessage sendChat(final Message message) throws Exception {
-    System.out.println("\n\nEn sendChat\n\n");
     final String time = new SimpleDateFormat("HH:mm").format(new Date());
     return new OutputMessage(message.getFrom(), message.getText(), time);
   }
