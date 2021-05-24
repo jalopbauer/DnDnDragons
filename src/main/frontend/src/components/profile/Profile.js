@@ -78,9 +78,23 @@ const Profile = ({setCurrentPage}) => {
         <Modal
           open={openCharacterViewModal}
           onClose={() => setOpenCharacterViewModal(false)}
-          style={{maxHeight: "100vh", overflowY: "auto"}}
+          style={{
+            marginTop: 90,
+            // marginBottom: 90,
+            maxHeight: "100vh", 
+            overflowY: "auto"
+          }}
         >
-          <Paper style={{backgroundColor: "#1c1c1c", width: "80%", margin: "auto"}}>
+          <Paper style={{
+            border: '1px solid #fafafa',
+            // marginTop: 30,
+            paddingTop: 30,
+            paddingBottom: 30,
+            backgroundColor: "#1c1c1c", 
+            width: "80%", 
+            margin: "auto"
+            }}
+          >
             <CharacterDetails characterId={character.id} disableInteraction={true}/>
           </Paper>
         </Modal>

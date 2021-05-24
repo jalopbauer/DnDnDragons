@@ -13,9 +13,9 @@ const Chat = ({chatMessages, sendMessage}) => {
   }
 
   return (
-    <Paper style={{height:"50%", marginTop:"1%"}}>
+    <Paper style={{height:"50%", marginTop:0}}>
       <Box borderBottom={1} borderColor="#d0d0d0">
-        <Typography style={{margin: "auto"}} align="center" variant="h6">Chat</Typography>
+        <Typography style={{margin: "auto", fontWeight: 'bold'}} align="center" variant="h4">Chat</Typography>
       </Box>
       <Box 
         px={1}
@@ -23,7 +23,7 @@ const Chat = ({chatMessages, sendMessage}) => {
         style={{
           overflowY: "scroll", 
           maxHeight:"87 %",
-          height:"325px",
+          height:"490px",
           backgroundColor: "#1c1c1c",
           position: "relative"
         }}
@@ -40,7 +40,7 @@ const Chat = ({chatMessages, sendMessage}) => {
               }}
               key={index}
             >
-              <p>{message}</p>
+              <p style={{fontSize: 30}}>{message}</p>
             </Box>
           ) 
         })}
@@ -56,9 +56,10 @@ const Chat = ({chatMessages, sendMessage}) => {
             type="text" 
             value={chatMessage}
             style={{
+              fontSize: 30,
               backgroundColor: "#333333",
               color: "#d0d0d0",
-              width: "325px",
+              width: "100%",
               border: "none",
               marginBottom: "7px",
               paddingLeft: "4px",

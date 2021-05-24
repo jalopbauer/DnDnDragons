@@ -78,10 +78,11 @@ const JoinSession = ({userCharactersData}) => {
 
   const characterIcons = (character) => {
     return (
-      <Typography className="character-icons">
+      <Typography className="character-icons" style={{margin: 0}}>
         {/* <Link to={`/session/${sessionId}`}> */}
           <IconButton
             onClick={() => joinSession(character.id)}
+            style={{width: 10, height: 10}}
           >
             <CheckIcon fontSize="small" style={{fill: "#f1356d"}}/>
           </IconButton>
@@ -110,7 +111,7 @@ const JoinSession = ({userCharactersData}) => {
             {sessionDoesNotExist && <p className="required-message">Session not found</p>}
             {firstTimeJoining && 
               <div>
-                <Typography>Select a character</Typography>
+                <Typography style={{marginTop:10, marginBottom:-10}}>Select a character:</Typography>
                 <UserCharacters
                   characters={userCharactersData.characters} 
                   isLoading={userCharactersData.isLoading}

@@ -1,6 +1,6 @@
 import useGet from './services/useGet';
 import authHeader from './services/authHeader';
-import { Grid, Typography, Card, Box, Divider, Button } from '@material-ui/core';
+import { Grid, Typography, Card, Box, Divider, Button, ListItem, List } from '@material-ui/core';
 
 const API_URL = "http://localhost:8080/api/character";
 
@@ -60,28 +60,34 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
   const getAbilityScores = () => {
     const names = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
     return (
-      <div className="ability-scores">
+      <div className="ability-scores" style={{backgroundColor:"#333"}}>
+        <Box align="center"><Typography variant="h6">Ability Scores</Typography></Box>
+        <Box my={1} >
+          <Divider style={{backgroundColor: 'white'}}/>
+        </Box>
+        <List >
         {character.abilityScores.map((score, index) => {
           return(
-            <Card variant="outlined">
+            // <Card variant="outlined">
               <Button
                 disabled={disableInteraction}
                 style={{color: "#d0d0d0"}}
                 onClick={() => sendMessage(`${playerName ? `(as ${playerName})` : ""} rolls ${roll(20)} in ${names[index]}`, "log")}
               >
-                <Typography className="name" variant="h6"><b>{names[index]}</b></Typography>
-                <Typography variant="h6">+{score}</Typography>
+                <Typography className="name" variant="h6" style={{paddingLeft: 10}}><b>{names[index]}:</b></Typography>
+                <Typography variant="h6">&nbsp;+{score}&nbsp;</Typography>
                 <Box align="center">
                 <div className="modifier">
                   <Typography variant="h6">
-                    &nbsp;{Math.floor((score-10)/2) >= 0 ? '+' : null}{Math.floor((score-10)/2)}&nbsp;
+                    &nbsp;[{Math.floor((score-10)/2) >= 0 ? '+' : null}{Math.floor((score-10)/2)}]&nbsp;
                   </Typography>
                 </div>
                 </Box>
               </Button>
-            </Card>
+            // </Card>
           );
         })}
+        </List>
       </div>
     );
   }
@@ -99,34 +105,38 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
       })
     });
     return (
-      <div className="skills">
+      <div className="skills" style={{marginTop: -12}}>
         <Box align="center"><Typography variant="h6">Skills</Typography></Box>
-        <Box my={1}>
-          <Divider/>
+        <Box mb={1}>
+          <Divider style={{backgroundColor: 'white'}}/>
         </Box>
-        {skills.map((skill) => (
-          <Typography className="row">
-            <Button
-              disabled={disableInteraction}
-              style={{color: "#d0d0d0"}}
-              onClick={() => sendMessage(`${playerName ? `(as ${playerName})` : ""} rolls a ${roll(20)} in ${skill.name}`, "log")}
-              // disableElevation
-              // disableFocusRipple
-              // disableRipple
+        <Grid container spacing={3}>
+          {skills.map((skill, index) => (
+            <Grid item xs = {12} sm = {6} md = {4}
+              style={{padding: 0}}
             >
-            <Grid container spacing={3}>
-              <Grid item xs={3}>
-                {skill.proficient ? 
-                <b style={{width: "100%", textAlign: "left"}}>{skill.value >= 0 ? `+${skill.value}` : skill.value}</b> : 
-                <div style={{width: "100%", textAlign: "left"}}>{skill.value >= 0 ? `+${skill.value}` : skill.value}</div>}
-              </Grid>
-              <Grid item xs={9}>
-              {skill.proficient ? <b>{skill.name}</b> : <div>{skill.name}</div>}
-              </Grid>
+              <Typography className="row">
+                <Button
+                  disabled={disableInteraction}
+                  style={{color: "#d0d0d0", width: '100%'}}
+                  onClick={() => sendMessage(`${playerName ? `(as ${playerName})` : ""} rolls a ${roll(20)} in ${skill.name}`, "log")}
+                  // disableElevation
+                  // disableFocusRipple
+                  // disableRipple
+                >
+                <Grid container spacing={3}>
+                  <Grid item xs={3}>
+                    <h3 style={{fontWeight: skill.proficient ? 'bold' : 'normal', width: "100%", textAlign: "left"}}>{skill.value >= 0 ? `+${skill.value}` : skill.value}</h3>
+                  </Grid>
+                  <Grid item xs={9}>
+                    <h3 style={{fontWeight: skill.proficient ? 'bold' : 'normal',}}>{skill.name}</h3>
+                  </Grid>
+                </Grid>
+                </Button>
+              </Typography> 
             </Grid>
-            </Button>
-          </Typography> 
-        ))}
+          ))}
+        </Grid>
       </div>
     );
   }
@@ -145,24 +155,22 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
     return (
       <div className="saving-throws">
         <Box align="center"><Typography variant="h6">Saving Throws</Typography></Box>
-        <Box my={1}>
-          <Divider/>
+        <Box my={1} >
+          <Divider style={{backgroundColor: 'white'}}/>
         </Box>
         {savingThrows.map((savingThrow, index) => (
           <Typography className="row" variant="h6">
             <Button
               disabled={disableInteraction}
-              style={{color: "#d0d0d0"}}
+              style={{color: "#d0d0d0", paddingLeft: 20 }}
               onClick={() => sendMessage(`${playerName ? `(as ${playerName})` : ""} rolls a ${roll(20)} in a${index == 3 ? "n" : ""} ${savingThrow.name} saving throw`, "log")}
             >
               <Grid container spacing={3}>
                 <Grid item xs={3}>
-                  {savingThrow.proficient ? 
-                  <b style={{width: "100%", textAlign: "left"}}>{savingThrow.value >= 0 ? `+${savingThrow.value}` : savingThrow.value}</b> : 
-                  <div style={{width: "100%", textAlign: "left"}}>{savingThrow.value >= 0 ? `+${savingThrow.value}` : savingThrow.value}</div>}
+                  <h3 style={{fontWeight: savingThrow.proficient ? 'bold' : 'normal', width: "100%", textAlign: "left"}}>{savingThrow.value >= 0 ? `+${savingThrow.value}` : savingThrow.value}</h3>
                 </Grid>
                 <Grid item xs={9}>
-                {savingThrow.proficient ? <b>{savingThrow.name}</b> : <div>{savingThrow.name}</div>}
+                  <h3 style={{fontWeight: savingThrow.proficient ? 'bold' : 'normal'}}>{savingThrow.name}</h3>
                 </Grid>
               </Grid>
             </Button>
@@ -177,13 +185,22 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
       <div className="equipment">
         <Box align="center"><Typography variant="h6">Equipment</Typography></Box>
         <Box my={1}>
-          <Divider/>
+          <Divider style={{backgroundColor: 'white'}}/>
         </Box>
-        {character.equipment.map((e) => (
-          <Typography>
-            {e}
+        <List>
+        {character.equipment.map((eq) => (
+          <ListItem>
+          <Typography
+            style={{
+              paddingLeft: 5,
+              paddingRight: 5,
+            }}
+          >
+            {eq}
           </Typography>
+          </ListItem>
         ))}
+        </List>
       </div>
     );
   }
@@ -201,25 +218,50 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
           <Grid item md={7}>
             {getGeneralInfo()}
           </Grid>
-          <Grid item md={2}>
+
+          <Grid item md={12}>
+            {getSkills()}
+          </Grid>
+
+          <Grid item md={3}>
             {getAbilityScores()}
           </Grid>
           <Grid item md={3}>
-            <div className="proficiency-bonus">
-              <Typography variant="h6">Proficiency Bonus: +2</Typography>
-            </div>
-            {getSkills()}
+            <Grid container spacing={3}
+              style={{
+                marginTop:2
+              }}
+            >
+              <Grid item md={12}
+                style={{
+                  backgroundColor: '#333',
+                  // marginTop: 25
+                }}
+              >
+                <Typography variant="h6">Proficiency Bonus: +2</Typography>
+              </Grid>
+              <Grid item md={12}
+                style={{
+                  backgroundColor: '#333',
+                  marginTop: 15
+                }}
+              >
+                <Typography variant="h6">Speed: {character.speed} ft.</Typography>
+              </Grid>
+              <Grid item md={12}
+                style={{
+                  backgroundColor: '#333',
+                  marginTop: 15
+                }}
+              >
+                <Typography variant="h6">Max HP: {character.hp}</Typography>
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item md={3}>
-            <div className="speed">
-              <Typography variant="h6">Speed: {character.speed} ft.</Typography>
-            </div>
             {getSavingThrows()}
           </Grid>
           <Grid item md={3}>
-            <div className="max-hp">
-              <Typography variant="h6">Max HP: {character.hp}</Typography>
-            </div>
             {getEquipment()}
           </Grid>
         </Grid>

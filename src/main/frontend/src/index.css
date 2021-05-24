@@ -111,16 +111,16 @@ html, body, .full-height {
   width: 35%; 
 }
 .CharacterDetails .general-info .col2 { 
-  width: 55%; 
+  /* width: 55%;  */
 }
 .CharacterDetails .ability-scores  {
-  background-color: #d0d0d0;
-  padding: 5px;
+  /* background-color: #d0d0d0; */
+  /* padding: 5px; */
 }
 .CharacterDetails .ability-scores .MuiCard-root {
   background-color: #333;
-  padding: 10px;
-  margin: 5px 0;
+  /* padding: 10px; */
+  /* margin: 5px 0; */
 }
 .CharacterDetails .ability-scores .MuiCard-root .MuiTypography-root {
   background-color: #333;
@@ -136,7 +136,7 @@ html, body, .full-height {
   /* justify-content: space-around; */
   display: inline-block;
   border-radius: 10px;
-  background-color: #d0d0d0;
+  /* background-color: #d0d0d0; */
 }
 .CharacterDetails .ability-scores .MuiCard-root .modifier .MuiTypography-root {
   /* border: 1px solid #1c1c1c; */
@@ -149,14 +149,14 @@ html, body, .full-height {
 .CharacterDetails .proficiency-bonus {
   background-color: #333;
   width: 100%;
-  padding: 20px;
+  /* padding: 20px; */
   /* display: flex;  */
 }
 .CharacterDetails .skills {
   background-color: #333;
   width: 100%;
-  padding: 20px;
-  margin-top: 20px;
+  /* padding: 20px; */
+  /* margin-top: 20px; */
 }
 .CharacterDetails .skills .row{
   display: flex; 
@@ -173,20 +173,21 @@ html, body, .full-height {
 .CharacterDetails .saving-throws {
   background-color: #333;
   width: 100%;
-  padding: 20px;
-  margin-top: 20px;
-  margin-left: 40px;
+  padding-bottom: 10px;
+  /* padding: 20px; */
+  /* margin-top: 20px; */
+  /* margin-left: 40px; */
 }
 .CharacterDetails .equipment {
   background-color: #333;
-  width: 93%;
-  padding: 20px;
-  margin-top: 20px;
-  margin-left: 80px;
+  width: 100%;
+  /* padding: 20px; */
+  /* margin-top: 20px; */
+  /* margin-left: 80px; */
 }
 .CharacterDetails .max-hp {
   background-color: #333;
-  width: 93%;
+  width: 100%;
   padding: 20px;
   margin-left: 80px;
 }

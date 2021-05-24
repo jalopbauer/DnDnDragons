@@ -3,17 +3,17 @@ import { Box, Typography, Paper } from "@material-ui/core";
 const Log = ({logMessages}) => {
   
   return (
-    <Paper style={{height:"50%", marginBottom:"2%"}}>
+    <Paper style={{height:"50%", marginBottom:5}}>
       <Box borderBottom={1} borderColor="#d0d0d0">
-        <Typography align="center" variant="h6">Log</Typography>
+        <Typography align="center" variant="h4" style={{margin: "auto", fontWeight: 'bold'}}>Log</Typography>
       </Box>
       <Box 
         px={1} 
         m={1}
         style={{
           overflowY: "scroll", 
-          maxHeight:"87 %",
-          height:"325px",
+          maxHeight:"87%",
+          height:"490px",
           backgroundColor: "#1c1c1c",
         }}
       >
@@ -29,7 +29,7 @@ const Log = ({logMessages}) => {
               }}
               key={index}
             >
-              <p>{message}</p>
+              <p style={{fontSize: 30}}>{message}</p>
             </Box>
           ) 
         })}

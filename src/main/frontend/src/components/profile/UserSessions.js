@@ -16,7 +16,11 @@ const UserSessions = ({sessions, isLoading, error, icons}) => {
       }
       {!isLoading && sessions &&
         sessions.map((session) => (
-          <Paper key={uuidv4()} className="profile-container">
+          <Paper 
+            key={uuidv4()} 
+            className="profile-container"
+            style={{marginLeft:15, marginRight:15}}
+          >
             <Box className="session">
               <Typography variant="h5"> {session.name}</Typography>
               {icons(session)}
