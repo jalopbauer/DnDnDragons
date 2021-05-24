@@ -21,9 +21,6 @@ const CharacterCard = ({char}) => {
                             <Typography variant="body1" >
                                 Class: {char["characterClass"]}
                             </Typography>
-                            <Typography>
-                               Lvl: {char["level"]}
-                            </Typography>
                         </CardContent>
                     </CardActionArea>
                 </Link>
