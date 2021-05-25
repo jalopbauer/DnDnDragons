@@ -67,7 +67,7 @@ const Profile = ({setCurrentPage}) => {
       <Typography className="character-icons">
         <Link to={`character/edit/${character.id}`}>
           <IconButton>
-            <EditIcon/>
+            <EditIcon fontSize="large"/>
           </IconButton>
         </Link>
         <IconButton
