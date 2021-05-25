@@ -64,7 +64,6 @@ public class CharacterController {
 
   @GetMapping("/{id}")
   public Optional<Character> getCharacterById(@PathVariable String id) {
-    // System.out.println(characterService.findById(id).get());
     return characterService.findById(id);
   }
 
@@ -82,23 +81,22 @@ public class CharacterController {
   @PutMapping("/edit/{id}")
   public void updateCharacter(@PathVariable String id, @RequestBody Map<String, Object> payload) {
     Optional<Character> optionalCharacter = characterService.findById(id);
-    optionalCharacter.ifPresent(character -> characterService.delete(character));
     if(optionalCharacter.isPresent()) {
-      characterService.save(new Character(
-        payload.get("userId"), 
-        payload.get("username"), 
-        payload.get("abilityScores"), 
-        payload.get("alignment"), 
-        payload.get("background"),
-        payload.get("characterClass"), 
-        payload.get("equipment"),
-        payload.get("hp"),
-        payload.get("name"),
-        payload.get("race"),
-        payload.get("skillProficiencies"),
-        payload.get("speed"),
-        payload.get("savingThrows")
-      ));
+      Character character = optionalCharacter.get();
+      character.setUserId(payload.get("userId"));
+      character.setUsername(payload.get("username"));
+      character.setAbilityScores(payload.get("abilityScores"));
+      character.setAlignment(payload.get("alignment"));
+      character.setBackground(payload.get("background"));
+      character.setCharacterClass(payload.get("characterClass"));
+      character.setEquipment(payload.get("equipment"));
+      character.setHp(payload.get("hp"));
+      character.setName(payload.get("name"));
+      character.setRace(payload.get("race"));
+      character.setSkillProficiencies(payload.get("skillProficiencies"));
+      character.setSpeed(payload.get("speed"));
+      character.setSavingThrows(payload.get("savingThrows"));
+      characterService.save(character);
     }
   }
 
