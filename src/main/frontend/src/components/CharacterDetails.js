@@ -1,6 +1,8 @@
 import useGet from './services/useGet';
 import authHeader from './services/authHeader';
-import { Grid, Typography, Card, Box, Divider, Button, ListItem, List } from '@material-ui/core';
+import {useState, React} from "react";
+import { Grid, Typography, Card, Box, Divider, Button, ListItem, List, TextField, FormControl, InputAdornment   } from '@material-ui/core';
+import axios from "axios";
 
 const API_URL = "http://localhost:8080/api/character";
 
@@ -32,6 +34,18 @@ const savingThrows = [{"name": "Strength", "ability": 0},
 
 const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, playerName}) => {
   const { data: character, isLoading, error } = useGet(`${API_URL}/${characterId}`, { headers: authHeader() });
+  const [isEditEquipment, setIsEditEquipment] = useState(false);
+  const [editButtonText, setEditButtonText] = useState("Edit");
+  const [reducedEquipment, setReducedEquipment] = useState("");
+  const [hp,setHp] = useState(14)
+
+  const postCharacter = () => {
+    axios.put(`${API_URL}/edit/${characterId}`, character, {'Content-Type': 'application/json'})
+    .then((response) => {
+      console.log(response);
+      console.log('Character created successfully!');
+    }).catch((err) => console.log(err.message));
+  }
 
   const getNames = () => {
     return (
@@ -74,8 +88,9 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
                 style={{color: "#d0d0d0"}}
                 onClick={() => sendMessage(`${playerName ? `(as ${playerName})` : ""} rolls ${roll(20)} in ${names[index]}`, "log")}
               >
+                {//<Typography variant="h6">&nbsp;+{score}&nbsp;</Typography>
+                }
                 <Typography className="name" variant="h6" style={{paddingLeft: 10}}><b>{names[index]}:</b></Typography>
-                <Typography variant="h6">&nbsp;+{score}&nbsp;</Typography>
                 <Box align="center">
                 <div className="modifier">
                   <Typography variant="h6">
@@ -180,30 +195,76 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
     );
   }
 
+  
+
   const getEquipment = () => {
+    const splitString = (string) => {
+      let secondIndex = string.indexOf(',') 
+      let newEquipment = [] 
+      while(secondIndex > -1){
+        newEquipment.push(string.substr(0,secondIndex))
+        string = string.substring(secondIndex+1, string.length)
+        secondIndex = string.indexOf(',')
+      }
+      character.equipment = newEquipment
+      postCharacter()
+    }
+
+
+    const handleEquipmentEdit = () => {
+      setIsEditEquipment(!isEditEquipment)
+      if(isEditEquipment){
+        setEditButtonText("Edit");
+        splitString(reducedEquipment)
+      } else {
+        setEditButtonText("Save")
+        setReducedEquipment(character.equipment.join()+ ',')
+         
+      }
+    } 
     return(
       <div className="equipment">
-        <Box align="center"><Typography variant="h6">Equipment</Typography></Box>
+        <Box align="center">
+          <Typography variant="h6">Equipment</Typography>
+          {!disableInteraction && 
+            <Button onClick={() => handleEquipmentEdit()}>{editButtonText}</Button> 
+          }
+          </Box>
         <Box my={1}>
           <Divider style={{backgroundColor: 'white'}}/>
         </Box>
-        <List>
-        {character.equipment.map((eq) => (
-          <ListItem>
-          <Typography
-            style={{
-              paddingLeft: 5,
-              paddingRight: 5,
-            }}
-          >
-            {eq}
-          </Typography>
-          </ListItem>
-        ))}
-        </List>
+        {!isEditEquipment &&
+          <List>
+          {character.equipment.map((eq) => (
+            <ListItem>
+            <Typography
+              style={{
+                paddingLeft: 5,
+                paddingRight: 5,
+              }}
+            >
+              {eq}
+            </Typography>
+            </ListItem>
+          ))}
+          </List>
+        }
+        {isEditEquipment &&
+         <TextField defaultValue= {reducedEquipment} multiline onChange={(e) => setReducedEquipment(e.target.value + ',')}></TextField>
+        }
       </div>
     );
   }
+
+  const hpChange = (e) => {
+    setHp(e.target.value)
+    character.hp = e.target.value
+    postCharacter()
+
+  }
+
+  //606250a4fb7dea3e61d12eea
+  //609283824334f112aca2f060
 
   return (
     <div className="CharacterDetails">
@@ -254,8 +315,19 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
                   marginTop: 15
                 }}
               >
-                <Typography variant="h6">Max HP: {character.hp}</Typography>
+                {disableInteraction &&
+                  <Typography variant="h6">Max HP: {character.hp}</Typography>
+                }
+                {!disableInteraction &&
+                  <div>
+                    <Grid container spacing={1} alignItems="center">
+                      <Grid item xs={3}><Typography variant="h6">HP:</Typography></Grid>
+                      <Grid item xs={9}><TextField defaultValue={character.hp} onChange={(e) => hpChange(e)}/>
+                      </Grid></Grid> 
+                  </div>
+                }
               </Grid>
+              
             </Grid>
           </Grid>
           <Grid item md={3}>
