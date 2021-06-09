@@ -28,18 +28,21 @@ public class SessionController {
     this.sessionService = sessionService;
   }
 
+  @SuppressWarnings("unchecked")
   @PostMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
   public void createSession(@PathVariable String id, @RequestBody Map<String, Object> payload) {
     sessionService.save(new Session(
       (String) payload.get("name"), 
       id, 
       (String) payload.get("creatorId"), 
-      (ArrayList<Object>) payload.get("players"), 
+      (ArrayList<PlayerData>) payload.get("players"),
+      // (ArrayList<Object>) payload.get("characters"),
       (ArrayList<String>) payload.get("chatMessages"),
       (ArrayList<String>) payload.get("logMessages")
     ));
   }
 
+  @SuppressWarnings("unchecked")
   @PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
   public void saveSession(@PathVariable String id, @RequestBody Map<String, Object> payload) {
     Optional<Session> sessionData = sessionService.findByInviteId(id);
@@ -51,6 +54,38 @@ public class SessionController {
       ArrayList<String> logMessages = session.getLogMessages();
       logMessages.addAll((ArrayList<String>) payload.get("logMessages"));
       session.setLogMessages(logMessages);
+      sessionService.save(session);
+    }
+  }
+
+  @PutMapping(value = "/{sessionId}/{username}/hp={hp}", consumes = "application/json", produces = "application/json")
+  public void updateCharacterHP(@PathVariable String sessionId, @PathVariable String username, @PathVariable String hp) {
+    Optional<Session> sessionData = sessionService.findByInviteId(sessionId);
+    if(sessionData.isPresent()) {
+      Session session = sessionData.get();
+      ArrayList<PlayerData> playersData = session.getPlayersData();
+      for(PlayerData playerData : playersData) {
+        if(playerData.getUsername().equals(username)) {
+          playerData.setCharacterCurrentHP(Integer.parseInt(hp));
+        }
+      }
+      session.setPlayersData(playersData);
+      sessionService.save(session);
+    }
+  }
+
+  @PutMapping(value = "/{sessionId}/{username}/equipment", consumes = "application/json", produces = "application/json")
+  public void updateCharacterEquipment(@PathVariable String sessionId, @PathVariable String username, @RequestBody ArrayList<String> /*Map<String, Object>*/ payload) {
+    Optional<Session> sessionData = sessionService.findByInviteId(sessionId);
+    if(sessionData.isPresent()) {
+      Session session = sessionData.get();
+      ArrayList<PlayerData> playersData = session.getPlayersData();
+      for(PlayerData playerData : playersData) {
+        if(playerData.getUsername().equals(username)) {
+          playerData.setCharacterEquipment(payload);
+        }
+      }
+      session.setPlayersData(playersData);
       sessionService.save(session);
     }
   }
@@ -76,28 +111,36 @@ public class SessionController {
     optionalSession.ifPresent(session -> sessionService.delete(session));
   }
 
+  @SuppressWarnings("unchecked")
   @PutMapping("/add/{id}")
-  public void addPlayer(@PathVariable String id, @RequestBody Map<String, String> newPlayerData) {
+  public void addPlayer(@PathVariable String id, @RequestBody Map<String, Object> newPlayerData) {
     Optional<Session> sessionData = sessionService.findByInviteId(id);
     if(sessionData.isPresent()) {
       Session session = sessionData.get();
-      ArrayList<Object> players = session.getPlayersData();
-      players.add(newPlayerData);
+      ArrayList<PlayerData> players = session.getPlayersData();
+      PlayerData playerData = new PlayerData(
+        (String) newPlayerData.get("username"),
+        (String) newPlayerData.get("characterId"),
+        (Integer) newPlayerData.get("characterCurrentHP"),
+        (ArrayList<String>) newPlayerData.get("characterEquipment")
+      );
+      players.add(playerData);
       session.setPlayersData(players);
+
       sessionService.save(session);
     }
   }
 
   @PutMapping("/remove/{id}")
   public void removePlayer(@PathVariable String id, @RequestBody String player) {
-    Optional<Session> sessionData = sessionService.findByInviteId(id);
-    if(sessionData.isPresent()) {
-      Session session = sessionData.get();
-      ArrayList<Object> players = session.getPlayersData();
-      players.remove(player);
-      session.setPlayersData(players);
-      sessionService.save(session);
-    }
+    // Optional<Session> sessionData = sessionService.findByInviteId(id);
+    // if(sessionData.isPresent()) {
+    //   Session session = sessionData.get();
+    //   ArrayList<PlayerData> players = session.getPlayersData();
+    //   players.remove(player);
+    //   session.setPlayersData(players);
+    //   sessionService.save(session);
+    // }
   }
 
 }

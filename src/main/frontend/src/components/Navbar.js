@@ -53,11 +53,15 @@ const Navbar = ({currentPage, currentUser, handleLogout}) => {
           }}
         >
           { currentUser && optionsLogged.map((option) => (
-            <MenuItem key={uuidv4()} onClick={handleClose}>
-              <Link to={option.path} style={{ textDecoration: 'none' }}>
+            <Link 
+              key={uuidv4()} 
+              to={option.path} 
+              style={{ textDecoration: 'none' }}
+            >
+              <MenuItem onClick={handleClose}>
                 {option.text}
-              </Link>
-            </MenuItem>
+              </MenuItem>
+            </Link>
           ))}
           { currentUser && <MenuItem><a 
             href="/" 
@@ -66,9 +70,15 @@ const Navbar = ({currentPage, currentUser, handleLogout}) => {
               Log Out
             </a></MenuItem>}
           { !currentUser && optionsNotLogged.map((option) => (
-            <MenuItem key={uuidv4()} onClick={handleClose}>
-              <Link to={option.path} style={{ textDecoration: 'none' }}>{option.text}</Link>
-            </MenuItem>
+            <Link 
+              key={uuidv4()}
+              to={option.path} 
+              style={{ textDecoration: 'none' }}
+            >
+              <MenuItem onClick={handleClose}>
+                {option.text}
+              </MenuItem>
+            </Link>
           ))}
         </Menu>
       </div>

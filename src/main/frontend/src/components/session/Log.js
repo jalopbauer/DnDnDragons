@@ -29,7 +29,16 @@ const Log = ({logMessages}) => {
               }}
               key={index}
             >
-              <p style={{fontSize: 30}}>{message}</p>
+              <div
+                style={{
+                  fontSize: 30,
+                  backgroundColor: "#333",
+                  color: "#d0d0d0",
+                  whiteSpace:"pre-wrap",
+                }}
+              >
+                {message}
+              </div>
             </Box>
           ) 
         })}

@@ -1,8 +1,7 @@
 import useGet from './services/useGet';
 import authHeader from './services/authHeader';
-import {useState, React} from "react";
-import { Grid, Typography, Card, Box, Divider, Button, ListItem, List, TextField, FormControl, InputAdornment   } from '@material-ui/core';
-import axios from "axios";
+import {useState, React, useEffect} from "react";
+import { Grid, Typography, Box, Divider, Button, ListItem, List } from '@material-ui/core';
 
 const API_URL = "http://localhost:8080/api/character";
 
@@ -32,20 +31,26 @@ const savingThrows = [{"name": "Strength", "ability": 0},
                       {"name": "Wisdom", "ability": 4}, 
                       {"name": "Charisma", "ability": 5}];
 
-const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, playerName}) => {
+const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, playerName, 
+                           sessionHP, setSessionHP, updateSessionHP, 
+                           sessionEquipment, setSessionEquipment, updateSessionEquipment}) => {
   const { data: character, isLoading, error } = useGet(`${API_URL}/${characterId}`, { headers: authHeader() });
   const [isEditEquipment, setIsEditEquipment] = useState(false);
-  const [editButtonText, setEditButtonText] = useState("Edit");
-  const [reducedEquipment, setReducedEquipment] = useState("");
-  const [hp,setHp] = useState(14)
+  const [editEquipmentButtonText, setEditEquipmentButtonText] = useState("Edit");
+  const [newEquipment, setNewEquipment] = useState('');
+  const [isEditHP, setIsEditHP] = useState(false);
+  const [editHPButtonText, setEditHPButtonText] = useState("Edit");
 
-  const postCharacter = () => {
-    axios.put(`${API_URL}/edit/${characterId}`, character, {'Content-Type': 'application/json'})
-    .then((response) => {
-      console.log(response);
-      console.log('Character created successfully!');
-    }).catch((err) => console.log(err.message));
-  }
+  useEffect(() => {
+    if(character) {
+      if(sessionHP == false) {
+        setSessionHP(character.hp);
+      }
+      if(sessionEquipment == false) {
+        setSessionEquipment(character.equipment);
+      }
+    }
+  }, [character])
 
   const getNames = () => {
     return (
@@ -82,24 +87,20 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
         <List >
         {character.abilityScores.map((score, index) => {
           return(
-            // <Card variant="outlined">
-              <Button
-                disabled={disableInteraction}
-                style={{color: "#d0d0d0"}}
-                onClick={() => sendMessage(`${playerName ? `(as ${playerName})` : ""} rolls ${roll(20)} in ${names[index]}`, "log")}
-              >
-                {//<Typography variant="h6">&nbsp;+{score}&nbsp;</Typography>
-                }
-                <Typography className="name" variant="h6" style={{paddingLeft: 10}}><b>{names[index]}:</b></Typography>
-                <Box align="center">
-                <div className="modifier">
-                  <Typography variant="h6">
-                    &nbsp;[{Math.floor((score-10)/2) >= 0 ? '+' : null}{Math.floor((score-10)/2)}]&nbsp;
-                  </Typography>
-                </div>
-                </Box>
-              </Button>
-            // </Card>
+            <Button
+              disabled={disableInteraction}
+              style={{color: "#d0d0d0"}}
+              onClick={() => sendMessage(`${playerName ? `(as ${playerName})` : ""} rolls ${roll(20)} in ${names[index]}`, "log")}
+            >
+              <Typography className="name" variant="h6" style={{paddingLeft: 10}}><b>{names[index]}:</b></Typography>
+              <Box align="center">
+              <div className="modifier">
+                <Typography variant="h6">
+                  &nbsp;[{Math.floor((score-10)/2) >= 0 ? '+' : null}{Math.floor((score-10)/2)}]&nbsp;
+                </Typography>
+              </div>
+              </Box>
+            </Button>
           );
         })}
         </List>
@@ -135,9 +136,6 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
                   disabled={disableInteraction}
                   style={{color: "#d0d0d0", width: '100%'}}
                   onClick={() => sendMessage(`${playerName ? `(as ${playerName})` : ""} rolls a ${roll(20)} in ${skill.name}`, "log")}
-                  // disableElevation
-                  // disableFocusRipple
-                  // disableRipple
                 >
                 <Grid container spacing={3}>
                   <Grid item xs={3}>
@@ -195,45 +193,40 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
     );
   }
 
-  
+  const changeEquipment = (newEquipment, index) => {
+    var tempEquipments = [...sessionEquipment]; // shallow copy
+    tempEquipments[index] = newEquipment;
+    setSessionEquipment(tempEquipments);
+  }
 
   const getEquipment = () => {
-    const splitString = (string) => {
-      let secondIndex = string.indexOf(',') 
-      let newEquipment = [] 
-      while(secondIndex > -1){
-        newEquipment.push(string.substr(0,secondIndex))
-        string = string.substring(secondIndex+1, string.length)
-        secondIndex = string.indexOf(',')
-      }
-      character.equipment = newEquipment
-      postCharacter()
-    }
-
 
     const handleEquipmentEdit = () => {
-      setIsEditEquipment(!isEditEquipment)
+      setIsEditEquipment(!isEditEquipment);
       if(isEditEquipment){
-        setEditButtonText("Edit");
-        splitString(reducedEquipment)
+        setEditEquipmentButtonText("Edit");
+        if(newEquipment.length > 2) {
+          sessionEquipment.push(newEquipment);
+          setNewEquipment('');
+        }
+        updateSessionEquipment(sessionEquipment);
       } else {
-        setEditButtonText("Save")
-        setReducedEquipment(character.equipment.join()+ ',')
-         
+        setEditEquipmentButtonText("Save");
       }
-    } 
+    }
+
     return(
       <div className="equipment">
         <Box align="center">
           <Typography variant="h6">Equipment</Typography>
           {!disableInteraction && 
-            <Button onClick={() => handleEquipmentEdit()}>{editButtonText}</Button> 
+            <Button onClick={() => handleEquipmentEdit()}>{editEquipmentButtonText}</Button> 
           }
           </Box>
         <Box my={1}>
           <Divider style={{backgroundColor: 'white'}}/>
         </Box>
-        {!isEditEquipment &&
+        {disableInteraction ? 
           <List>
           {character.equipment.map((eq) => (
             <ListItem>
@@ -247,24 +240,90 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
             </Typography>
             </ListItem>
           ))}
-          </List>
-        }
-        {isEditEquipment &&
-         <TextField defaultValue= {reducedEquipment} multiline onChange={(e) => setReducedEquipment(e.target.value + ',')}></TextField>
+          </List> 
+        :
+          <>
+            {!isEditEquipment &&
+              <List>
+              {sessionEquipment.map((eq) => (
+                <ListItem>
+                <Typography
+                  style={{
+                    paddingLeft: 5,
+                    paddingRight: 5,
+                  }}
+                >
+                  {eq}
+                </Typography>
+                </ListItem>
+              ))}
+              </List>
+            }
+            {isEditEquipment &&
+              <List>
+              {sessionEquipment.map((equipment, index) => (
+                
+                !(equipment == '') ?
+                <ListItem>
+                  {console.log(equipment)}
+                  <textarea
+                    defaultValue={equipment}
+                    onChange={(e) => changeEquipment(e.target.value, index)}
+                    type='text'
+                    style={{
+                      color: '#d0d0d0',
+                      background: 'transparent',
+                      border: 'none',
+                      outline: 'none',
+                      fontSize: '1rem',
+                      fontFamily: "Roboto",
+                      fontWeight: '400',
+                      lineHeight: '1.5',
+                      letterSpacing: '0.00938em',
+                    }}
+                  />
+                </ListItem>
+                : <></>
+              ))}
+              <ListItem>
+                  <textarea
+                    defaultValue={newEquipment}
+                    onChange={(e) => setNewEquipment(e.target.value)}
+                    type='text'
+                    style={{
+                      color: '#d0d0d0',
+                      background: 'transparent',
+                      border: 'none',
+                      outline: 'none',
+                      fontSize: '1rem',
+                      fontFamily: "Roboto",
+                      fontWeight: '400',
+                      lineHeight: '1.5',
+                      letterSpacing: '0.00938em',
+                    }}
+                  />
+                </ListItem>
+              </List>
+            }
+          </>
         }
       </div>
     );
   }
 
-  const hpChange = (e) => {
-    setHp(e.target.value)
-    character.hp = e.target.value
-    postCharacter()
-
+  const handleHPEdit = () => {
+    setIsEditHP(!isEditHP);
+    if(isEditHP){
+      setEditHPButtonText("Edit");
+      updateSessionHP(sessionHP);
+    } else {
+      setEditHPButtonText("Save");
+    }
   }
 
-  //606250a4fb7dea3e61d12eea
-  //609283824334f112aca2f060
+  const changeHP = (e) => {
+    setSessionHP(e.target.value);
+  }
 
   return (
     <div className="CharacterDetails">
@@ -279,11 +338,9 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
           <Grid item md={7}>
             {getGeneralInfo()}
           </Grid>
-
           <Grid item md={12}>
             {getSkills()}
           </Grid>
-
           <Grid item md={3}>
             {getAbilityScores()}
           </Grid>
@@ -296,7 +353,6 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
               <Grid item md={12}
                 style={{
                   backgroundColor: '#333',
-                  // marginTop: 25
                 }}
               >
                 <Typography variant="h6">Proficiency Bonus: +2</Typography>
@@ -321,13 +377,50 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
                 {!disableInteraction &&
                   <div>
                     <Grid container spacing={1} alignItems="center">
-                      <Grid item xs={3}><Typography variant="h6">HP:</Typography></Grid>
-                      <Grid item xs={9}><TextField defaultValue={character.hp} onChange={(e) => hpChange(e)}/>
-                      </Grid></Grid> 
+                      <Grid item xs={6}>
+                        <Typography variant="h6">Max HP :</Typography>
+                      </Grid>
+                      <Grid item xs={3}>
+                        <Typography variant="h6">{character.hp}</Typography>
+                      </Grid>
+                      <Grid item xs={3}>
+                        <Typography variant="h6"></Typography>
+                      </Grid>
+                      <Grid item xs={6}><Typography variant="h6">Current HP :</Typography></Grid>
+                      <Grid item xs={3}>
+                        {!isEditHP &&
+                          <Typography variant="h6">
+                            {sessionHP}
+                          </Typography>
+                        }
+                        {isEditHP &&
+                          <input 
+                            defaultValue={sessionHP}
+                            type='number'
+                            min='0'
+                            onChange={(e) => changeHP(e)}
+                            style={{
+                              color: '#d0d0d0',
+                              background: 'transparent',
+                              border: 'none',
+                              outline: 'none',
+                              fontSize: '1.25rem',
+                              fontFamily: "Roboto",
+                              fontWeight: 500,
+                              lineHeight: 1.6,
+                              letterSpacing: '0.0075em',
+                              width: 60
+                            }}  
+                          />
+                        }
+                      </Grid>
+                      <Grid item xs={3}>
+                        <Button onClick={() => handleHPEdit()}>{editHPButtonText}</Button> 
+                      </Grid>
+                    </Grid> 
                   </div>
                 }
               </Grid>
-              
             </Grid>
           </Grid>
           <Grid item md={3}>

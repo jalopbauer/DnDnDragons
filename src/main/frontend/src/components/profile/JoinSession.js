@@ -26,7 +26,14 @@ const JoinSession = ({userCharactersData}) => {
       const newPlayerData = {};
       newPlayerData.username = JSON.parse(localStorage.getItem('user')).username;
       newPlayerData.characterId = characterId;
-      axios.put(`${API_URL}/session/add/${sessionId}`, newPlayerData)
+      userCharactersData.characters.map((character) => {
+        if(character.id == characterId) {
+          newPlayerData.characterCurrentHP = character.hp;
+          newPlayerData.characterEquipment = character.equipment;
+        }
+      });
+      console.log(newPlayerData);
+      axios.put(`${API_URL}/session/add/${sessionId}`, newPlayerData, { headers: authHeader() })
       .then((response) => {
         console.log(response);
         console.log('Session updated successfully!');

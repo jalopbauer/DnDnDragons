@@ -18,7 +18,8 @@ public class Session {
   private String name;
   private String inviteId;
   private String creatorId; // id del creador de la session
-  private ArrayList<Object> playersData;
+  private ArrayList<PlayerData> playersData;
+  // private ArrayList<Object> charactersData;
   private ArrayList<String> chatMessages;
   private ArrayList<String> logMessages;
 
@@ -27,13 +28,15 @@ public class Session {
   public Session(String name, 
                  String inviteId, 
                  String creatorId, 
-                 ArrayList<Object> playersData, 
+                 ArrayList<PlayerData> playersData,
+                //  ArrayList<Object> charactersData,
                  ArrayList<String> chatMessages, 
                  ArrayList<String> logMessages) {
     this.name = name;
     this.inviteId = inviteId;
     this.creatorId = creatorId;
     this.playersData = playersData;
+    // this.charactersData = charactersData;
     this.chatMessages = chatMessages;
     this.logMessages = logMessages;
   }
@@ -43,7 +46,8 @@ public class Session {
                  String name, 
                  String inviteId, 
                  String creatorId, 
-                 ArrayList<Object> playersData, 
+                 ArrayList<PlayerData> playersData,
+                //  ArrayList<Object> charactersData,
                  ArrayList<String> chatMessages, 
                  ArrayList<String> logMessages) {
     this.id = id;
@@ -51,6 +55,7 @@ public class Session {
     this.inviteId = inviteId;
     this.creatorId = creatorId;
     this.playersData = playersData;
+    // this.charactersData = charactersData;
     this.chatMessages = chatMessages;
     this.logMessages = logMessages;
   }
@@ -87,11 +92,11 @@ public class Session {
     this.creatorId = creatorId;
   }
 
-  public ArrayList<Object> getPlayersData() {
+  public ArrayList<PlayerData> getPlayersData() {
     return this.playersData;
   }
 
-  public void setPlayersData(ArrayList<Object> playersData) {
+  public void setPlayersData(ArrayList<PlayerData> playersData) {
     this.playersData = playersData;
   }
 

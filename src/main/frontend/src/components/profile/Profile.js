@@ -71,7 +71,7 @@ const Profile = ({setCurrentPage}) => {
           </IconButton>
         </Link>
         <IconButton
-          onClick={() => {console.log("---");console.log("abierto");setOpenCharacterViewModal(true)}}
+          onClick={() => setOpenCharacterViewModal(true)}
         >
           <VisibilityIcon fontSize="large"/>
         </IconButton>
