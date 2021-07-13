@@ -118,14 +118,14 @@ const SignIn = ({setCurrentPage}) => {
 
   return (
     <div className="col-md-12">
-      <div className="auth-container">
+      <div style={{width: '25%'}} className="auth-container">
       <Typography className="welcome" variant="h3">Welcome</Typography>
 
         <Form onSubmit={handleRegister} ref={form}>
           {!successful && (
             <div>
               <div className="form-group">
-                <label htmlFor="username"><Typography variant="h6">Username</Typography></label>
+                <label htmlFor="username"><Typography variant="h5">Username</Typography></label>
                 <Input
                   type="text"
                   className="form-control"
@@ -135,11 +135,12 @@ const SignIn = ({setCurrentPage}) => {
                   validations={[required, vusername]}
                   autoFocus={true}
                   autoComplete='off'
+                  style={{width: '100%', fontSize: 24}}
                 />
               </div>
 
               <div className="form-group">
-                <label htmlFor="email"><Typography variant="h6">Email</Typography></label>
+                <label htmlFor="email"><Typography variant="h5">Email</Typography></label>
                 <Input
                   type="text"
                   className="form-control"
@@ -148,11 +149,12 @@ const SignIn = ({setCurrentPage}) => {
                   onChange={onChangeEmail}
                   validations={[required, validEmail]}
                   autoComplete='off'
+                  style={{width: '100%', fontSize: 24}}
                 />
               </div>
 
               <div className="form-group">
-                <label htmlFor="password"><Typography variant="h6">Password</Typography></label>
+                <label htmlFor="password"><Typography variant="h5">Password</Typography></label>
                 <Input
                   type="password"
                   className="form-control"
@@ -161,6 +163,7 @@ const SignIn = ({setCurrentPage}) => {
                   onChange={onChangePassword}
                   validations={[required, vpassword]}
                   autoComplete='off'
+                  style={{width: '100%', fontSize: 24}}
                 />
               </div>
 

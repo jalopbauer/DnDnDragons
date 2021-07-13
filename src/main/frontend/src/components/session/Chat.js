@@ -1,7 +1,7 @@
 import { Box, Paper, Typography } from "@material-ui/core";
 import { useState } from "react";
 
-const Chat = ({chatMessages, sendMessage}) => {
+const Chat = ({chatMessages, sendMessage, userIsDM}) => {
   const [chatMessage, setChatMessage] = useState("");
 
   const handleSubmit = (e) => {
@@ -14,7 +14,7 @@ const Chat = ({chatMessages, sendMessage}) => {
   }
 
   return (
-    <Paper style={{height:"50%", marginTop:0}}>
+    <Paper style={{height: userIsDM ? "48%" : "52%", marginTop:0}}>
       <Box borderBottom={1} borderColor="#d0d0d0">
         <Typography style={{margin: "auto", fontWeight: 'bold'}} align="center" variant="h4">Chat</Typography>
       </Box>
@@ -52,6 +52,7 @@ const Chat = ({chatMessages, sendMessage}) => {
         mb={2}
         border={3}
         borderColor="#1c1c1c"
+        // style={{height: userIsDM ? '40px' : '70px'}}
       >
         <form 
             // noValidate 

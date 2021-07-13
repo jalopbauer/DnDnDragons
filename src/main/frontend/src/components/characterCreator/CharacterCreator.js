@@ -90,6 +90,7 @@ const CharacterCreator = ({setCurrentPage, editingCharacter}) => {
   const setCharacterClass = (hitDice, className, savingThrows) => {
     if(character.abilityScores) {
       let characterCopy = Object.assign({}, character);
+      // let characterCopy = character;
       const constModifier = Math.floor((Number(character.abilityScores[2]) - 10)/2);
       characterCopy.hp = hitDice + constModifier;
       characterCopy.characterClass = className;
@@ -133,19 +134,21 @@ const CharacterCreator = ({setCurrentPage, editingCharacter}) => {
           <div className="popup-content">
             <Typography className="title" variant="h4">Character Creator</Typography>
             <div className="field">
-              <Typography>Character name: </Typography>
+              <Typography style={{fontSize: 26}}>Character name: </Typography>
               <input  
                 required
                 maxLength="25"
                 onChange={(e) => setCharacterName(e.target.value)}
+                style={{fontSize: 24}}
               />
               {showNameisEmpty && <p className="required-message">This field is required</p>}
             </div>
             <div className="field">
-              <Typography>Alignment: </Typography>
+              <Typography style={{fontSize: 26}}>Alignment: </Typography>
               <select
                 value={character.alignment}
                 onChange={(e) => setCharacterAlignment(e.target.value)}
+                style={{fontSize: 24}}
               >
                 <option>Lawful Good</option>
                 <option>Neutral Good</option>
@@ -162,12 +165,12 @@ const CharacterCreator = ({setCurrentPage, editingCharacter}) => {
               <Button 
                 onClick={handleCancel}
               >
-                <Typography>Cancel</Typography>
+                <Typography style={{fontSize: 24}}>Cancel</Typography>
               </Button>
               <Button
                 onClick={handleContinue}
               >
-                <Typography>Continue</Typography>
+                <Typography style={{fontSize: 24}}>Continue</Typography>
               </Button>
             </Box>
           </div>

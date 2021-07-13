@@ -16,18 +16,9 @@ const UserCharacters = ({characters, isLoading, error, icons}) => {
             style={{
               color: '#f1356d',
               margin: '10px'
-              // position: 'absolute', left: '50%', top: '50%',
-              // transform: 'translate(-50%, -50%)'
             }}
           />
         </div>
-        // <Paper>
-        //   <Box align="center">
-        //     <Typography variant="h5">
-        //       Loading characters...
-        //     </Typography>
-        //   </Box>
-        // </Paper>
       }
       {!isLoading && characters.map((character) => (
         <Paper 

@@ -59,7 +59,7 @@ const Session = ({setCurrentPage}) => {
   const stompClient = useRef(null);
   const history = useHistory();
   const [sessionHP, setSessionHP] = useState(false);
-  const [sessionEquipment, setSessionEquipment] = useState(false);
+  const [sessionEquipment, setSessionEquipment] = useState({});
   const [refresh, setRefresh] = useState(0);
 
   const [icons, setIcons] = useState([]);
@@ -70,6 +70,53 @@ const Session = ({setCurrentPage}) => {
   const [isBlocked, setIsBlocked] = useState(false);
 
   useEffect(() => {
+    axios.get(`${API_URL}/session/inviteId/${sessionId}`)
+      .then((res) => {
+        setSessionData(res.data);
+        setIsLoadingSession(false);
+      }).catch((err) => {
+        console.log(err.message);
+        setIsLoadingSession(false);
+      })
+  }, [refresh]);
+
+  useEffect(() => {
+    if(!isLoadingSession) {
+      setChatMessages(sessionData.chatMessages);
+      setLogMessages(sessionData.logMessages);
+      const tempUserIsDM = sessionData.creatorId == JSON.parse(localStorage.getItem('user')).id;
+      setUserIsDM(tempUserIsDM);
+      setIcons(sessionData.icons);
+      let tempDMSessionHP = {};
+      let tempDMEquipment = {};
+      setSessionHP(tempDMSessionHP);
+      sessionData.playersData.map((playerData) => {
+        // if(tempUserIsDM) {
+        //   tempDMSessionHP[playerData.username] = playerData.characterCurrentHP;
+        //   tempDMEquipment[playerData.username] = playerData.characterEquipment;
+        // } else 
+        if(playerData.username == JSON.parse(localStorage.getItem('user')).username) {
+          setSessionHP(playerData.characterCurrentHP);
+          setSessionEquipment(playerData.characterEquipment);
+        } else {
+          tempDMSessionHP[playerData.username] = playerData.characterCurrentHP;
+          tempDMEquipment[playerData.username] = playerData.characterEquipment;
+          setSessionHP(tempDMSessionHP);
+          setSessionEquipment(tempDMEquipment);
+        }
+      });
+
+      // if(tempUserIsDM) {
+      //   console.log('AAAAAAAAAAAAAAAAA');
+      //   console.log(tempDMSessionHP);
+        // setSessionHP(tempDMSessionHP);
+        // setSessionEquipment(tempDMEquipment);
+      // }
+    }
+  }, [isLoadingSession]);
+
+  useEffect(() => {
+    if(!isLoadingSession) {
     setCurrentPage(": Session");
     axios.get(`${API_URL}/session/inviteId/${sessionId}`)
       .then((res) => {
@@ -92,7 +139,7 @@ const Session = ({setCurrentPage}) => {
         stompClient.current.subscribe("/topic/icons", receivedIcon => {
           // console.log(`id: ${JSON.parse(receivedIcon.body).id} | x: ${JSON.parse(receivedIcon.body).x} | y: ${JSON.parse(receivedIcon.body).y}`)
           const iconIndex = icons.findIndex(icon => icon.id == JSON.parse(receivedIcon.body).id);
-          console.log(iconIndex);
+          // console.log(iconIndex);
           if(iconIndex == -1) {
             const tempArray = icons;
             const newIcon = {
@@ -109,76 +156,105 @@ const Session = ({setCurrentPage}) => {
             setOpenModal(false);
           } else if(iconIndex >= 0) {
             let tempArray = [...icons];
-            let newIcon = {
-              id: JSON.parse(receivedIcon.body).id, 
-              x: JSON.parse(receivedIcon.body).x,
-              y: JSON.parse(receivedIcon.body).y,
-              username: JSON.parse(receivedIcon.body).username,
-              color: JSON.parse(receivedIcon.body).color
-            }
-            // tempArray[iconIndex].x = JSON.parse(receivedIcon.body).x;
-            // tempArray[iconIndex].y = JSON.parse(receivedIcon.body).y;
-            tempArray[iconIndex] = newIcon;
+            // let newIcon = {
+            //   id: JSON.parse(receivedIcon.body).id, 
+            //   x: JSON.parse(receivedIcon.body).x,
+            //   y: JSON.parse(receivedIcon.body).y,
+            //   username: JSON.parse(receivedIcon.body).username,
+            //   color: JSON.parse(receivedIcon.body).color
+            // }
+            tempArray[iconIndex].x = JSON.parse(receivedIcon.body).x;
+            tempArray[iconIndex].y = JSON.parse(receivedIcon.body).y;
+            // tempArray[iconIndex] = newIcon;
             setIcons(tempArray);
           }
         });
-        stompClient.current.subscribe("/topic/interaction", result => {
-          let tempSessionData = sessionData;
-          if(tempSessionData) {
-            let tempArray = tempSessionData.playersData;
-            let tempPlayer = tempArray.find(playerData => playerData.username == result.body);
-            // tempPlayer.isBlocked = !tempPlayer.isBlocked;
-            tempArray[tempArray.findIndex(playerData => playerData.username == result.body)] = tempPlayer;
-            tempSessionData.playersData = tempArray;
-            setSessionData(tempSessionData);
+        stompClient.current.subscribe("/topic/interaction", response => {
+          // let tempSessionData = sessionData;
+          // if(tempSessionData && !userIsDM) {
+          //   let tempArray = tempSessionData.playersData;
+          //   let tempPlayer = tempArray.find(playerData => playerData.username == result.body);
+          //   tempPlayer.isBlocked = !tempPlayer.isBlocked;
+          //   tempArray[tempArray.findIndex(playerData => playerData.username == result.body)] = tempPlayer;
+          //   tempSessionData.playersData = tempArray;
+          //   setSessionData(tempSessionData);
+
+          //   const tempIsBlockd = !isBlocked;
+          //   setIsBlocked(tempIsBlockd);
+          // }
+          if(!userIsDM && response.body == JSON.parse(localStorage.getItem('user')).username) {
+            // let tempIsBlockd = isBlocked;
+            setIsBlocked(prevValue => !prevValue);
           }
-          console.log(!isBlocked);
-          setIsBlocked(!isBlocked);
+        });
+        stompClient.current.subscribe("/topic/editHP", response => {
+          // console.log(sessionData.creatorId );
+          // console.log(JSON.parse(localStorage.getItem('user')).id);
+          // console.log(sessionData.creatorId == JSON.parse(localStorage.getItem('user')).id);
+          // console.log(userIsDM);
+          let tempSessionHP = {};
+          sessionData.playersData.map((playerData) => {
+            tempSessionHP[playerData.username] = playerData.characterCurrentHP;
+          })
+          if(sessionData.creatorId == JSON.parse(localStorage.getItem('user')).id) {
+            tempSessionHP[JSON.parse(response.body).playerName] = JSON.parse(response.body).newHP;
+            setSessionHP(tempSessionHP);
+          } else if(JSON.parse(response.body).playerName == JSON.parse(localStorage.getItem('user')).username) {
+            const tempSessionHP = JSON.parse(response.body).newHP;
+            setSessionHP(tempSessionHP);
+          }
+        });
+        stompClient.current.subscribe("/topic/editEquipment", response => {
+          // let tempEquipment = {};
+          // sessionData.playersData.map((playerData) => {
+          //   console.log('playerData.username: ' + playerData.username);
+          //   console.log('playerData.characterEquipment: ' + playerData.characterEquipment);
+          //   tempEquipment[playerData.username] = playerData.characterEquipment;
+          // })
+          const playerName = JSON.parse(response.body).playerName;
+          const newEquipment = JSON.parse(response.body).newEquipment;
+          if(sessionData.creatorId == JSON.parse(localStorage.getItem('user')).id) {
+            let tempEquipment = {};
+            tempEquipment[playerName] = newEquipment;
+            // console.log(tempEquipment);
+            // console.log(sessionEquipment);
+            // tempEquipment[playerName].push(newEquipment[newEquipment.length - 1]);
+            // if(typeof(newEquipment) === 'object' && newEquipment !== null) {
+            //   if(tempEquipment[playerName][newEquipment.length - 1] == tempEquipment[playerName][newEquipment.length - 2]) {
+            //     tempEquipment[playerName].splice(-1,1);
+            //   }
+            // }
+            // console.log(tempEquipment);
+            setSessionEquipment(tempEquipment);
+          } else if(playerName == JSON.parse(localStorage.getItem('user')).username) {
+            // console.log('no eres dm');
+            // console.log(newEquipment);
+            const tempEquipment = newEquipment;
+            console.log(tempEquipment);
+            setSessionEquipment(tempEquipment);
+          }
         });
     });
-  }, []);
-
-  useEffect(() => {
-    if(!isLoadingSession) {
-      setChatMessages(sessionData.chatMessages);
-      setLogMessages(sessionData.logMessages);
-      const tempUserIsDM = sessionData.creatorId == JSON.parse(localStorage.getItem('user')).id;
-      setUserIsDM(tempUserIsDM);
-      setIcons(sessionData.icons);
-      let tempDMSessionHP = {};
-      let tempDMEquipment = {};
-      sessionData.playersData.map((playerData) => {
-        if(tempUserIsDM) {
-          tempDMSessionHP[playerData.username] = playerData.characterCurrentHP;
-          tempDMEquipment[playerData.username] = playerData.characterEquipment;
-        } else if(playerData.username == JSON.parse(localStorage.getItem('user')).username) {
-          setSessionHP(playerData.characterCurrentHP);
-          setSessionEquipment(playerData.characterEquipment);
-        }
-      });
-      if(tempUserIsDM) {
-        setSessionHP(tempDMSessionHP);
-        setSessionEquipment(tempDMEquipment);
-      }
     }
   }, [isLoadingSession]);
-
-  useEffect(() => {
-    axios.get(`${API_URL}/session/inviteId/${sessionId}`)
-      .then((res) => {
-        setSessionData(res.data);
-        setIsLoadingSession(false);
-      }).catch((err) => {
-        console.log(err.message);
-        setIsLoadingSession(false);
-      })
-  }, [refresh]);
 
   const updateSessionHP = (newValue, playerName) => {
     axios.put(`${API_URL}/session/${sessionId}/${playerName}/hp=${newValue}`, { headers: authHeader() })
     .then((response) => {
       console.log(response);
       console.log('Character HP updated successfully!');
+      if(stompClient) {
+        stompClient.current.send(
+          "/api/editHP",
+          {},
+          JSON.stringify(
+            {
+            "playerName": playerName, 
+            "newHP": userIsDM ? sessionHP[playerName] : sessionHP
+            }
+          )
+        );
+      }
     }).catch((err) => console.log(err.message));
   }
 
@@ -188,6 +264,18 @@ const Session = ({setCurrentPage}) => {
     .then((response) => {
       console.log(response);
       console.log('Character equipment updated successfully!');
+      if(stompClient) {
+        stompClient.current.send(
+          "/api/editEquipment",
+          {},
+          JSON.stringify(
+            {
+            "playerName": playerName, 
+            "newEquipment": newEquipment //userIsDM ? sessionEquipment[playerName] : sessionEquipment
+            }
+          )
+        );
+      }
     }).catch((err) => console.log(err.message));
   }
 
@@ -234,6 +322,7 @@ const Session = ({setCurrentPage}) => {
 
   const characterSheetTabContent = () => {
     const array = [];
+    // console.log(sessionData);
     if(userIsDM) {
       return(
         <div>
@@ -285,14 +374,15 @@ const Session = ({setCurrentPage}) => {
             <CharacterDetails
               key={playerData.characterId}
               characterId={playerData.characterId}
-              disableInteraction={isBlocked} //playerData.isBlocked
+              disableInteraction={false} //playerData.isBlocked
+              isBlocked={isBlocked}
               roll={roll}
               sendMessage={sendMessage}
               playerName={playerData.username}
               sessionHP={sessionHP}
               setSessionHP={setSessionHP}
               updateSessionHP={updateSessionHP}
-              sessionEquipment={sessionEquipment}
+              sessionEquipment={playerData.characterEquipment}
               setSessionEquipment={setSessionEquipment}
               updateSessionEquipment={updateSessionEquipment}
               userIsDM={false}
@@ -357,23 +447,23 @@ const Session = ({setCurrentPage}) => {
       axios.put(`${API_URL}/session/addIcon/${sessionId}`, icon, { headers: authHeader() })
         .then((response) => {
           // setIcons([...icons, icon]);
-          // console.log(response);
-          // console.log(icon);
           if(stompClient) {
             stompClient.current.send(
               "/api/board",
               {},
               JSON.stringify(
-                {
-                  id: icon.id, 
-                  x: icon.x,
-                  y: icon.y,
-                  username: icon.username,
-                  color: icon.color
-                }
+                // {
+                //   id: icon.id, 
+                //   x: icon.x,
+                //   y: icon.y,
+                //   username: icon.username,
+                //   color: icon.color
+                // }
+                icon
               )
             );
           }
+          console.log(icon);
         })
         .catch((err) => {
           console.log(err.message);
@@ -559,7 +649,7 @@ const Session = ({setCurrentPage}) => {
               </div>
             }
             <Log logMessages={logMessages}/>
-            <Chat chatMessages={chatMessages} sendMessage={sendMessage}/>
+            <Chat chatMessages={chatMessages} sendMessage={sendMessage} userIsDM={userIsDM}/>
           </Grid>
         </Grid>
       </TabPanel>

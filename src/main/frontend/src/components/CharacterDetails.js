@@ -2,6 +2,7 @@ import useGet from './services/useGet';
 import authHeader from './services/authHeader';
 import {useState, React, useEffect} from "react";
 import { CircularProgress, Grid, Typography, Box, Divider, Button, ListItem, List } from '@material-ui/core';
+import { v4 as uuidv4 } from 'uuid';
 
 const API_URL = "http://localhost:8080/api/character";
 
@@ -31,9 +32,9 @@ const savingThrows = [{"name": "Strength", "ability": 0},
                       {"name": "Wisdom", "ability": 4}, 
                       {"name": "Charisma", "ability": 5}];
 
-const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, playerName, 
+const CharacterDetails = ({characterId, disableInteraction, isBlocked, roll, sendMessage, playerName, 
                            sessionHP, setSessionHP, updateSessionHP, 
-                           sessionEquipment, setSessionEquipment, updateSessionEquipment , userIsDM}) => {
+                           sessionEquipment, setSessionEquipment, updateSessionEquipment, userIsDM}) => {
   const { data: character, isLoading, error } = useGet(`${API_URL}/${characterId}`, { headers: authHeader() });
   const [isEditEquipment, setIsEditEquipment] = useState(false);
   const [editEquipmentButtonText, setEditEquipmentButtonText] = useState("Edit");
@@ -42,24 +43,42 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
   const [editHPButtonText, setEditHPButtonText] = useState("Edit");
 
   useEffect(() => {
-    if(character) {
-      // if(userIsDM) {
-        // if(sessionHP[playerName]) {
-          // const tempSessionHP = sessionHP;
-          // tempSessionHP[playerName] = character.hp;
-          // setSessionHP(tempSessionHP);
-      //   }
-      // } else {
+    if(character && sessionEquipment) {
+      // setSessionHP(character.hp);
+      if(userIsDM) {
+        console.log('eres dm');
+        // console.log(sessionHP);
+        if(sessionHP == false || Object.entries(sessionHP).length === 0) {
+          console.log('aqui');
+          const tempSessionHP = sessionHP ? sessionHP : {};
+          tempSessionHP[playerName] = character.hp;
+          console.log(tempSessionHP);
+          setSessionHP(tempSessionHP);
+        }
+        if(Object.entries(sessionEquipment).length === 0) {
+          console.log(sessionEquipment);
+          console.log(Object.entries(sessionEquipment).length);
+          let tempSessionEquipment = sessionEquipment;
+          tempSessionEquipment[playerName] = character.equipment;
+          console.log(tempSessionEquipment);
+          setSessionEquipment(tempSessionEquipment);
+        }
+      } else {
         if(sessionHP == false) {
           setSessionHP(character.hp);
+          // updateSessionHP(character.hp, character.username)
         }
-        if(sessionEquipment == false) {
+        if(Object.entries(sessionEquipment).length === 0) {
+          console.log(character.equipment);
           setSessionEquipment(character.equipment);
-        // }
+        }
       }
+    } else if(setSessionEquipment) {
+      console.log('line 68 characterDetails');
+      setSessionEquipment(userIsDM ? {} : []);
+
     }
-    console.log(disableInteraction);
-  }, [character, disableInteraction]);
+  }, [character]);
 
   const getNames = () => {
     return (
@@ -96,20 +115,24 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
         <List >
         {character.abilityScores.map((score, index) => {
           return(
-            <Button
-              disabled={disableInteraction}
-              style={{color: "#d0d0d0"}}
-              onClick={() => sendMessage(`${playerName ? `(as ${playerName})` : ""} rolls ${roll(20)} in ${names[index]}`, "log")}
+            <ListItem
+            key={uuidv4()}
             >
-              <Typography className="name" variant="h6" style={{paddingLeft: 10}}><b>{names[index]}:</b></Typography>
-              <Box align="center">
-              <div className="modifier">
-                <Typography variant="h6">
-                  &nbsp;[{Math.floor((score-10)/2) >= 0 ? '+' : null}{Math.floor((score-10)/2)}]&nbsp;
-                </Typography>
-              </div>
-              </Box>
-            </Button>
+              <Button
+                disabled={disableInteraction || isBlocked}
+                style={{color: "#d0d0d0"}}
+                onClick={() => sendMessage(`${playerName ? `(as ${playerName})` : ""} rolls ${roll(20)} in ${names[index]}`, "log")}
+              >
+                <Typography className="name" variant="h6" style={{paddingLeft: 10}}><b>{names[index]}:</b></Typography>
+                <Box align="center">
+                <div className="modifier">
+                  <Typography variant="h6">
+                    &nbsp;[{Math.floor((score-10)/2) >= 0 ? '+' : null}{Math.floor((score-10)/2)}]&nbsp;
+                  </Typography>
+                </div>
+                </Box>
+              </Button>
+            </ListItem>
           );
         })}
         </List>
@@ -138,11 +161,12 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
         <Grid container spacing={3}>
           {skills.map((skill, index) => (
             <Grid item xs = {12} sm = {6} md = {4}
+              key={uuidv4()}
               style={{padding: 0}}
             >
               <Typography className="row">
                 <Button
-                  disabled={disableInteraction}
+                  disabled={disableInteraction || isBlocked}
                   style={{color: "#d0d0d0", width: '100%'}}
                   onClick={() => sendMessage(`${playerName ? `(as ${playerName})` : ""} rolls a ${roll(20)} in ${skill.name}`, "log")}
                 >
@@ -181,9 +205,9 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
           <Divider style={{backgroundColor: 'white'}}/>
         </Box>
         {savingThrows.map((savingThrow, index) => (
-          <Typography className="row" variant="h6">
+          <Typography key={uuidv4()} className="row" variant="h6">
             <Button
-              disabled={disableInteraction}
+              disabled={disableInteraction || isBlocked}
               style={{color: "#d0d0d0", paddingLeft: 20 }}
               onClick={() => sendMessage(`${playerName ? `(as ${playerName})` : ""} rolls a ${roll(20)} in a${index == 3 ? "n" : ""} ${savingThrow.name} saving throw`, "log")}
             >
@@ -204,12 +228,14 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
 
   const changeEquipment = (newEquipment, index) => {
     if(userIsDM) {
-      const tempSessionEquipment = sessionEquipment;
+      let tempSessionEquipment = sessionEquipment;
       tempSessionEquipment[playerName][index] = newEquipment; 
+      console.log(tempSessionEquipment)
       setSessionEquipment(tempSessionEquipment);
     } else {
       let tempEquipments = [...sessionEquipment]; // shallow copy
       tempEquipments[index] = newEquipment;
+      console.log(tempEquipments)
       setSessionEquipment(tempEquipments);
     }
   }
@@ -221,8 +247,12 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
         setEditEquipmentButtonText("Edit");
         if(newEquipment.length > 2) {
           if(userIsDM) {
-            sessionEquipment[playerName].push(newEquipment);
-            updateSessionEquipment(sessionEquipment[playerName], playerName);
+            // let tempArray = sessionEquipment[playerName] ? sessionEquipment[playerName] : character.equipment;
+            let tempArray = sessionEquipment ? (sessionEquipment[playerName] ? sessionEquipment[playerName] : character.equipment) : character.equipment; 
+            tempArray.push(newEquipment);
+            console.log(newEquipment);
+            // updateSessionEquipment(sessionEquipment[playerName], playerName);
+            updateSessionEquipment(tempArray, playerName);
           } else {
             sessionEquipment.push(newEquipment);
             updateSessionEquipment(sessionEquipment, playerName);
@@ -247,9 +277,11 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
         </Box>
         {disableInteraction ? 
           <List>
-          {character.equipment.map((eq) => (
+          {character.equipment.map((eq, index) => (
             eq.length > 2 &&
-            <ListItem>
+            <ListItem
+              key={uuidv4()}
+            >
               <Typography
                 style={{
                   paddingLeft: 5,
@@ -265,9 +297,18 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
           <>
             {!isEditEquipment &&
               <List>
-              {(userIsDM ? sessionEquipment[playerName] : sessionEquipment).map((eq) => (
+              { (userIsDM ? 
+                  sessionEquipment ? 
+                    sessionEquipment[playerName] ? sessionEquipment[playerName] : character.equipment
+                    : 
+                    character.equipment
+                  : 
+                  sessionEquipment
+                ).map((eq, index) => (
                 eq.length > 2 &&
-                <ListItem>
+                <ListItem
+                  key={uuidv4()}
+                >
                   <Typography
                     style={{
                       paddingLeft: 5,
@@ -282,11 +323,18 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
             }
             {isEditEquipment &&
               <List>
-              {(userIsDM ? sessionEquipment[playerName] : sessionEquipment).map((equipment, index) => (
-                
+              {(userIsDM ? 
+                sessionEquipment ? 
+                  sessionEquipment[playerName] ? sessionEquipment[playerName] : character.equipment
+                  : 
+                  character.equipment
+                : 
+                sessionEquipment
+                ).map((equipment, index) => (
                 !(equipment == '') ?
-                <ListItem>
-                  {console.log(equipment)}
+                <ListItem
+                  key={uuidv4()}
+                >
                   <textarea
                     defaultValue={equipment}
                     onChange={(e) => changeEquipment(e.target.value, index)}
@@ -345,7 +393,6 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
 
   const changeHP = (e) => {
     if(userIsDM) {
-      console.log(sessionHP);
       const tempSessionHP = sessionHP;
       tempSessionHP[playerName] = e.target.value;
       setSessionHP(tempSessionHP);
@@ -368,19 +415,19 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
       {character &&
       <div>
         <Grid container spacing={3}>
-          <Grid item md={5}>
+          <Grid item md={5} large={5}>
             {getNames()}
           </Grid>
-          <Grid item md={7}>
+          <Grid item md={7} large={7}>
             {getGeneralInfo()}
           </Grid>
-          <Grid item md={12}>
+          <Grid item md={12} large={12}>
             {getSkills()}
           </Grid>
-          <Grid item md={3}>
+          <Grid item sm={12} md={12} lg={3}>
             {getAbilityScores()}
           </Grid>
-          <Grid item md={3}>
+          <Grid item md={12} lg={3}>
             <Grid container spacing={3}
               style={{
                 marginTop:2
@@ -459,10 +506,10 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
               </Grid>
             </Grid>
           </Grid>
-          <Grid item md={3}>
+          <Grid item md={12} lg={3}>
             {getSavingThrows()}
           </Grid>
-          <Grid item md={3}>
+          <Grid item md={12} lg={3}>
             {getEquipment()}
           </Grid>
         </Grid>

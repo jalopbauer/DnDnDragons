@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import AuthService from "../services/authService";
-import { Box, Button, Grid, IconButton, Paper, Typography, Modal, Container } from "@material-ui/core";
+import { CircularProgress, Box, Button, Grid, IconButton, Paper, Typography, Modal, Container } from "@material-ui/core";
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import useGet from '../services/useGet';
 import { useState, useEffect } from "react";
@@ -29,14 +29,12 @@ const Profile = ({setCurrentPage}) => {
   const [newSessionName, setNewSessionName] = useState();
   const [newSessionId, setNewSessionId] = useState(shortid.generate());
 
-  const [openCharacterViewModal, setOpenCharacterViewModal] = useState(false);
-
   const { data: sessions, isLoading: isLoadingSessions, error: sessionsError } = useGet(`${API_URL}/session/user/${currentUser.id}`);
   const { data: characters, isLoading: isLoadingCharacters, error: charactersError } = useGet(`${API_URL}/character/user/${currentUser.id}`);
   let history = useHistory();
 
-  useEffect(() => setCurrentPage(": Profile"));
-
+  useEffect(() => setCurrentPage(": Profile"), []);
+  
   const handleCancel = (popupSetter) => {
     popupSetter(false); 
     history.push('/profile');
@@ -64,55 +62,56 @@ const Profile = ({setCurrentPage}) => {
     }).catch((err) => console.log(err.message));
   };
 
-  const characterIcons = (character) => {
-    return (
-      <Typography className="character-icons">
-        <Link to={`character/edit/${character.id}`}>
-          <IconButton>
-            <EditIcon fontSize="large"/>
-          </IconButton>
-        </Link>
-        <IconButton
-          onClick={() => setOpenCharacterViewModal(true)}
-        >
-          <VisibilityIcon fontSize="large"/>
-        </IconButton>
-        <Modal
-          open={openCharacterViewModal}
-          onClose={() => setOpenCharacterViewModal(false)}
-          style={{
-            marginTop: 90,
-            // marginBottom: 90,
-            maxHeight: "100vh", 
-            overflowY: "auto"
-          }}
-        >
-          <Paper style={{
-            border: '1px solid #fafafa',
-            // marginTop: 30,
-            paddingTop: 30,
-            paddingBottom: 30,
-            backgroundColor: "#1c1c1c", 
-            width: "80%", 
-            margin: "auto"
-            }}
-          >
-            <CharacterDetails characterId={character.id} disableInteraction={true}/>
-          </Paper>
-        </Modal>
-        <IconButton
-          // onClick={() => handleSaveCharacter(character.name)}
-        >
-          <SaveAltIcon fontSize="large"/>
-        </IconButton>
-        <IconButton
-          onClick={() => handleDelete(character.id, "character")}
-        >
-          <DeleteOutlineIcon fontSize="large"/>
-        </IconButton>
-      </Typography>
-    );
-  }
+  // const characterIcons = (character) => {
+  //   return (
+  //     <Typography className="character-icons">
+  //           <Link to={`character/edit/${character.id}`}>
+  //             <IconButton>
+  //               <EditIcon fontSize="large"/>
+  //             </IconButton>
+  //           </Link>
+  //           <IconButton
+  //             onClick={() => setOpenCharacterViewModal(true)}
+  //           >
+  //             <VisibilityIcon fontSize="large"/>
+  //           </IconButton>
+  //           <Modal
+  //             open={openCharacterViewModal}
+  //             onClose={() => setOpenCharacterViewModal(false)}
+  //             style={{
+  //               marginTop: 90,
+  //               // marginBottom: 90,
+  //               maxHeight: "100vh", 
+  //               overflowY: "auto"
+  //             }}
+  //           >
+  //             <Paper style={{
+  //               border: '1px solid #fafafa',
+  //               // marginTop: 30,
+  //               paddingTop: 30,
+  //               paddingBottom: 30,
+  //               backgroundColor: "#1c1c1c", 
+  //               width: "80%", 
+  //               margin: "auto"
+  //               }}
+  //             >
+  //               <CharacterDetails characterId={character.id} disableInteraction={true}/>
+  //             </Paper>
+  //           </Modal>
+  //           <IconButton
+  //             // onClick={() => handleSaveCharacter(character.name)}
+  //           >
+  //             <SaveAltIcon fontSize="large"/>
+  //           </IconButton>
+  //           <IconButton
+  //             onClick={() => handleDelete(character.id, "character")}
+  //           >
+  //             <DeleteOutlineIcon fontSize="large"/>
+  //           </IconButton>
+          
+  //     </Typography>
+  //   );
+  // }
 
   const sessionIcons = (session) => {
     return (
@@ -147,11 +146,39 @@ const Profile = ({setCurrentPage}) => {
     newSession.icons = [];
     axios.post(`${API_URL}/session/${newSessionId}`, newSession, {'Content-Type': 'application/json'})
     .then((response) => {
-      console.log(response);
+      // console.log(response);
       console.log('Session created successfully!')
       history.push(`/session/${newSessionId}`);
     }).catch((err) => console.log(err.message));
   }
+
+  // const getModal = (characterId) => {
+  //   return (
+  //     <Modal
+  //       open={openCharacterViewModal[character.id]}
+  //       onClose={() => handleCharacterViewModal(character.id, false)}
+  //       style={{
+  //         marginTop: 90,
+  //         // marginBottom: 90,
+  //         maxHeight: "100vh", 
+  //         overflowY: "auto"
+  //       }}
+  //     >
+  //       <Paper style={{
+  //         border: '1px solid #fafafa',
+  //         // marginTop: 30,
+  //         paddingTop: 30,
+  //         paddingBottom: 30,
+  //         backgroundColor: "#1c1c1c", 
+  //         width: "80%", 
+  //         margin: "auto"
+  //         }}
+  //       >
+  //         <CharacterDetails characterId={character.id} disableInteraction={true}/>
+  //       </Paper>
+  //     </Modal>
+  //   );
+  // }
 
   return (
     <div className="Profile">
@@ -180,12 +207,96 @@ const Profile = ({setCurrentPage}) => {
                 Characters
               </Typography>
             </Box>
-            <UserCharacters 
+            {/* <UserCharacters 
               characters={characters} 
               isLoading={isLoadingCharacters}
               error={charactersError}
               icons={characterIcons}
-            />
+            /> */}
+
+            <div className="UserCharacters">
+              {isLoadingCharacters &&
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <CircularProgress 
+                    style={{
+                      color: '#f1356d',
+                      margin: '10px'
+                    }}
+                  />
+                </div>
+              }
+              {/* <button onClick={() => {console.log(openCharacterViewModal); console.log(openCharacterViewModal['60a473521300981fe852b7e0'])}}>AAAAAA</button> */}
+              {!isLoadingCharacters && characters.map((character) => (
+                <Paper 
+                  key={character.id} 
+                  className="profile-container" 
+                  style={{marginLeft:15, marginRight:15}}
+                >
+                  <Box className="character" style={{width: '100%', height: 40, marginRight:20, position: 'relative', display: 'flex', justifyContent: 'space-between'}}>
+                    <Typography 
+                      variant="h5"
+                      style={{
+                        margin: 0,
+                        position: 'absolute',
+                        top: '50%',
+                        msTransform: 'translateY(-50%)',
+                        transform: 'translateY(-50%)',
+                        // display: 'block'
+                        // display: 'flex',
+                        // justifyContent: 'space-between'
+                      }}
+                    >
+                      {character.name}
+                    </Typography>
+                    <div style={{
+                      display: 'block', 
+                      position: 'absolute', 
+                      right: 0,
+                      top: '50%',
+                      msTransform: 'translateY(-50%)',
+                      transform: 'translateY(-50%)',
+                    }}>
+                      <Typography className="character-icons">
+                        <Link to={`character/edit/${character.id}`}>
+                          <IconButton>
+                            <EditIcon fontSize="large"/>
+                          </IconButton>
+                        </Link>
+                        <Link to={`/character/${character.id}`}>
+                          <IconButton>
+                            <VisibilityIcon fontSize="large"/>
+                          </IconButton>
+                        </Link>
+                        {/* <IconButton
+                          onClick={() => console.log('.')}
+                        >
+                          <SaveAltIcon fontSize="large"/>
+                        </IconButton> */}
+                        <IconButton
+                          onClick={() => handleDelete(character.id, "character")}
+                        >
+                          <DeleteOutlineIcon fontSize="large"/>
+                        </IconButton>
+                      </Typography>
+                    </div>
+                  </Box>
+                </Paper>
+              ))}
+              {!isLoadingCharacters && characters.length == 0 &&
+                  <Box my={2} align="center">
+                    <Typography variant="h5">
+                      You currently have no characters
+                    </Typography>
+                  </Box>
+              }
+            </div>
+
             <Box className="button-container">
               <Link to="/character/create">
                 <Box align="center">

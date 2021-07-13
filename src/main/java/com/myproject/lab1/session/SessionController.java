@@ -52,12 +52,17 @@ public class SessionController {
       ArrayList<String> chatMessages = session.getChatMessages();
       chatMessages.addAll((ArrayList<String>) payload.get("chatMessages"));
       session.setChatMessages(chatMessages);
+
       ArrayList<String> logMessages = session.getLogMessages();
       logMessages.addAll((ArrayList<String>) payload.get("logMessages"));
       session.setLogMessages(logMessages);
-      ArrayList<Icon> icons = session.getIcons();
-      icons.addAll((ArrayList<Icon>) payload.get("icons"));
-      session.setIcons(icons);
+
+      // ArrayList<Icon> icons = session.getIcons();
+      // icons.addAll((ArrayList<Icon>) payload.get("icons"));
+      System.out.println(session.getIcons());
+      session.setIcons((ArrayList<Icon>) payload.get("icons"));
+      System.out.println(session.getIcons());
+
       sessionService.save(session);
     }
   }
@@ -136,21 +141,23 @@ public class SessionController {
     }
   }
 
-  @SuppressWarnings("unchecked")
   @PutMapping("/addIcon/{id}")
   public void addIcon(@PathVariable String id, @RequestBody Map<String, Object> newIcon) {
+    System.out.println(newIcon);
     Optional<Session> sessionData = sessionService.findByInviteId(id);
     if(sessionData.isPresent()) {
       Session session = sessionData.get();
       ArrayList<Icon> icons = session.getIcons();
       Icon icon = new Icon(
-        (String) newIcon.get(id),
+        (String) newIcon.get("id"),
         (Integer) newIcon.get("x"),
         (Integer) newIcon.get("y"),
         (String) newIcon.get("username"),
         (String) newIcon.get("color")
       );
+      System.out.println(icons);
       icons.add(icon);
+      System.out.println(icons);
       session.setIcons(icons);
       sessionService.save(session);
     }

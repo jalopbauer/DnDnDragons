@@ -18,6 +18,8 @@ const JoinSession = ({userCharactersData}) => {
   let history = useHistory();
 
   const joinSession = (characterId=false) => {
+    console.log('characterId: ' + characterId);
+    console.log('sessionId: ' + sessionId);
     // si characterId == false, quiere decir que ya el usuario ha ingresado 
     // a la partida y por lo tanto, ya tiene sus datos registrados en ella
     if(!characterId) {
@@ -35,7 +37,8 @@ const JoinSession = ({userCharactersData}) => {
       // console.log(newPlayerData);
       axios.put(`${API_URL}/session/add/${sessionId}`, newPlayerData, { headers: authHeader() })
       .then((response) => {
-        // console.log(response);
+        console.log('inside then');
+        console.log(response);
         console.log('Session updated successfully!');
         history.push(`/session/${sessionId}`);
       }).catch((err) => console.log(err.message));

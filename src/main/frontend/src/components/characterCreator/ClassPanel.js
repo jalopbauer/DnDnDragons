@@ -85,7 +85,7 @@ const ClassPanel = ({setCharacterClass, handleCharacter, editingCharacterClass, 
               if(newTabValue == 0) {
                 setTabValue(2);
               } else {
-                handleListItemClick(selectedIndex); 
+                handleListItemClick(event, selectedIndex); 
                 handleCharacter();
               } 
             }}

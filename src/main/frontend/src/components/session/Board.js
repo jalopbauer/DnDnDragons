@@ -53,6 +53,7 @@ const Board = ({icons, setIcons, userIsDM, stompClient}) => {
                 // updatedIcons[index].x = Math.round(e.target.x() / grid) * grid;
                 // updatedIcons[index].y = Math.round(e.target.y() / grid) * grid;
                 // setIcons(updatedIcons);
+                console.log(icons);
                 stompClient.current.send(
                   "/api/board",
                   {},
@@ -66,6 +67,16 @@ const Board = ({icons, setIcons, userIsDM, stompClient}) => {
                     }
                   )
                 );
+                // axios.put(`${API_URL}/session/editIcon/${sessionId}`, icon, { headers: authHeader() })
+                //   .then((response) => {
+                    
+                //   })
+                //   .catch((err) => {
+                //     console.log(err.message);
+                //     setNewIconOwner(undefined);
+                //     setNewIconColor(null);
+                //     setOpenModal(false);
+                //   });
               }}
               key={uuidv4()}
               // id={icon.username}
@@ -98,7 +109,7 @@ const Board = ({icons, setIcons, userIsDM, stompClient}) => {
                 // updatedIcons[index].x = Math.round(e.target.x() / grid) * grid;
                 // updatedIcons[index].y = Math.round(e.target.y() / grid) * grid;
                 // setIcons(updatedIcons);
-
+                console.log(icons);
                 stompClient.current.send(
                   "/api/board",
                   {},

@@ -88,13 +88,13 @@ const LogIn = ({setCurrentPage}) => {
 
   return (
     <div className="login">
-      <div className="auth-container">
+      <div style={{width: '25%'}} className="auth-container">
         <Typography className="welcome" variant="h3">Welcome</Typography>
         <Form onSubmit={handleLogin} autoComplete="off" ref={form} >
           {!successful && (
             <div>
               <div className="form-group">
-                <label htmlFor="username"><Typography variant="h6">Username</Typography></label>
+                <label htmlFor="username"><Typography variant="h5">Username</Typography></label>
                 <Input
                   type="text"
                   className="form-control"
@@ -104,10 +104,11 @@ const LogIn = ({setCurrentPage}) => {
                   validations={[required]}
                   autoFocus={true}
                   autoComplete='off'
+                  style={{width: '100%', fontSize: 24}}
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="password"><Typography variant="h6">Password</Typography></label>
+                <label htmlFor="password"><Typography variant="h5">Password</Typography></label>
                 <Input
                   type="password"
                   className="form-control"
@@ -116,6 +117,7 @@ const LogIn = ({setCurrentPage}) => {
                   onChange={onChangePassword}
                   validations={[required]}
                   autoComplete='off'
+                  style={{width: '100%', fontSize: 24}}
                 />
               </div>
               <div className="form-group">
