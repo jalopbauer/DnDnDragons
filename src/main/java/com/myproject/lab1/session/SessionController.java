@@ -38,8 +38,9 @@ public class SessionController {
       (ArrayList<PlayerData>) payload.get("players"),
       // (ArrayList<Object>) payload.get("characters"),
       (ArrayList<String>) payload.get("chatMessages"),
-      (ArrayList<String>) payload.get("logMessages")
-    ));
+      (ArrayList<String>) payload.get("logMessages"),
+      (ArrayList<Icon>) payload.get("icons")
+    )); 
   }
 
   @SuppressWarnings("unchecked")
@@ -54,6 +55,9 @@ public class SessionController {
       ArrayList<String> logMessages = session.getLogMessages();
       logMessages.addAll((ArrayList<String>) payload.get("logMessages"));
       session.setLogMessages(logMessages);
+      ArrayList<Icon> icons = session.getIcons();
+      icons.addAll((ArrayList<Icon>) payload.get("icons"));
+      session.setIcons(icons);
       sessionService.save(session);
     }
   }
@@ -122,11 +126,32 @@ public class SessionController {
         (String) newPlayerData.get("username"),
         (String) newPlayerData.get("characterId"),
         (Integer) newPlayerData.get("characterCurrentHP"),
-        (ArrayList<String>) newPlayerData.get("characterEquipment")
+        (ArrayList<String>) newPlayerData.get("characterEquipment"),
+        false
       );
       players.add(playerData);
       session.setPlayersData(players);
 
+      sessionService.save(session);
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  @PutMapping("/addIcon/{id}")
+  public void addIcon(@PathVariable String id, @RequestBody Map<String, Object> newIcon) {
+    Optional<Session> sessionData = sessionService.findByInviteId(id);
+    if(sessionData.isPresent()) {
+      Session session = sessionData.get();
+      ArrayList<Icon> icons = session.getIcons();
+      Icon icon = new Icon(
+        (String) newIcon.get(id),
+        (Integer) newIcon.get("x"),
+        (Integer) newIcon.get("y"),
+        (String) newIcon.get("username"),
+        (String) newIcon.get("color")
+      );
+      icons.add(icon);
+      session.setIcons(icons);
       sessionService.save(session);
     }
   }

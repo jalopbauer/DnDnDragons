@@ -269,6 +269,10 @@ html, body, .full-height {
   box-shadow: 0 3px 5px 2px rgba(0, 0, 0, .3);
   padding: 2%;
 }
+.popup-content .MuiList-padding {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
 .popup-content .title {
   color: #f1356d;
 }

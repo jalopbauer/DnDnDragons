@@ -49,6 +49,7 @@ const Navbar = ({currentPage, currentUser, handleLogout}) => {
           PaperProps={{
             style: {
               width: '20ch',
+              backgroundColor: '#333',
             },
           }}
         >
@@ -56,24 +57,27 @@ const Navbar = ({currentPage, currentUser, handleLogout}) => {
             <Link 
               key={uuidv4()} 
               to={option.path} 
-              style={{ textDecoration: 'none' }}
+              style={{ color: '#d0d0d0', textDecoration: 'none' }}
             >
               <MenuItem onClick={handleClose}>
                 {option.text}
               </MenuItem>
             </Link>
           ))}
-          { currentUser && <MenuItem><a 
-            href="/" 
-            onClick={handleLogout}
-            style={{ textDecoration: 'none' }}>
-              Log Out
-            </a></MenuItem>}
+          { currentUser && 
+            <a 
+              href="/" 
+              onClick={handleLogout}
+              style={{ color: '#d0d0d0', textDecoration: 'none', fontFamily: "Roboto" }}
+            >
+              <MenuItem> Log Out </MenuItem>
+            </a>
+          }
           { !currentUser && optionsNotLogged.map((option) => (
             <Link 
               key={uuidv4()}
               to={option.path} 
-              style={{ textDecoration: 'none' }}
+              style={{ color: '#d0d0d0', textDecoration: 'none' }}
             >
               <MenuItem onClick={handleClose}>
                 {option.text}

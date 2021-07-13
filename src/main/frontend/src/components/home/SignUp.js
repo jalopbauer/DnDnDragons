@@ -55,8 +55,9 @@ const SignIn = ({setCurrentPage}) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
+
+  const [successful, setSuccessful] = useState(false);
 
   const history = useHistory();
 
@@ -85,7 +86,7 @@ const SignIn = ({setCurrentPage}) => {
       error.message ||
       error.toString();
 
-    setMessage(resMessage);
+    setMessage(resMessage.substring(7));
     setSuccessful(false);
   }
 
@@ -132,6 +133,8 @@ const SignIn = ({setCurrentPage}) => {
                   value={username}
                   onChange={onChangeUsername}
                   validations={[required, vusername]}
+                  autoFocus={true}
+                  autoComplete='off'
                 />
               </div>
 
@@ -144,6 +147,7 @@ const SignIn = ({setCurrentPage}) => {
                   value={email}
                   onChange={onChangeEmail}
                   validations={[required, validEmail]}
+                  autoComplete='off'
                 />
               </div>
 
@@ -156,6 +160,7 @@ const SignIn = ({setCurrentPage}) => {
                   value={password}
                   onChange={onChangePassword}
                   validations={[required, vpassword]}
+                  autoComplete='off'
                 />
               </div>
 
@@ -166,12 +171,12 @@ const SignIn = ({setCurrentPage}) => {
           )}
 
           {message && (
-            <div className="form-group">
+            <div className="form-group" style={{marginTop: '8px'}}>
               <div
                 className={ successful ? "alert alert-success" : "alert alert-danger" }
                 role="alert"
               >
-                <Typography>{message}</Typography>
+                { successful ? <Typography>{message}</Typography> : message}
               </div>
             </div>
           )}

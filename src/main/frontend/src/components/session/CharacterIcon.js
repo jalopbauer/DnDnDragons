@@ -1,16 +1,17 @@
 import { useDrag } from 'react-dnd';
 
 const CharacterIcon = () => {
-  const [{isDragging}, drag] = useDrag(() => ({
+  const [{isDragging, item}, drag] = useDrag(() => ({
     type: "icon",
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
+      item: monitor.getItem(),
     }),
   }))
 
   return (
     <div
-      className="CharacterIcon" 
+      className="CharacterIcon"
       ref={drag}
       style={{
         opacity: isDragging ? 0.5 : 1,

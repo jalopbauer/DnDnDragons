@@ -9,12 +9,14 @@ import SignUp from './components/home/SignUp';
 import AuthService from './components/services/authService';
 import Session from './components/session/Session';
 import CharacterEditor from './components/characterCreator/CharacterEditor';
+import CharacterDetails from './components/CharacterDetails';
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(undefined);
   const [currentPage, setCurrentPage] = useState("");
 
   useEffect(() => {
+    document.title = "DnD&Dragons";
     const user = AuthService.getCurrentUser();
     if (user) {
       setCurrentUser(user);
@@ -35,6 +37,7 @@ const App = () => {
           <Route path="/profile" render={() => <Profile setCurrentPage={setCurrentPage}/>}/>
           <Route path={"/character/create"} render={() => <CharacterCreator setCurrentPage={setCurrentPage} editingCharacter={false}/>} />
           <Route path={"/character/edit/:id"} render={() => <CharacterEditor setCurrentPage={setCurrentPage} editingCharacter={true}/>} />
+          <Route path={"/character/:id"} render={(props) => <CharacterDetails characterId={props.match.params.id} disableInteraction={true}/>} />
           <Route path={"/login"} render={() => <LogIn setCurrentPage={setCurrentPage}/>} />
           <Route path={"/session/:id"} render={() => <Session setCurrentPage={setCurrentPage}/>} />
           <Route path={"/signup"} render={() => <SignUp setCurrentPage={setCurrentPage}/>} />

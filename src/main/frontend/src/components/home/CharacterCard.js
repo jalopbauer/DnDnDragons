@@ -8,27 +8,41 @@ import { CardActionArea} from "@material-ui/core";
 import { Link } from 'react-router-dom';
 
 const CharacterCard = ({char}) => {
-    {console.log(char);}
     return ( 
         <Grid item xs = {12} sm = {6} md = {4}>
-            <Card variant="outlined">
-                <Link to={`/character/${char.id}`}>
-                    <CardActionArea >
-                        <CardContent>
-                            <Typography variant="h6" color="secondary" gutterBottom>
-                                {char.name}
-                            </Typography>
-                            <Typography variant="body1" >
-                                Class: {char["characterClass"]}
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Link>
-                <CardActions >
-                  <Button size="small"> Share</Button>
-                  <Button size = "small"> Add </Button>
-                </CardActions>
-            </Card>
+          <Card variant="outlined" style={{backgroundColor: '#333'}}>
+            <Link to={`/character/${char.id}`} style={{ textDecoration: 'none' }}>
+              <CardActionArea
+                style={{
+                  backgroundColor: '#333',
+                  // borderStyle: 'none'
+                }}
+              >
+                <CardContent>
+                  <Typography 
+                    variant="h6" 
+                    color="secondary" 
+                    gutterBottom
+                  >
+                    {char.name}
+                  </Typography>
+                  <Typography variant="body1" >
+                    Class: {char["characterClass"]}
+                  </Typography>
+                  <Typography variant="body1" >
+                    Race: {char["race"]}
+                  </Typography>
+                  <Typography variant="body1" >
+                    Alignment: {char["alignment"]}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            {/* <CardActions >
+              <Button size="small"> Share</Button>
+              <Button size = "small"> Add </Button>
+            </CardActions> */}
+            </Link>
+          </Card>
         </Grid> );
 }
  

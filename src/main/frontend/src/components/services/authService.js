@@ -14,12 +14,15 @@ const login = (username, password) => {
   return axios.post(`${API_URL}/auth/login`, {
     username,
     password,
-  })
+  }, {'Content-Type': 'application/json'})
   .then((response) => {
     if (response.data.accessToken) {
       localStorage.setItem("user", JSON.stringify(response.data));
     }
     return response.data;
+  })
+  .catch((error) => {
+    return error;
   });
 };
 

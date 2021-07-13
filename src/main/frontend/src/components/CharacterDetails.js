@@ -1,7 +1,7 @@
 import useGet from './services/useGet';
 import authHeader from './services/authHeader';
 import {useState, React, useEffect} from "react";
-import { Grid, Typography, Box, Divider, Button, ListItem, List } from '@material-ui/core';
+import { CircularProgress, Grid, Typography, Box, Divider, Button, ListItem, List } from '@material-ui/core';
 
 const API_URL = "http://localhost:8080/api/character";
 
@@ -33,7 +33,7 @@ const savingThrows = [{"name": "Strength", "ability": 0},
 
 const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, playerName, 
                            sessionHP, setSessionHP, updateSessionHP, 
-                           sessionEquipment, setSessionEquipment, updateSessionEquipment}) => {
+                           sessionEquipment, setSessionEquipment, updateSessionEquipment , userIsDM}) => {
   const { data: character, isLoading, error } = useGet(`${API_URL}/${characterId}`, { headers: authHeader() });
   const [isEditEquipment, setIsEditEquipment] = useState(false);
   const [editEquipmentButtonText, setEditEquipmentButtonText] = useState("Edit");
@@ -43,14 +43,23 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
 
   useEffect(() => {
     if(character) {
-      if(sessionHP == false) {
-        setSessionHP(character.hp);
-      }
-      if(sessionEquipment == false) {
-        setSessionEquipment(character.equipment);
+      // if(userIsDM) {
+        // if(sessionHP[playerName]) {
+          // const tempSessionHP = sessionHP;
+          // tempSessionHP[playerName] = character.hp;
+          // setSessionHP(tempSessionHP);
+      //   }
+      // } else {
+        if(sessionHP == false) {
+          setSessionHP(character.hp);
+        }
+        if(sessionEquipment == false) {
+          setSessionEquipment(character.equipment);
+        // }
       }
     }
-  }, [character])
+    console.log(disableInteraction);
+  }, [character, disableInteraction]);
 
   const getNames = () => {
     return (
@@ -194,22 +203,32 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
   }
 
   const changeEquipment = (newEquipment, index) => {
-    var tempEquipments = [...sessionEquipment]; // shallow copy
-    tempEquipments[index] = newEquipment;
-    setSessionEquipment(tempEquipments);
+    if(userIsDM) {
+      const tempSessionEquipment = sessionEquipment;
+      tempSessionEquipment[playerName][index] = newEquipment; 
+      setSessionEquipment(tempSessionEquipment);
+    } else {
+      let tempEquipments = [...sessionEquipment]; // shallow copy
+      tempEquipments[index] = newEquipment;
+      setSessionEquipment(tempEquipments);
+    }
   }
 
   const getEquipment = () => {
-
     const handleEquipmentEdit = () => {
       setIsEditEquipment(!isEditEquipment);
       if(isEditEquipment){
         setEditEquipmentButtonText("Edit");
         if(newEquipment.length > 2) {
-          sessionEquipment.push(newEquipment);
+          if(userIsDM) {
+            sessionEquipment[playerName].push(newEquipment);
+            updateSessionEquipment(sessionEquipment[playerName], playerName);
+          } else {
+            sessionEquipment.push(newEquipment);
+            updateSessionEquipment(sessionEquipment, playerName);
+          }
           setNewEquipment('');
         }
-        updateSessionEquipment(sessionEquipment);
       } else {
         setEditEquipmentButtonText("Save");
       }
@@ -229,39 +248,41 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
         {disableInteraction ? 
           <List>
           {character.equipment.map((eq) => (
+            eq.length > 2 &&
             <ListItem>
-            <Typography
-              style={{
-                paddingLeft: 5,
-                paddingRight: 5,
-              }}
-            >
-              {eq}
-            </Typography>
-            </ListItem>
+              <Typography
+                style={{
+                  paddingLeft: 5,
+                  paddingRight: 5,
+                }}
+              >
+                {eq}
+              </Typography>
+            </ListItem> 
           ))}
           </List> 
         :
           <>
             {!isEditEquipment &&
               <List>
-              {sessionEquipment.map((eq) => (
+              {(userIsDM ? sessionEquipment[playerName] : sessionEquipment).map((eq) => (
+                eq.length > 2 &&
                 <ListItem>
-                <Typography
-                  style={{
-                    paddingLeft: 5,
-                    paddingRight: 5,
-                  }}
-                >
-                  {eq}
-                </Typography>
-                </ListItem>
+                  <Typography
+                    style={{
+                      paddingLeft: 5,
+                      paddingRight: 5,
+                    }}
+                  >
+                    {eq}
+                  </Typography>
+                </ListItem> 
               ))}
               </List>
             }
             {isEditEquipment &&
               <List>
-              {sessionEquipment.map((equipment, index) => (
+              {(userIsDM ? sessionEquipment[playerName] : sessionEquipment).map((equipment, index) => (
                 
                 !(equipment == '') ?
                 <ListItem>
@@ -314,21 +335,36 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
   const handleHPEdit = () => {
     setIsEditHP(!isEditHP);
     if(isEditHP){
+      // a lo que entro aqui, vuelve al valor de antes
       setEditHPButtonText("Edit");
-      updateSessionHP(sessionHP);
+      updateSessionHP(userIsDM ? sessionHP[playerName] : sessionHP, playerName);
     } else {
       setEditHPButtonText("Save");
     }
   }
 
   const changeHP = (e) => {
-    setSessionHP(e.target.value);
+    if(userIsDM) {
+      console.log(sessionHP);
+      const tempSessionHP = sessionHP;
+      tempSessionHP[playerName] = e.target.value;
+      setSessionHP(tempSessionHP);
+    } else {
+      setSessionHP(e.target.value);
+    }
   }
 
   return (
     <div className="CharacterDetails">
       {error && <div>{ error }</div>}
-      {isLoading && <div>Loading...</div>}
+      {isLoading && 
+        <CircularProgress 
+          style={{
+            color: '#f1356d',
+            position: 'absolute', left: '50%', top: '50%',
+            // transform: 'translate(-50%, -50%)'
+          }}
+        />}
       {character &&
       <div>
         <Grid container spacing={3}>
@@ -378,7 +414,7 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
                   <div>
                     <Grid container spacing={1} alignItems="center">
                       <Grid item xs={6}>
-                        <Typography variant="h6">Max HP :</Typography>
+                        <Typography variant="h6">Max HP</Typography>
                       </Grid>
                       <Grid item xs={3}>
                         <Typography variant="h6">{character.hp}</Typography>
@@ -386,16 +422,16 @@ const CharacterDetails = ({characterId, disableInteraction, roll, sendMessage, p
                       <Grid item xs={3}>
                         <Typography variant="h6"></Typography>
                       </Grid>
-                      <Grid item xs={6}><Typography variant="h6">Current HP :</Typography></Grid>
+                      <Grid item xs={6}><Typography variant="h6">Current HP</Typography></Grid>
                       <Grid item xs={3}>
                         {!isEditHP &&
                           <Typography variant="h6">
-                            {sessionHP}
+                            {userIsDM ? sessionHP[playerName] : sessionHP}
                           </Typography>
                         }
                         {isEditHP &&
                           <input 
-                            defaultValue={sessionHP}
+                            defaultValue={userIsDM ? sessionHP[playerName] : sessionHP}
                             type='number'
                             min='0'
                             onChange={(e) => changeHP(e)}

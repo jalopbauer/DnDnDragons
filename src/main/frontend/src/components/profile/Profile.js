@@ -17,6 +17,8 @@ import JoinSession from "./JoinSession";
 import UserCharacters from "./UserCharacters";
 import CharacterDetails from "../CharacterDetails";
 import UserSessions from "./UserSessions";
+import ShareIcon from '@material-ui/icons/Share';
+import Input from "react-validation/build/input";
 
 const API_URL = "http://localhost:8080/api";
 
@@ -142,6 +144,7 @@ const Profile = ({setCurrentPage}) => {
     newSession.creatorId = JSON.parse(localStorage.getItem('user')).id;
     newSession.chatMessages = [];
     newSession.logMessages = [];
+    newSession.icons = [];
     axios.post(`${API_URL}/session/${newSessionId}`, newSession, {'Content-Type': 'application/json'})
     .then((response) => {
       console.log(response);
@@ -157,8 +160,8 @@ const Profile = ({setCurrentPage}) => {
           <Paper>
             <Box p={2}>
               {currentUser && <Typography className="title" variant="h3">User info</Typography>}
-              {currentUser && <Typography variant="h6"><b>Username:</b> {currentUser.username}</Typography>}
-              {currentUser && <Typography variant="h6"><b>Email:</b> {currentUser.email}</Typography>}
+              {currentUser && <Typography variant="h5"><b>Username:</b> {currentUser.username}</Typography>}
+              {currentUser && <Typography variant="h5"><b>Email:</b> {currentUser.email}</Typography>}
             </Box>
           </Paper>
         </Grid>
@@ -223,28 +226,41 @@ const Profile = ({setCurrentPage}) => {
                 <div className="popup-content">
                   <Typography className="title" variant="h4">Session Creator</Typography>
                   <div className="field">
-                    <Typography>Session name: </Typography>
+                    <Typography style={{fontSize: 26}}>Session name: </Typography>
                     <input  
                       required
                       maxLength="25"
                       onChange={(e) => setNewSessionName(e.target.value)}
+                      style={{fontSize: 24}}
                     />
                     {newSessionNameisEmpty && <p className="required-message">This field is required</p>}
                   </div>
                   <div className="field">
-                    <Typography>Session link: </Typography>
-                    <Typography>{newSessionId}</Typography>
+                    <Typography style={{fontSize: 26}}>Session link: </Typography>
+                    <div
+                      style={{display:'flex', flexDirection:'row', alignItems: 'center'}}
+                    >
+                      <Typography style={{fontSize: 24}}>{newSessionId}</Typography>
+                      {/* <Typography className="character-icons"> */}
+                        <IconButton 
+                          onClick={() => {navigator.clipboard.writeText(newSessionId)}} 
+                          style={{borderStyle: 'none'}}
+                        >
+                          <ShareIcon fontSize="large" style={{color: '#d0d0d0'}}/>
+                        </IconButton>
+                      {/* </Typography> */}
+                    </div>
                   </div>
                   <Box className="buttons-container" mt={3} align='center'>
                     <Button 
                       onClick={() => handleCancel(setOpenSessionPopup)}
                     >
-                      <Typography>Cancel</Typography>
+                      <Typography style={{fontSize: 24}}>Cancel</Typography>
                     </Button>
                     <Button
                       onClick={() => handleContinue("Create Session")}
                     >
-                      <Typography>Continue</Typography>
+                      <Typography style={{fontSize: 24}}>Continue</Typography>
                     </Button>
                   </Box>
                 </div>

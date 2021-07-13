@@ -22,6 +22,7 @@ public class Session {
   // private ArrayList<Object> charactersData;
   private ArrayList<String> chatMessages;
   private ArrayList<String> logMessages;
+  private ArrayList<Icon> icons;
 
   public Session() {}
 
@@ -31,7 +32,8 @@ public class Session {
                  ArrayList<PlayerData> playersData,
                 //  ArrayList<Object> charactersData,
                  ArrayList<String> chatMessages, 
-                 ArrayList<String> logMessages) {
+                 ArrayList<String> logMessages,
+                 ArrayList<Icon> icons) {
     this.name = name;
     this.inviteId = inviteId;
     this.creatorId = creatorId;
@@ -39,6 +41,7 @@ public class Session {
     // this.charactersData = charactersData;
     this.chatMessages = chatMessages;
     this.logMessages = logMessages;
+    this.icons = icons;
   }
 
 
@@ -49,7 +52,8 @@ public class Session {
                  ArrayList<PlayerData> playersData,
                 //  ArrayList<Object> charactersData,
                  ArrayList<String> chatMessages, 
-                 ArrayList<String> logMessages) {
+                 ArrayList<String> logMessages,
+                 ArrayList<Icon> icons) {
     this.id = id;
     this.name = name;
     this.inviteId = inviteId;
@@ -58,6 +62,7 @@ public class Session {
     // this.charactersData = charactersData;
     this.chatMessages = chatMessages;
     this.logMessages = logMessages;
+    this.icons = icons;
   }
 
   public String getId() {
@@ -114,6 +119,14 @@ public class Session {
 
   public void setLogMessages(ArrayList<String> logMessages) {
     this.logMessages = logMessages;
+  }
+
+  public ArrayList<Icon> getIcons() {
+    return this.icons;
+  }
+
+  public void setIcons(ArrayList<Icon> icons) {
+    this.icons = icons;
   }
 
 }

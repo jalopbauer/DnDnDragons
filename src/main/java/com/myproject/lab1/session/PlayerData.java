@@ -7,12 +7,14 @@ public class PlayerData {
   private String characterId;
   private Integer characterCurrentHP;
   private ArrayList<String> characterEquipment;
+  private Boolean isBlocked;
 
-  public PlayerData(String username, String characterId, Integer characterCurrentHP, ArrayList<String> characterEquipment) {
+  public PlayerData(String username, String characterId, Integer characterCurrentHP, ArrayList<String> characterEquipment, Boolean isBlocked) {
     this.username = username;
     this.characterId = characterId;
     this.characterCurrentHP = characterCurrentHP;
     this.characterEquipment = characterEquipment;
+    this.isBlocked = isBlocked;
   }
   
 
@@ -46,6 +48,14 @@ public class PlayerData {
 
   public void setCharacterEquipment(ArrayList<String> characterEquipment) {
     this.characterEquipment = characterEquipment;
+  }
+
+  public Boolean getIsBlocked() {
+    return this.isBlocked;
+  }
+
+  public void setIsBlocked(Boolean isBlocked) {
+    this.isBlocked = isBlocked;
   }
 
 }

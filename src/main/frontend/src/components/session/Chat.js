@@ -10,6 +10,7 @@ const Chat = ({chatMessages, sendMessage}) => {
       sendMessage(chatMessage, "chat");
       setChatMessage("");
     }
+    // setChatMessage(""); 
   }
 
   return (
@@ -25,7 +26,7 @@ const Chat = ({chatMessages, sendMessage}) => {
           maxHeight:"87 %",
           height:"490px",
           backgroundColor: "#1c1c1c",
-          position: "relative"
+          // position: "relative"
         }}
       >
         {chatMessages.map((message, index) => {
@@ -44,30 +45,41 @@ const Chat = ({chatMessages, sendMessage}) => {
             </Box>
           ) 
         })}
-        <form 
-          // noValidate 
-          // autoComplete="off" 
-          style={{position: "absolute", bottom: 0}}
-          value={chatMessage}
-          onChange={e => setChatMessage(e.target.value)}
-          onSubmit={e => handleSubmit(e)}
-        >
-          <input 
-            type="text" 
-            value={chatMessage}
-            style={{
-              fontSize: 30,
-              backgroundColor: "#333333",
-              color: "#d0d0d0",
-              width: "100%",
-              border: "none",
-              marginBottom: "7px",
-              paddingLeft: "4px",
-              paddingRight: "4px"
-            }}
-          />
-        </form>
       </Box>
+      <Box
+        px={1}
+        m={1}
+        mb={2}
+        border={3}
+        borderColor="#1c1c1c"
+      >
+        <form 
+            // noValidate 
+            // autoComplete="off" 
+            // style={{position: "absolute", bottom: 0}}
+            onChange={e => setChatMessage(e.target.value)}
+            value={chatMessage}
+            onSubmit={e => handleSubmit(e)}
+          >
+            <input 
+              type="text" 
+              value={chatMessage}
+              onChange={e => setChatMessage(e.target.value)}
+              style={{
+                fontSize: 30,
+                backgroundColor: "#333333",
+                color: "#d0d0d0",
+                width: "98%",
+                border: "none",
+                marginBottom: "7px",
+                paddingLeft: "4px",
+                paddingRight: "4px",
+                // position: "absolute", bottom: 0,
+                // display:'block'
+              }}
+            />
+          </form>
+        </Box>
     </Paper>
   );
 }

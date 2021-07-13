@@ -32,10 +32,10 @@ const JoinSession = ({userCharactersData}) => {
           newPlayerData.characterEquipment = character.equipment;
         }
       });
-      console.log(newPlayerData);
+      // console.log(newPlayerData);
       axios.put(`${API_URL}/session/add/${sessionId}`, newPlayerData, { headers: authHeader() })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         console.log('Session updated successfully!');
         history.push(`/session/${sessionId}`);
       }).catch((err) => console.log(err.message));
@@ -107,18 +107,19 @@ const JoinSession = ({userCharactersData}) => {
         <div className="popup-content">
           <Typography className="title" variant="h4">Join Session</Typography>
           <div className="field">
-            <Typography>Session id: </Typography>
+            <Typography style={{fontSize: 26}}>Session id: </Typography>
             <input  
               required
               maxLength="15"
               onChange={(e) => setSessionId(e.target.value)}
               defaultValue={sessionId}
+              style={{fontSize: 24}}
             />
             {sessionIdisEmpty && <p className="required-message">This field is required</p>}
             {sessionDoesNotExist && <p className="required-message">Session not found</p>}
             {firstTimeJoining && 
               <div>
-                <Typography style={{marginTop:10, marginBottom:-10}}>Select a character:</Typography>
+                <Typography style={{fontSize: 24, marginTop:10, marginBottom:-10}}>Select a character:</Typography>
                 <UserCharacters
                   characters={userCharactersData.characters} 
                   isLoading={userCharactersData.isLoading}
@@ -131,12 +132,12 @@ const JoinSession = ({userCharactersData}) => {
             <Button 
               onClick={handleCancel}
             >
-              <Typography>Cancel</Typography>
+              <Typography style={{fontSize: 24}}>Cancel</Typography>
             </Button>
             <Button
               onClick={handleContinue}
             >
-              <Typography>Continue</Typography>
+              <Typography style={{fontSize: 24}}>Continue</Typography>
             </Button>
           </Box>
         </div>

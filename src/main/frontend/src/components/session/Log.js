@@ -3,9 +3,18 @@ import { Box, Typography, Paper } from "@material-ui/core";
 const Log = ({logMessages}) => {
   
   return (
-    <Paper style={{height:"50%", marginBottom:5}}>
+    <Paper style={{height:"40%", marginBottom:5}}>
       <Box borderBottom={1} borderColor="#d0d0d0">
-        <Typography align="center" variant="h4" style={{margin: "auto", fontWeight: 'bold'}}>Log</Typography>
+        <Typography 
+          align="center" 
+          variant="h4" 
+          style={{
+            margin: "auto", 
+            fontWeight: 'bold'
+          }}
+        >
+          Rolls
+        </Typography>
       </Box>
       <Box 
         px={1} 

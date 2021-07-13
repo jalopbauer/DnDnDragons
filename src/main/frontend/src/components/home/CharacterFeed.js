@@ -7,8 +7,8 @@ const CharacterFeed = ({chars}) => {
   return(
     <div className="character-grid">
       <Grid container spacing = {2} >
-        {chars.map((char) => (
-          <CharacterCard char = {char}></CharacterCard>
+        {chars.map((char, index) => (
+          <CharacterCard key={index} char = {char}></CharacterCard>
         ))}
       </Grid>   
     </div>
